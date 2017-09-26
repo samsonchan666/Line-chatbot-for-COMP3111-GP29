@@ -16,15 +16,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(
-					"SELECT keyword, response FROM restable where keyword like concat('%',?,'%')"
+					"SELECT keyword, response FROM restable where STRPOS(LOWER(?),LOWER(keyword))>0"
 					);
 			stmt.setString(1, text);
 			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				if (text.toLowerCase().equals(rs.getString(1).toLowerCase())) {
+			if (rs.next()) {
 					result = rs.getString(2);
-					break;
-				}
 			}
 			rs.close();
 			stmt.close();
