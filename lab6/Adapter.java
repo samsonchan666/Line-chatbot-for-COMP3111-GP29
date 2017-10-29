@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Adapter {
 	public static final String[] BEVERAGES = new String[] {
-			"Caffè Americano", "Caffè Mocha", "Caffè Latte", 
+			"Caffï¿½ Americano", "Caffï¿½ Mocha", "Caffï¿½ Latte", 
 			"Cappuccino", "Caramel Macchiato", "Espresso" }; // You can change these
 
 	/**
@@ -15,5 +15,10 @@ public class Adapter {
 	**/
 	public String getBeverage(String s){
 		// TODO: find the word with minimum edit distance
+		for (int i = 0; i < BEVERAGES.length; i++){
+			WagnerFischer wagnerFischer = new WagnerFischer(s, BEVERAGES[i]);
+			if (wagnerFischer.getDistance() <= 3) return BEVERAGES[i];
+		}
+		return null;
 	}
 }
