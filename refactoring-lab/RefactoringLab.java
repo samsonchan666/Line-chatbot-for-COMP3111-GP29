@@ -38,6 +38,9 @@ class Transcript {
     private final String studentId;
     private final String semesterName;
     private final ClassResult[] classResults;
+    private int width;
+    private int height;
+    private StringBuilder transcriptBuilder;
 
     public Transcript(
             String studentName,
@@ -48,12 +51,96 @@ class Transcript {
         this.studentId = studentId;
         this.semesterName = semesterName;
         this.classResults = classResults;
+        this.width = 0;
+        this.height = 4;
+        this.transcriptBuilder = new StringBuilder();
     }
 
     public String studentName() { return studentName; }
     public String studentId() { return studentId; }
     public String semesterName() { return semesterName; }
     public ClassResult[] classResults() { return classResults; }
+
+    private int spacesBefore(String str){
+    	return (this.width - str.length()) / 2;
+    }
+    private int spacesAfter(String str) {
+    	return (this.width - str.length() - spacesBefore(str));
+    }
+    private void newline_indent(int indent){
+    	this.height++;
+    	transcriptBuilder.append("\n");
+    	for (int i = 0; i < indent; i++){
+    		transcriptBuilder.append(" ");
+    	}
+    }
+    private void generateHeader(){
+   		generateEachAttribute(studentName);
+   		generateEachAttribute(studentId);
+   		generateEachAttribute(semesterName);
+    }
+    private void generateEachAttribute(String attribute){
+    	// By finding the remaining half of the spaces, we center align the text.
+        for (int i = 0; i < spacesBefore(attribute); ++i) {
+            this.transcriptBuilder.append("-");
+        }
+        transcriptBuilder.append(attribute);
+        for (int i = 0; i < spacesAfter(attribute); ++i) {
+            this.transcriptBuilder.append("-");
+        }
+        this.transcriptBuilder.append("\n");      	
+    }
+
+    private void generateAllClassResult(){
+        double totalGradePoints = 0.0;
+        int totalCredits = 0;
+        for (ClassResult result : classResults) {
+        	this.height++;
+            // Accumulate the total grade points for later display.
+            totalGradePoints += result.gradePoints() * result.credits();
+            totalCredits += result.credits();
+
+            generateClassResult(result);
+
+            transcriptBuilder.append("\n");
+        }
+        
+        // Newline between the transcript and the summary.
+        transcriptBuilder.append("\n");
+
+        transcriptBuilder.append(
+                String.format("Semester GPA: %.2f", totalGradePoints / totalCredits));	
+        height += 2;	   	
+    }
+
+    private void generateClassResult(ClassResult result){
+    	int currentLength = 0;
+
+    	currentLength = generateClassAttribute(result.classCode(), currentLength);
+
+    	currentLength = generateClassAttribute(result.className(), currentLength);
+
+    	String gradePointsString = String.format("%.2f", result.gradePoints());
+    	currentLength = generateClassAttribute(gradePointsString, currentLength);
+
+        String creditsString = String.format("%d", result.credits());
+    	generateClassAttribute(creditsString, currentLength);
+    }
+
+    private int generateClassAttribute(String attribute, int currentLength){
+        // We add 1 to account for the space between the two fields, if on the same line.
+        if (currentLength + 1 + attribute.length() > width) {
+            // The current length is 4 because of the spaces added for indentation.
+            newline_indent(2);
+            currentLength = 2;
+        } else {
+            transcriptBuilder.append(" ");
+            currentLength++;
+        }   
+        transcriptBuilder.append(attribute);
+        currentLength += attribute.length();
+        return currentLength;	
+    }
 
     /**
      * Prints the transcript to stdout.
@@ -74,88 +161,14 @@ class Transcript {
      *              individual field is too long.
      */
     public void generateTranscriptForWidth(int width) {
-        StringBuilder transcriptBuilder = new StringBuilder();
+        this.width = width;
 
-        // By finding the remaining half of the spaces, we center align the text.
-        int spacesBeforeName = (width - studentName.length()) / 2;
-        for (int i = 0; i < spacesBeforeName; ++i) {
-            transcriptBuilder.append(" ");
-        }
-        transcriptBuilder.append(studentName);
-        transcriptBuilder.append("\n");
-
-        int spacesBeforeId = (width - studentId.length()) / 2;
-        for (int i = 0; i < spacesBeforeId; ++i) {
-            transcriptBuilder.append(" ");
-        }
-        transcriptBuilder.append(studentId);
-        transcriptBuilder.append("\n");
-
-        int spacesBeforeSemester = (width - semesterName.length()) / 2;
-        for (int i = 0; i < spacesBeforeSemester; ++i) {
-            transcriptBuilder.append(" ");
-        }
-        transcriptBuilder.append(semesterName);
-        transcriptBuilder.append("\n");
+		generateHeader();    
 
         // Newline between header and transcript body.
         transcriptBuilder.append("\n");
 
-        double totalGradePoints = 0.0;
-        int totalCredits = 0;
-        for (ClassResult result : classResults) {
-            // Accumulate the total grade points for later display.
-            totalGradePoints += result.gradePoints() * result.credits();
-            totalCredits += result.credits();
-
-            int currentLength = result.classCode().length();
-            transcriptBuilder.append(result.classCode());
-
-            // We add 1 to account for the space between the two fields, if on the same line.
-            if (currentLength + 1 + result.className().length() > width) {
-                // The current length is 4 because of the spaces added for indentation.
-                transcriptBuilder.append("\n    ");
-                currentLength = 4;
-            } else {
-                transcriptBuilder.append(" ");
-                currentLength++;
-            }
-            
-            transcriptBuilder.append(result.className());
-            currentLength += result.className().length();
-
-            String gradePointsString = String.format("%.2f", result.gradePoints());
-            if (currentLength + 1 + gradePointsString.length() > width) {
-                transcriptBuilder.append("\n    ");
-                currentLength = 4;
-            } else {
-                transcriptBuilder.append(" ");
-                currentLength++;
-            }
-            
-            transcriptBuilder.append(gradePointsString);
-            currentLength += gradePointsString.length();
-
-            String creditsString = String.format("%d", result.credits());
-            if (currentLength + 1 + creditsString.length() > width) {
-                transcriptBuilder.append("\n    ");
-                currentLength = 4;
-            } else {
-                transcriptBuilder.append(" ");
-                currentLength++;
-            }
-            
-            transcriptBuilder.append(creditsString);
-            currentLength += creditsString.length();
-
-            transcriptBuilder.append("\n");
-        }
-        
-        // Newline between the transcript and the summary.
-        transcriptBuilder.append("\n");
-
-        transcriptBuilder.append(
-                String.format("Semester GPA: %.2f", totalGradePoints / totalCredits));
+        generateAllClassResult();
 
         System.out.println(transcriptBuilder.toString());
     }
@@ -171,7 +184,7 @@ class Transcript {
      */
     public int transcriptHeightForWidth(int width) {
         // The header consists of studentName, studentId, semesterName, and separating newline.
-        int totalLines = 4;
+/*        int totalLines = 4;
         
         for (ClassResult result : classResults) {
             int currentLength = result.classCode().length();
@@ -212,8 +225,10 @@ class Transcript {
         // The footer consists of the line separating the transcript body and the line indicating
         // the semester GPA.
         totalLines += 2;
-        return totalLines;
+        return totalLines; */
+        return height;
     }
+    
 }
 
 public class RefactoringLab {
