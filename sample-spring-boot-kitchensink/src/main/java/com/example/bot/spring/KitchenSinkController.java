@@ -95,11 +95,11 @@ public class KitchenSinkController {
 //	@Autowired
 //	private TourRepository repository;
 	
-	public String process(){
-    	String[] attr = {"home", "home"};
-    	repository.save(new Tour("1","Tom",attr,3, 10, 100));
-		return "Done";
-	}
+//	public String process(){
+//    	String[] attr = {"home", "home"};
+//    	repository.save(new Tour("1","Tom",attr,3, 10, 100));
+//		return "Done";
+//	}
 
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
