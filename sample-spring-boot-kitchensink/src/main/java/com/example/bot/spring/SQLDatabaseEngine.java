@@ -145,7 +145,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         Pattern p = Pattern.compile("\\w+");
         Matcher m = p.matcher(dates);
         while (m.find()){
-            if (text.toLowerCase().matches(m.group() + "|" + m.group() + "(.)*day")) return true;
+            if (text.toLowerCase().matches("(.)*" + m.group() + "(.)*|(.)*" + m.group() + "(.)*day")) return true;
         }
         return false;
     }
