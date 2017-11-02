@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -78,6 +79,11 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
+import com.linecorp.bot.model.action.Action;
+import com.linecorp.bot.model.action.MessageAction;
+import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
+
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -88,9 +94,11 @@ import java.net.URI;
 @LineMessageHandler
 public class KitchenSinkController {
 	
+
+
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
-	
+
 	@SuppressWarnings("LossyEncoding")
 
 	@EventMapping
@@ -242,19 +250,44 @@ public class KitchenSinkController {
                                         new URIAction("Go to line.me",
                                                       "https://line.me"),
                                         new PostbackAction("Say hello1",
-                                                           "hello ã����ã������ã�«�����¡ã����")
+                                                           "hello 1")
                                 )),
                                 new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new PostbackAction("è¨����hello2",
-                                                           "hello ã����ã������ã�«�����¡ã����",
-                                                           "hello ã����ã������ã�«�����¡ã����"),
+                                        new PostbackAction("say hello2",
+                                                           "hello 2",
+                                                           "hello 2"),
                                         new MessageAction("Say message",
-                                                          "Rice=ç±³")
+                                                          "Rice=sad")
                                 ))
                         ));
                 TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
                 this.reply(replyToken, templateMessage);
                 break;
+            }
+            case "tour": {
+            	List<String> tour = database.getTourList();
+            	List<Message> multiMessages = new ArrayList<Message>();
+            	List<ButtonsTemplate> buttonTemplate = new ArrayList<ButtonsTemplate>();
+            	
+            	int j = 0; int diff;
+            	int count = tour.size();
+            	int templateCount = 0;
+            	
+            	List<Action> tourEnroll;
+            	
+            	while (j < count) {
+            		tourEnroll = new ArrayList<Action>();
+            		for (int i = 0; i < 4 && j < count; i++) {            			
+            			String tourName = tour.get(j);
+            			tourEnroll.add(new PostbackAction(
+            				tourName, "You successfully enroll in " + tourName + ".","Enroll in "+tourName+"."));
+            			j++;
+            		}
+            		buttonTemplate.add(new ButtonsTemplate(null, null, "Tour Selection", tourEnroll));
+            		multiMessages.add(new TemplateMessage("Button alt text", buttonTemplate.get(templateCount++)));            		
+            		}            	
+            	this.reply(replyToken, multiMessages);
+            	break;
             }
 
             default:
@@ -276,22 +309,6 @@ public class KitchenSinkController {
 	static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	private void system(String... args) {
 		ProcessBuilder processBuilder = new ProcessBuilder(args);
@@ -331,7 +348,7 @@ public class KitchenSinkController {
 	
 
 
-	public KitchenSinkController(){
+	public KitchenSinkController() {
 		database = new SQLDatabaseEngine();
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
