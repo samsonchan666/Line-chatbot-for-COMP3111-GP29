@@ -126,7 +126,7 @@ public class KitchenSinkTester {
 		boolean thrown = false;
 		String result = null;
 		try {
-			result = this.databaseEngine.search("Mon");
+			result = this.databaseEngine.search("Monday");
 		} catch (Exception e) {
 			thrown = true;
 		}
