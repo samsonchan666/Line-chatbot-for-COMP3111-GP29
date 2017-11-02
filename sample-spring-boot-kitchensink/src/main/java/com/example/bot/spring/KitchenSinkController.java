@@ -92,8 +92,8 @@ public class KitchenSinkController {
 	private LineMessagingClient lineMessagingClient;
 	
 	@SuppressWarnings("LossyEncoding")
-	@Autowired
-	private TourRepository repository;
+//	@Autowired
+//	private TourRepository repository;
 	
 	public String process(){
     	String[] attr = {"home", "home"};
