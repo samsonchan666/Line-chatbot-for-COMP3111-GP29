@@ -75,7 +75,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String result = null;
 		try {
 			PreparedStatement stmt = connection.prepareStatement(
-					"SELECT id, name FROM tour where STRPOS(LOWER(name), LOWER(?))>0  or STRPOS(LOWER(attraction), LOWER(?))>0"
+					"SELECT id, name FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
 			);
 			stmt.setString(1, text);
 			stmt.setString(2, text);
@@ -86,7 +86,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 						rs.getString("id") + "\t" +
 						rs.getString("name") + "\n");
 				result = str.toString();
-
 				count++;
 			}
 			rs.close();

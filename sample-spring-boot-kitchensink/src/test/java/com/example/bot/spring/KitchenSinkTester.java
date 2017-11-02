@@ -109,20 +109,6 @@ public class KitchenSinkTester {
 	}
 
 	@Test
-	public void anothertestFound3() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("Abckkkkkkk");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(!thrown);
-		assertThat(result.equals("def"));
-	}
-
-
-	@Test
 	public void tourTest() throws Exception {
 		boolean thrown = false;
 		String result = null;
@@ -133,19 +119,5 @@ public class KitchenSinkTester {
 		}
 		assert(result.equals("1.  2D002\tYangshan Hot Spring Tour\n"));
 	}
-
-	@Test
-	public void tourTest2() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("Yangshan");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assert(result.equals("1.  2D002\tYangshan Hot Spring Tour\n"));
-	}
-
-
 
 }
