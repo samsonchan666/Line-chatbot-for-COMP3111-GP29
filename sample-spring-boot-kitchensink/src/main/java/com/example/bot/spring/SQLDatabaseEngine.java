@@ -114,8 +114,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 					"SELECT *  FROM tour "
 			);
 			ResultSet rs = stmt.executeQuery();
+			int count = 0;
 			while(rs.next()) {
-				if (!(rs.getString("dates").matches("(.*)" + text + "(.*)"))) continue;
+				String date = rs.getString("dates").toLowerCase();
+				if (!(date.matches("(.*)" + text.toLowerCase() + "(.*)"))) continue;
 				Tour tour = new Tour(rs.getString("id"),
 						rs.getString("name"),
 						rs.getString("attraction"),
@@ -125,7 +127,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 						rs.getString("dates")
 				);
 				str.append(tour.getBasicTourInfo());
-				result = str.toString();
+				count++;
+				result = "There are " + count + " tours available on " + text + "\n" + str.toString();
 			}
 			rs.close();
 			stmt.close();
