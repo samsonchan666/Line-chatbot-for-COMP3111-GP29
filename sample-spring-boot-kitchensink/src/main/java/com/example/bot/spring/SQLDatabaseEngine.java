@@ -116,7 +116,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                     "SELECT *  FROM tour "
             );
             ResultSet rs = stmt.executeQuery();
-            int count = 0;
+            List<Tour> tourList = new ArrayList<Tour>() ;
+            boolean hasResult = false;
             while(rs.next()) {
                 String dates = rs.getString("dates").toLowerCase();
                 if (!(matchByDate(dates))) continue;
@@ -128,9 +129,14 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getInt("weekEndPrice"),
                         rs.getString("dates")
                 );
-                str.append(tour.getBasicTourInfo());
-                count++;
-                result = "There are " + count + " tours available on " + text + "\n" + str.toString();
+                tourList.add(tour);
+                hasResult = true;
+            }
+            if (hasResult) {
+                if (matchBySort() && matchByPrice()){
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                }
+                else result = Tour.getBasicTourInfoByDate(tourList, text).toString();
             }
             rs.close();
             stmt.close();
@@ -147,6 +153,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         while (m.find()){
             if (text.toLowerCase().matches("(.)*" + m.group() + "(.)*|(.)*" + m.group() + "(.)*day")) return true;
         }
+        return false;
+    }
+
+    private boolean matchBySort(){
+        if (text.toLowerCase().matches("(.)*sort(.)*")) return true;
+        return false;
+    }
+    private boolean matchByPrice(){
+        if (text.toLowerCase().matches("(.)*price(.)*")) return true;
         return false;
     }
 

@@ -1,6 +1,7 @@
 package com.example.bot.spring;
 
 import java.lang.*;
+import java.util.List;
 
 public class Tour {
 	private String id;
@@ -70,7 +71,43 @@ public class Tour {
 		tourBuilder.append(this.id + "\t" + this.name + "\n");
 		return tourBuilder;
 	}
-	
+
+	public StringBuilder getBasicTourInfoWithPrice(){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append(this.id + "\t" + this.name + "\t" + this.weekDayPrice + "\n");
+		return tourBuilder;
+	}
+
+	public static StringBuilder getBasicTourInfoByDate(List<Tour> tourList, String date){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append("There are " + tourList.size() + " tours available on " + date + "\n" );
+		for (Tour tour : tourList){
+			tourBuilder.append(tour.getBasicTourInfo());
+		}
+		return tourBuilder;
+	}
+	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, String date){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append("There are " + tourList.size() + " tours available on " + date + "\n" );
+//		tourBuilder.append("Sorted by Price\n" );
+
+		Tour temp;
+		for (int x=0; x<tourList.size(); x++) // bubble sort outer loop
+		{
+			for (int i=0; i < tourList.size()-i; i++) {
+				if (tourList.get(i).getweekDayPrice() > tourList.get(i+1).getweekDayPrice())
+				{
+					temp = tourList.get(i);
+					tourList.set(i,tourList.get(i+1) );
+					tourList.set(i+1, temp);
+				}
+			}
+		}
+		for (Tour tour : tourList){
+			tourBuilder.append(tour.getBasicTourInfoWithPrice());
+		}
+		return tourBuilder;
+	}
 }
 
 	class Date{
