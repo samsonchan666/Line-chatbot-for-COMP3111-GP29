@@ -99,6 +99,8 @@ public class KitchenSinkController {
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
+	@SuppressWarnings("LossyEncoding")
+
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
 		log.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");

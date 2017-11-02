@@ -44,8 +44,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.example.bot.spring.DatabaseEngine;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.data.repository.CrudRepository;
+//import org.springframework.boot.SpringApplication;
+//import org.springframework.data.repository.CrudRepository;
 
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
@@ -117,7 +117,7 @@ public class KitchenSinkTester {
 		} catch (Exception e) {
 			thrown = true;
 		}
-		assert(result.equals("1.  2D002\tYangshan Hot Spring Tour\n"));
+		assert (result.equals("2D002 Yangshan Hot Spring Tour * Unlimited use of hot spring * Famous Yangshan roaster cusine\n"));
 	}
 
 }
