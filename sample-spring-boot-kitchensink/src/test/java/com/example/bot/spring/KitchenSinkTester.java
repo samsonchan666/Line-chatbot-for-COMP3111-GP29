@@ -44,8 +44,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.example.bot.spring.DatabaseEngine;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.data.repository.CrudRepository;
+//import org.springframework.boot.SpringApplication;
+//import org.springframework.data.repository.CrudRepository;
 
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
