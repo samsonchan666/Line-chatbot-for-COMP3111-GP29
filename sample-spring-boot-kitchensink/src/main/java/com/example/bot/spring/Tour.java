@@ -1,16 +1,6 @@
 package com.example.bot.spring;
 
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.*;
-//
-//
-//@Entity // This tells Hibernate to make a table out of this class
-//@Table(name = "tour")
 public class Tour {
-//	@Id
 	private String id;
 	
 	private String name;
