@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.net.URISyntaxException;
 import java.net.URI;
 import java.lang.*;
@@ -97,5 +99,25 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		}
 		return result;
 	}
-
+	List<String> getTourList() throws Exception {
+		//Write your code here
+		List<String> tourList = new ArrayList<String>();
+		try {
+			Connection connection = this.getConnection();
+			PreparedStatement stmt = connection.prepareStatement(
+					"SELECT name FROM tour");
+			ResultSet placeList = stmt.executeQuery();
+			while (placeList.next()) {
+				tourList.add(placeList.getString(1));
+			}
+			placeList.close();
+			stmt.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println("Failed to get from database" + e);
+		}
+		if (tourList != null)
+			return tourList;
+		throw new Exception("NOT FOUND");
+	}
 }
