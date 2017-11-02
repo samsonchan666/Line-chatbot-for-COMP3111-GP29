@@ -30,6 +30,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		if (result != null)
 			return result;
 
+		result = searchTourByDate();
+		if (result != null)
+			return result;
+
 		connection.close();
 		throw new Exception("NOT FOUND");
 	}
@@ -73,7 +77,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	}
 
 	private String searchTour() throws Exception{
-
 		String result = null;
 		try {
 			PreparedStatement stmt = connection.prepareStatement(
@@ -91,21 +94,48 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 						rs.getInt("weekEndPrice"),
 						rs.getString("dates")
 						);
-				StringBuilder str = tour.getTourInfo();
-//				str.append(rs.getString("id") + " " +
-//						rs.getString("name") + " * "  +
-//						rs.getString("attraction") + "\n");
+				StringBuilder str = tour.getAllTourInfo();
 				result = str.toString();
 			}
 			rs.close();
 			stmt.close();
-
 		}
 		catch (Exception e){
 			System.out.println("searchTour()" + e);
 		}
 		return result;
 	}
+
+	private String searchTourByDate() throws Exception{
+		String result = null;
+		StringBuilder str = new StringBuilder();
+		try {
+			PreparedStatement stmt = connection.prepareStatement(
+					"SELECT *  FROM tour "
+			);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				if (!(rs.getString("dates").matches("(.*)" + text + "(.*)"))) continue;
+				Tour tour = new Tour(rs.getString("id"),
+						rs.getString("name"),
+						rs.getString("attraction"),
+						rs.getInt("duration"),
+						rs.getInt("weekDayPrice"),
+						rs.getInt("weekEndPrice"),
+						rs.getString("dates")
+				);
+				str.append(tour.getBasicTourInfo());
+				result = str.toString();
+			}
+			rs.close();
+			stmt.close();
+		}
+		catch (Exception e){
+			System.out.println("searchTourByDate()" + e);
+		}
+		return result;
+	}
+
 	List<String> getTourList() throws Exception {
 		//Write your code here
 		List<String> tourList = new ArrayList<String>();

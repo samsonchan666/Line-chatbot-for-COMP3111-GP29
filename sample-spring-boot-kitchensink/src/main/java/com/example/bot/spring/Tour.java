@@ -56,12 +56,18 @@ public class Tour {
 	public void setDates(String dates) { this.dates = dates;}
 	public String getDates() { return this.dates;}
 
-	public StringBuilder getTourInfo(){
+	public StringBuilder getAllTourInfo(){
 		StringBuilder tourBuilder = new StringBuilder();
-		tourBuilder.append(this.id + " " + this.name + " * " + this.attraction + "\n");
+		tourBuilder.append(this.id + " " + this.name + "\n");
+		tourBuilder.append("Attractions:\n" + this.attraction + "\n");
 		tourBuilder.append("We have confirmed tour on " + this.dates + "\n");
 		tourBuilder.append("Fee: Weekday " + this.weekDayPrice + " / Weekend " + this.weekEndPrice + "\n");
 		tourBuilder.append("Do you want to book this one?");
+		return tourBuilder;
+	}
+	public StringBuilder getBasicTourInfo(){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append(this.id + "\t" + this.name + "\n");
 		return tourBuilder;
 	}
 	

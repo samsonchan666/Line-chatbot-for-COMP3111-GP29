@@ -121,4 +121,17 @@ public class KitchenSinkTester {
 //		assert (result.equals("2D002 Yangshan Hot Spring Tour * Unlimited use of hot spring * Famous Yangshan roaster cusine\n"));
 	}
 
+	@Test
+	public void tourTestByDate() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("Mon");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		System.out.println(result);
+//		assert (result.equals("2D002 Yangshan Hot Spring Tour * Unlimited use of hot spring * Famous Yangshan roaster cusine\n"));
+	}
+
 }
