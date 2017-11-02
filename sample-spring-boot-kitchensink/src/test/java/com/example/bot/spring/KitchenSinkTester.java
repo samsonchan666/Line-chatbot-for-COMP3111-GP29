@@ -44,14 +44,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.example.bot.spring.DatabaseEngine;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.data.repository.CrudRepository;
 
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
 @SpringBootTest(classes = { KitchenSinkTester.class, SQLDatabaseEngine.class })
 public class KitchenSinkTester {
+
 	@Autowired
 	private DatabaseEngine databaseEngine;
-	
+
 	@Test
 	public void testNotFound() throws Exception {
 		boolean thrown = false;
@@ -62,7 +65,7 @@ public class KitchenSinkTester {
 		}
 		assertThat(thrown).isEqualTo(true);
 	}
-	
+
 	@Test
 	public void testFound() throws Exception {
 		boolean thrown = false;
@@ -74,10 +77,11 @@ public class KitchenSinkTester {
 		}
 
 		assertThat(!thrown);
-		assertThat(result.equals("def"));	
+		assertThat(result.equals("def"));
+		assert(result.equals("def"));
 	}
 
-	
+
 	@Test
 	public void anothertestFound() throws Exception {
 		boolean thrown = false;
@@ -103,4 +107,45 @@ public class KitchenSinkTester {
 		assertThat(!thrown);
 		assertThat(result.equals("def"));
 	}
+
+	@Test
+	public void anothertestFound3() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("Abckkkkkkk");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(!thrown);
+		assertThat(result.equals("def"));
+	}
+
+
+	@Test
+	public void tourTest() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("Yangshan Hot Spring Tour");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert(result.equals("1.  2D002\tYangshan Hot Spring Tour\n"));
+	}
+
+	@Test
+	public void tourTest2() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("Yangshan");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert(result.equals("1.  2D002\tYangshan Hot Spring Tour\n"));
+	}
+
+
+
 }

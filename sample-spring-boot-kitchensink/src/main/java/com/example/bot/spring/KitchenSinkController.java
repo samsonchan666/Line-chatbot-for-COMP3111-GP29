@@ -88,10 +88,18 @@ import java.net.URI;
 @LineMessageHandler
 public class KitchenSinkController {
 	
-
-
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
+	
+	@SuppressWarnings("LossyEncoding")
+	@Autowired
+	private TourRepository repository;
+	
+	public String process(){
+    	String[] attr = {"home", "home"};
+    	repository.save(new Tour("1","Tom",attr,3, 10, 100));
+		return "Done";
+	}
 
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -242,12 +250,12 @@ public class KitchenSinkController {
                                         new URIAction("Go to line.me",
                                                       "https://line.me"),
                                         new PostbackAction("Say hello1",
-                                                           "hello Ã£ï¿½âþýÃ£þýšâþýÃ£ï¿½Â«Ãþý¿½Â¡Ã£ï¿½Âþý")
+                                                           "hello Ã£ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½Â«ï¿½ï¿½ï¿½ï¿½ï¿½Â¡Ã£ï¿½ï¿½ï¿½ï¿½")
                                 )),
                                 new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new PostbackAction("Ã¨Â¨þýþýhello2",
-                                                           "hello Ã£ï¿½âþýÃ£þýšâþýÃ£ï¿½Â«Ãþý¿½Â¡Ã£ï¿½Âþý",
-                                                           "hello Ã£ï¿½âþýÃ£þýšâþýÃ£ï¿½Â«Ãþý¿½Â¡Ã£ï¿½Âþý"),
+                                        new PostbackAction("Ã¨Â¨ï¿½ï¿½ï¿½ï¿½hello2",
+                                                           "hello Ã£ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½Â«ï¿½ï¿½ï¿½ï¿½ï¿½Â¡Ã£ï¿½ï¿½ï¿½ï¿½",
+                                                           "hello Ã£ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½Â«ï¿½ï¿½ï¿½ï¿½ï¿½Â¡Ã£ï¿½ï¿½ï¿½ï¿½"),
                                         new MessageAction("Say message",
                                                           "Rice=Ã§Â±Â³")
                                 ))
@@ -276,6 +284,22 @@ public class KitchenSinkController {
 	static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	private void system(String... args) {
 		ProcessBuilder processBuilder = new ProcessBuilder(args);

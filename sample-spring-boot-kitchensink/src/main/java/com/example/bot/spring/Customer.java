@@ -5,13 +5,20 @@ public class Customer {
 	private String name;
 	private int age;
 	private Tour tour;
-//	private CustomerNo customerNo
+	private CustomerNo customerNo;
 	
-	public Customer() {
-		id = null;
-		name = null;
-		int = 0;
-	}id
+	public Customer(
+			String id,
+			String name,
+			int age,
+			Tour tour, 
+			CustomerNo customerNo) {			
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.tour = tour;
+		this.customerNo = customerNo;
+	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
 	
@@ -24,6 +31,9 @@ public class Customer {
 	public void setTour(Tour tour) { this.tour = tour;}
 	public Tour getTour() { return tour;}
 	
+	public void setCustomerNo(CustomerNo customerNo) { this.customerNo = customerNo;}
+	public CustomerNo getCustomerNo() { return this.customerNo;}
+	
 }
 
 class CustomerNo{
@@ -31,10 +41,13 @@ class CustomerNo{
 	private int childrenNo;
 	private int toodlerNo;
 	
-	public CustomerNo() {
-		adultNo = 0;
-		childrenNo = 0;
-		toodlerNo = 0;
+	public CustomerNo(
+			int adultNo,
+			int childrenNo,
+			int toodlerNo ) {
+		this.adultNo = adultNo;
+		this.childrenNo = childrenNo;
+		this.toodlerNo = toodlerNo;
 	}
 	
 	public void setAdultNo(int adultNo) { this.adultNo = adultNo;}
