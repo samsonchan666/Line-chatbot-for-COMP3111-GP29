@@ -113,7 +113,7 @@ public class KitchenSinkTester {
 		boolean thrown = false;
 		String result = null;
 		try {
-			result = this.databaseEngine.search("Yangshan Hot Spring Tour");
+			result = this.databaseEngine.search("Yangshan Hot Spring Tour please");
 		} catch (Exception e) {
 			thrown = true;
 		}

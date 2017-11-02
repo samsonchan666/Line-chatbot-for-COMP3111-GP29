@@ -81,13 +81,18 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private String searchTour() throws Exception{
         String result = null;
         try {
+//            PreparedStatement stmt = connection.prepareStatement(
+//                    "SELECT *  FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
+//            );
+//            stmt.setString(1, text);
+//            stmt.setString(2, text);
             PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT *  FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
+                    "SELECT *  FROM tour "
             );
-            stmt.setString(1, text);
-            stmt.setString(2, text);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
+                String name = rs.getString("name").toLowerCase();
+                if (!(matchByName(name))) continue;
                 Tour tour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
@@ -145,6 +150,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             System.out.println("searchTourByDate()" + e);
         }
         return result;
+    }
+
+    private boolean matchByName(String name){
+        if (text.toLowerCase().matches("(.)*" + name + "(.)*")) return true;
+        return false;
     }
 
     private boolean matchByDate(String dates){
