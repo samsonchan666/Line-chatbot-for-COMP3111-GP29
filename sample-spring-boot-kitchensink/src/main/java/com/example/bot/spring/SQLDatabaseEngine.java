@@ -75,18 +75,16 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String result = null;
 		try {
 			PreparedStatement stmt = connection.prepareStatement(
-					"SELECT id, name FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
+					"SELECT id, name, attraction FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
 			);
 			stmt.setString(1, text);
 			stmt.setString(2, text);
 			ResultSet rs = stmt.executeQuery();
-			int count = 1;
 			if (rs.next()) {
-				str.append(count + ".  " +
-						rs.getString("id") + "\t" +
-						rs.getString("name") + "\n");
+				str.append(rs.getString("id") + " " +
+						rs.getString("name") + " * "  +
+						rs.getString("attraction") + "\n");
 				result = str.toString();
-				count++;
 			}
 			rs.close();
 			stmt.close();
