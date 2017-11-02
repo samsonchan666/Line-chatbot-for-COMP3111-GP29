@@ -73,19 +73,28 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	}
 
 	private String searchTour() throws Exception{
-		StringBuilder str = new StringBuilder();
+
 		String result = null;
 		try {
 			PreparedStatement stmt = connection.prepareStatement(
-					"SELECT id, name, attraction FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
+					"SELECT *  FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
 			);
 			stmt.setString(1, text);
 			stmt.setString(2, text);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				str.append(rs.getString("id") + " " +
-						rs.getString("name") + " * "  +
-						rs.getString("attraction") + "\n");
+				Tour tour = new Tour(rs.getString("id"),
+						rs.getString("name"),
+						rs.getString("attraction"),
+						rs.getInt("duration"),
+						rs.getInt("weekDayPrice"),
+						rs.getInt("weekEndPrice"),
+						rs.getString("dates")
+						);
+				StringBuilder str = tour.getTourInfo();
+//				str.append(rs.getString("id") + " " +
+//						rs.getString("name") + " * "  +
+//						rs.getString("attraction") + "\n");
 				result = str.toString();
 			}
 			rs.close();

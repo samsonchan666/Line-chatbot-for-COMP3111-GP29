@@ -1,31 +1,32 @@
 package com.example.bot.spring;
 
+import java.lang.*;
+
 public class Tour {
 	private String id;
 	
 	private String name;
-	private String[] attraction;
+	private String attraction;
 	private int duration;
 	private int weekDayPrice;
 	private int weekEndPrice;
-//	private Date[] dates;
+	private String dates;
 	
 	public Tour(
 			String id,
 			String name,
-			String[] attraction,
+			String attraction,
 			int duration,
 			int weekDayPrice,
-			int weekEndPrice
-//			Date[] dates
-			) {
+			int weekEndPrice,
+			String dates ) {
 		this.id = id;
 		this.name = name;
 		this.attraction = attraction;
 		this.duration = duration;
 		this.weekDayPrice = weekDayPrice;
 		this.weekEndPrice = weekEndPrice;
-//		this.dates = dates;
+		this.dates = dates;
 	}
 	public void setID(String id) { this.id = id;}
 	public String getID() { return this.id;}
@@ -33,11 +34,11 @@ public class Tour {
 	public void setName(String name) { this.name = name;}
 	public String getName() { return this.name;}
 	
-	public void setAttraction(String[] attraction) { 
-		assert attraction != null : "_attraction null pointer";
+	public void setAttraction(String attraction) {
+//		assert attraction != null : "_attraction null pointer";
 		this.attraction = attraction;
 		}
-	public String[] getAttraction() { return this.attraction; }
+	public String getAttraction() { return this.attraction; }
 	
 	public void setDuration(int duration) { this.duration = duration;}
 	public int getDuration() { return this.duration;}
@@ -52,9 +53,17 @@ public class Tour {
 	public void setweekEndPrice(int price) { this.weekEndPrice = price;}
 	public int getweekEndPrice() { return this.weekEndPrice;}
 	
-//	public void setDates(Date[] dates) { this.dates = dates;}
-//	public Date[] getDates() { return this.dates;}
-//	
+	public void setDates(String dates) { this.dates = dates;}
+	public String getDates() { return this.dates;}
+
+	public StringBuilder getTourInfo(){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append(this.id + " " + this.name + " * " + this.attraction + "\n");
+		tourBuilder.append("We have confirmed tour on " + this.dates + "\n");
+		tourBuilder.append("Fee: Weekday " + this.weekDayPrice + " / Weekend " + this.weekEndPrice + "\n");
+		tourBuilder.append("Do you want to book this one?");
+		return tourBuilder;
+	}
 	
 }
 
@@ -77,4 +86,5 @@ public class Tour {
 	
 	public void setDate(int date) { this.date = date;}
 	public int getDate() { return this.date;}
+
 }
