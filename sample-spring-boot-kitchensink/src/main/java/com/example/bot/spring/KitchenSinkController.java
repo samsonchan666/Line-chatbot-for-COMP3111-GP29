@@ -291,7 +291,7 @@ public class KitchenSinkController {
             //List<String> tour = database.getFilterList();
             List<Tour> tourList = database.getTourList();
             
-            if (tourList != null) {
+            if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
         	List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
         	List<CarouselColumn> carouselColumn;
         	List<Action> tourEnroll;
