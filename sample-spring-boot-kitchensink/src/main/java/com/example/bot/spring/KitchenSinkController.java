@@ -304,7 +304,7 @@ public class KitchenSinkController {
 		}*/
 
 		default:{
-			if ((text.matches("Hi(.*)")))
+			/*if ((text.matches("Hi(.*)")))
 			{
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
@@ -312,113 +312,114 @@ public class KitchenSinkController {
 					.getProfile(userId)
 					.whenComplete(new ProfileGetter (this, replyToken, text));
 				}
+			}*/
+
+
+			String reply = null;
+			try {
+				reply = database.search(text);
+			} catch (Exception e) {
+				reply = "Sorry, I don't quite understand. Can you be more precise?";
 			}
+			log.info("Returns error message {}: {}", replyToken, reply);
+			//                this.replyText(
+			//                        replyToken,
+			//                        itscLOGIN + " says " + reply
+			//                );
+			this.replyText(
+					replyToken,
+					reply
+					);
+
+			break;
 		}
 		}
-		String reply = null;
+	}
+
+	static String createUri(String path) {
+		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
+	}
+
+	private void system(String... args) {
+		ProcessBuilder processBuilder = new ProcessBuilder(args);
 		try {
-			reply = database.search(text);
-		} catch (Exception e) {
-			reply = "Sorry, I don't quite understand. Can you be more precise?";
+			Process start = processBuilder.start();
+			int i = start.waitFor();
+			log.info("result: {} =>  {}", Arrays.toString(args), i);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		} catch (InterruptedException e) {
+			log.info("Interrupted", e);
+			Thread.currentThread().interrupt();
 		}
-		log.info("Returns error message {}: {}", replyToken, reply);
-		//                this.replyText(
-		//                        replyToken,
-		//                        itscLOGIN + " says " + reply
-		//                );
-		this.replyText(
-				replyToken,
-				reply
-				);
-
-		break;
 	}
-}
 
-static String createUri(String path) {
-	return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
-}
+	private static DownloadedContent saveContent(String ext, MessageContentResponse responseBody) {
+		log.info("Got content-type: {}", responseBody);
 
-private void system(String... args) {
-	ProcessBuilder processBuilder = new ProcessBuilder(args);
-	try {
-		Process start = processBuilder.start();
-		int i = start.waitFor();
-		log.info("result: {} =>  {}", Arrays.toString(args), i);
-	} catch (IOException e) {
-		throw new UncheckedIOException(e);
-	} catch (InterruptedException e) {
-		log.info("Interrupted", e);
-		Thread.currentThread().interrupt();
-	}
-}
-
-private static DownloadedContent saveContent(String ext, MessageContentResponse responseBody) {
-	log.info("Got content-type: {}", responseBody);
-
-	DownloadedContent tempFile = createTempFile(ext);
-	try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
-		ByteStreams.copy(responseBody.getStream(), outputStream);
-		log.info("Saved {}: {}", ext, tempFile);
-		return tempFile;
-	} catch (IOException e) {
-		throw new UncheckedIOException(e);
-	}
-}
-
-private static DownloadedContent createTempFile(String ext) {
-	String fileName = LocalDateTime.now().toString() + '-' + UUID.randomUUID().toString() + '.' + ext;
-	Path tempFile = KitchenSinkApplication.downloadedContentDir.resolve(fileName);
-	tempFile.toFile().deleteOnExit();
-	return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
-}
-
-
-
-
-
-public KitchenSinkController() {
-	database = new SQLDatabaseEngine();
-	itscLOGIN = System.getenv("ITSC_LOGIN");
-}
-
-private SQLDatabaseEngine database;
-private String itscLOGIN;
-
-
-//The annontation @Value is from the package lombok.Value
-//Basically what it does is to generate constructor and getter for the class below
-//See https://projectlombok.org/features/Value
-@Value
-public static class DownloadedContent {
-	Path path;
-	String uri;
-}
-
-
-//an inner class that gets the user profile and status message
-class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
-	private KitchenSinkController ksc;
-	private String replyToken;
-	private String text;
-
-	public ProfileGetter(KitchenSinkController ksc, String replyToken, String text) {
-		this.ksc = ksc;
-		this.replyToken = replyToken;
-		this.text = text;
-	}
-	@Override
-	public void accept(UserProfileResponse profile, Throwable throwable) {
-		if (throwable != null) {
-			ksc.replyText(replyToken, throwable.getMessage());
-			return;
+		DownloadedContent tempFile = createTempFile(ext);
+		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
+			ByteStreams.copy(responseBody.getStream(), outputStream);
+			log.info("Saved {}: {}", ext, tempFile);
+			return tempFile;
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
-		ksc.reply(
-				replyToken,
-				Arrays.asList(new TextMessage(text + " " + profile.getDisplayName()))
-				);
 	}
-}
+
+	private static DownloadedContent createTempFile(String ext) {
+		String fileName = LocalDateTime.now().toString() + '-' + UUID.randomUUID().toString() + '.' + ext;
+		Path tempFile = KitchenSinkApplication.downloadedContentDir.resolve(fileName);
+		tempFile.toFile().deleteOnExit();
+		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
+	}
+
+
+
+
+
+	public KitchenSinkController() {
+		database = new SQLDatabaseEngine();
+		itscLOGIN = System.getenv("ITSC_LOGIN");
+	}
+
+	private SQLDatabaseEngine database;
+	private String itscLOGIN;
+
+
+	//The annontation @Value is from the package lombok.Value
+	//Basically what it does is to generate constructor and getter for the class below
+	//See https://projectlombok.org/features/Value
+	@Value
+	public static class DownloadedContent {
+		Path path;
+		String uri;
+	}
+
+
+	//an inner class that gets the user profile and status message
+	class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
+		private KitchenSinkController ksc;
+		private String replyToken;
+		private String text;
+
+		public ProfileGetter(KitchenSinkController ksc, String replyToken, String text) {
+			this.ksc = ksc;
+			this.replyToken = replyToken;
+			this.text = text;
+		}
+		@Override
+		public void accept(UserProfileResponse profile, Throwable throwable) {
+			if (throwable != null) {
+				ksc.replyText(replyToken, throwable.getMessage());
+				return;
+			}
+			ksc.reply(
+					replyToken,
+					Arrays.asList(new TextMessage(text + " " + profile.getDisplayName()))
+					);
+		}
+	}
 
 
 
