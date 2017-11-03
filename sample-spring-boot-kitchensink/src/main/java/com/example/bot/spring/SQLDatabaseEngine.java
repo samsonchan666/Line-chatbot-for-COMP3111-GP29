@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.net.URISyntaxException;
 import java.net.URI;
@@ -16,7 +17,7 @@ import java.util.regex.*;
 public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;
     String text = null;
-
+    private StringBuilder filterList = null;
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -96,7 +97,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String name = rs.getString("name").toLowerCase();
-                if (!(matchByName(name))) continue;
+                String id = rs.getString("id").toLowerCase();
+                if ( !(matchByName(name) || matchByID(id)) ) continue;
                 Tour tour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
@@ -105,7 +107,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getInt("weekEndPrice"),
                         rs.getString("dates")
                 );
-                StringBuilder str = tour.getDetailTourInfo();
+
+                StringBuilder str = tour.getDetailTourInfo();	
+
                 result = str.toString();
             }
             rs.close();
@@ -143,9 +147,16 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE).toString();
+                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE);
+                    result = filterList.toString();
+                    //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE).toString();
                 }
-                else result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
+                else {
+                	filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE);
+                	result = filterList.toString();
+                	//result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
+                }
+
             }
             rs.close();
             stmt.close();
@@ -182,9 +193,17 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION).toString();
+
+                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION);
+                    result = filterList.toString();
+                    //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
-                else result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
+                else {
+                	filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION);
+                	result = filterList.toString();
+                	//result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
+                }
+
             }
             rs.close();
             stmt.close();
@@ -207,6 +226,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         if (text.toLowerCase().matches("(.)*" + name + "(.)*")) return true;
         return false;
     }
+    
+    private boolean matchByID(String id){
+        if (text.toLowerCase().matches("(.)*" + id + "(.)*")) return true;
+        return false;
+    }
 
     private boolean matchByDate(String dates){
         Pattern p = Pattern.compile("\\w+");
@@ -226,25 +250,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
-    List<String> getTourList() throws Exception {
-        //Write your code here
-        List<String> tourList = new ArrayList<String>();
-        try {
-            Connection connection = this.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT name FROM tour");
-            ResultSet placeList = stmt.executeQuery();
-            while (placeList.next()) {
-                tourList.add(placeList.getString(1));
-            }
-            placeList.close();
-            stmt.close();
-            connection.close();
-        } catch (Exception e) {
-            System.out.println("Failed to get from database" + e);
-        }
-        if (tourList != null)
-            return tourList;
-        throw new Exception("NOT FOUND");
+    List<String> getFilterList() throws Exception {
+    	if (filterList == null) return null;
+    	List<String> result = Arrays.asList(filterList.toString().split("\n"));
+    	return result;
+    }
+    
+    void resetFilterList() {
+    	filterList = null;
     }
 }
