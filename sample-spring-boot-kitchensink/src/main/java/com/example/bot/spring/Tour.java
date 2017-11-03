@@ -84,7 +84,7 @@ public class Tour {
 
 	public StringBuilder getBasicTourInfoWithPrice(){
 		StringBuilder tourBuilder = new StringBuilder();
-		tourBuilder.append(getBasicTourInfo() + "\t" + this.weekDayPrice + "\n");
+		tourBuilder.append(this.id + "\t" + this.name + "\t" + this.weekDayPrice + "\n");
 		return tourBuilder;
 	}
 
@@ -96,34 +96,27 @@ public class Tour {
 		return tourBuilder;
 	}
 
-	public static StringBuilder getBasicTourInfoByKeyword(List<Tour> tourList, String attribute, Keyword keyword){
-		StringBuilder tourBuilder = new StringBuilder();
+	public static String getTopicSentence(List<Tour> tourList, Keyword keyword){
 		switch (keyword){
 			case DATE:
-				tourBuilder.append("There are " + tourList.size() + " tours available on " + attribute + "\n" );
-				break;
+				return "There are " + tourList.size() + " tours available on that day\n";
 			case ATTRACTION:
-				tourBuilder.append("There are " + tourList.size() + " tours available about " + attribute + "\n" );
-				break;
+				return "There are " + tourList.size() + " tours related\n";
 			default:
-				break;
+				return null;
 		}
+	}
+
+	public static StringBuilder getBasicTourInfoByKeyword(List<Tour> tourList, Keyword keyword){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append(getTopicSentence(tourList, keyword));
 		return tourBuilder.append(getBasicTourListInfo(tourList));
 	}
 
-	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, String attribute, Keyword keyword){
+	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, Keyword keyword){
 		StringBuilder tourBuilder = new StringBuilder();
-		switch (keyword){
-			case DATE:
-				tourBuilder.append("There are " + tourList.size() + " tours available on " + attribute + "\n" );
-				break;
-			case ATTRACTION:
-				tourBuilder.append("There are " + tourList.size() + " tours available about " + attribute + "\n" );
-				break;
-			default:
-				break;
-		}
-//		tourBuilder.append("Sorted by Price\n" );
+		tourBuilder.append(getTopicSentence(tourList, keyword));
+		tourBuilder.append("Sorted by Price\n" );
 		sortTourListByPrice(tourList);
 		return tourBuilder.append(getBasicTourListInfoWithPrice(tourList));
 	}

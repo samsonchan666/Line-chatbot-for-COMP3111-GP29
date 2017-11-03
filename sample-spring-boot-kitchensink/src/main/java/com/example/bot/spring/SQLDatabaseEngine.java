@@ -143,9 +143,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, text, Tour.Keyword.DATE).toString();
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE).toString();
                 }
-                else result = Tour.getBasicTourInfoByKeyword(tourList, text, Tour.Keyword.DATE).toString();
+                else result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
             }
             rs.close();
             stmt.close();
@@ -182,9 +182,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, text, Tour.Keyword.ATTRACTION).toString();
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
-                else result = Tour.getBasicTourInfoByKeyword(tourList, text, Tour.Keyword.ATTRACTION).toString();
+                else result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
             }
             rs.close();
             stmt.close();
