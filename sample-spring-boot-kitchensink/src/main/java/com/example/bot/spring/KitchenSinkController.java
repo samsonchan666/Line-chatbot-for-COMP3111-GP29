@@ -284,16 +284,8 @@ public class KitchenSinkController {
 				reply = "Sorry, I don't quite understand. Can you be more precise?";
 			}
 			log.info("Returns error message {}: {}", replyToken, reply);
-			//                this.replyText(
-			//                        replyToken,
-			//                        itscLOGIN + " says " + reply
-			//                );
 
-			/*this.replyText(
-					replyToken,
-					reply
-					);*/
-
+			//Creating Filter Result & Template Messages if filtering is done
             List<Message> multiMessages = new ArrayList<Message>();
             multiMessages.add(new TextMessage(reply));
             List<String> tour = database.getFilterList();
