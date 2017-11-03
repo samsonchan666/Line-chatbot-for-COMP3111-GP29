@@ -78,7 +78,6 @@ public class KitchenSinkTester {
 
 		assertThat(!thrown);
 		assertThat(result.equals("def"));
-		assert(result.equals("def"));
 	}
 
 
@@ -106,7 +105,6 @@ public class KitchenSinkTester {
 		}
 		assertThat(!thrown);
 		assertThat(result.equals("def"));
-		assert(result.equals("def"));
 	}
 
 	@Test

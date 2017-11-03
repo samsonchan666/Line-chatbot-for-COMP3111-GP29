@@ -285,15 +285,6 @@ public class KitchenSinkController {
 				//Creating Filter Result & Template Messages if filtering is done
 				List<Message> multiMessages = new ArrayList<Message>();
 				multiMessages.add(new TextMessage(reply));
-				List<String> tour = database.getFilterList();
-
-
-
-				log.info("Returns error message {}: {}", replyToken, reply);
-
-				//Creating Filter Result & Template Messages if filtering is done
-				List<Message> multiMessages = new ArrayList<Message>();
-				multiMessages.add(new TextMessage(reply));
 				//List<String> tour = database.getFilterList();
 				List<Tour> tourList = database.getTourList();
 

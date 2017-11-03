@@ -257,30 +257,23 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
-<<<<<<< HEAD
-    List<String> getFilterList() throws Exception {
-        if (filterList == null) return null;
-        List<String> result = Arrays.asList(filterList.toString().split("\n"));
-        return result;
-    }
 
-    void resetFilterList() {
-        filterList = null;
-    }
-=======
-    /*List<String> getFilterList() {
-    	if (filterList == null) return null;
-    	List<String> result = Arrays.asList(filterList.toString().split("\n"));
-    	return result;
-    }*/
+//    List<String> getFilterList() throws Exception {
+//        if (filterList == null) return null;
+//        List<String> result = Arrays.asList(filterList.toString().split("\n"));
+//        return result;
+//    }
+//
+//    void resetFilterList() {
+//        filterList = null;
+//    }
+
+
     
     List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
     }
     
-    /*void resetFilterList() {
-    	filterList = null;
-    }*/
->>>>>>> 956c9ea411c690b5f3e582088379df91540cfeed
+
 }
