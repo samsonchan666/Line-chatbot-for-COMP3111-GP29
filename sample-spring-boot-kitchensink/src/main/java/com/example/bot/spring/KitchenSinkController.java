@@ -290,7 +290,7 @@ public class KitchenSinkController {
 			break;
 		}
 
-		case "Hello" or "Hi": {
+		case "Hello": case"Hi": {
 			String reply = null;
 				reply = text;
 			String userId = event.getSource().getUserId();
