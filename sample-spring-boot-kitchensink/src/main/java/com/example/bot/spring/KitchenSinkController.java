@@ -295,9 +295,9 @@ public class KitchenSinkController {
             	try {
             		reply = database.search(text);
             	} catch (Exception e) {
-            		reply = text;
+            		reply = "Sorry, I don't quite understand. Can you be more precise?";
             	}
-                log.info("Returns echo message {}: {}", replyToken, reply);
+                log.info("Returns error message {}: {}", replyToken, reply);
 //                this.replyText(
 //                        replyToken,
 //                        itscLOGIN + " says " + reply
