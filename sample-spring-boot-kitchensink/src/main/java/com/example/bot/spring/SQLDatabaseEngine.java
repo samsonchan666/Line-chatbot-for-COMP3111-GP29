@@ -250,4 +250,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     	List<String> result = Arrays.asList(filterList.toString().split("\n"));
     	return result;
     }
+    
+    void resetFilterList() {
+    	filterList = null;
+    }
 }

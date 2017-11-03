@@ -278,13 +278,10 @@ public class KitchenSinkController {
 				break;
 			}
 			String reply = null;
-			boolean filter = false;
 			try {
 				reply = database.search(text);
-				filter = true;
 			} catch (Exception e) {
 				reply = "Sorry, I don't quite understand. Can you be more precise?";
-				filter = false;
 			}
 			log.info("Returns error message {}: {}", replyToken, reply);
 			//                this.replyText(
@@ -301,7 +298,7 @@ public class KitchenSinkController {
             multiMessages.add(new TextMessage(reply));
             List<String> tour = database.getFilterList();
             
-            if (tour != null && filter == true) {
+            if (tour != null) {
         	List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
         	List<CarouselColumn> carouselColumn;
         	List<Action> tourEnroll;
@@ -326,8 +323,8 @@ public class KitchenSinkController {
         		multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
         	}
             }
-            filter = false;
 			this.reply(replyToken, multiMessages);
+			database.resetFilterList();
 			break;
 		}
 		}
