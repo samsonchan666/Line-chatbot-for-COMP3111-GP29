@@ -262,31 +262,6 @@ public class KitchenSinkController {
                 this.reply(replyToken, templateMessage);
                 break;
             }
-            case "tour": {
-            	List<String> tour = database.getTourList();
-            	List<Message> multiMessages = new ArrayList<Message>();
-            	List<ButtonsTemplate> buttonTemplate = new ArrayList<ButtonsTemplate>();
-            	
-            	int j = 0; int diff;
-            	int count = tour.size();
-            	int templateCount = 0;
-            	
-            	List<Action> tourEnroll;
-            	
-            	while (j < count) {
-            		tourEnroll = new ArrayList<Action>();
-            		for (int i = 0; i < 4 && j < count; i++) {            			
-            			String tourName = tour.get(j);
-            			tourEnroll.add(new PostbackAction(
-            				tourName, "You successfully enroll in " + tourName + ".","Enroll in "+tourName+"."));
-            			j++;
-            		}
-            		buttonTemplate.add(new ButtonsTemplate(null, null, "Tour Selection", tourEnroll));
-            		multiMessages.add(new TemplateMessage("Button alt text", buttonTemplate.get(templateCount++)));            		
-            		}            	
-            	this.reply(replyToken, multiMessages);
-            	break;
-            }
 
 // 		This is the part I mostly changed about greeting the customer and default error msg
 //		ProfileGetter() is also changed
@@ -303,10 +278,13 @@ public class KitchenSinkController {
 				break;
 			}
 			String reply = null;
+			boolean filter = false;
 			try {
 				reply = database.search(text);
+				filter = true;
 			} catch (Exception e) {
 				reply = "Sorry, I don't quite understand. Can you be more precise?";
+				filter = false;
 			}
 			log.info("Returns error message {}: {}", replyToken, reply);
 			//                this.replyText(
@@ -314,11 +292,42 @@ public class KitchenSinkController {
 			//                        itscLOGIN + " says " + reply
 			//                );
 
-			this.replyText(
+			/*this.replyText(
 					replyToken,
 					reply
-					);
+					);*/
 
+            List<Message> multiMessages = new ArrayList<Message>();
+            multiMessages.add(new TextMessage(reply));
+            List<String> tour = database.getFilterList();
+            
+            if (tour != null && filter == true) {
+        	List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
+        	List<CarouselColumn> carouselColumn;
+        	List<Action> tourEnroll;
+        	int count = 1; //omit first string
+        	int numTour = tour.size();
+        	int templateCount = 0;
+        	
+        	while (count < numTour) {
+        		carouselColumn = new ArrayList<CarouselColumn>();
+        		for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
+        			tourEnroll = new ArrayList<Action>();            			
+        			for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
+        				String tourID = tour.get(count).substring(0,5);
+        				tourEnroll.add(new PostbackAction(
+        						tourID, "You successfully enroll in Tour" + tourID + ".","I want to enroll in this tour."));
+        				count++;
+        			}
+        			carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
+        			if ((numTour - count) < 3) break;
+        		}
+        		carouselTemplate.add(new CarouselTemplate(carouselColumn));
+        		multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
+        	}
+            }
+            filter = false;
+			this.reply(replyToken, multiMessages);
 			break;
 		}
 		}

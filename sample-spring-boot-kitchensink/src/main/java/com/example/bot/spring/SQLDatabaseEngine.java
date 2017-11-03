@@ -16,7 +16,7 @@ import java.util.regex.*;
 public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;
     String text = null;
-
+    private StringBuilder filterList = null;
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -143,9 +143,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, text);
+                    result = filterList.toString();
+                    //result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
                 }
-                else result = Tour.getBasicTourInfoByDate(tourList, text).toString();
+                else {
+                	filterList = Tour.getBasicTourInfoByDate(tourList, text);
+                	result = filterList.toString();
+                	//result = Tour.getBasicTourInfoByDate(tourList, text).toString();
+                }
             }
             rs.close();
             stmt.close();
@@ -182,9 +188,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, text);
+                    result = filterList.toString();
+                    //result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
                 }
-                else result = Tour.getBasicTourInfoByDAttraction(tourList, text).toString();
+                else {
+                	filterList = Tour.getBasicTourInfoByDAttraction(tourList, text);
+                	result = filterList.toString();
+                	//result = Tour.getBasicTourInfoByDAttraction(tourList, text).toString();
+                }
             }
             rs.close();
             stmt.close();
@@ -226,25 +238,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
-    List<String> getTourList() throws Exception {
-        //Write your code here
-        List<String> tourList = new ArrayList<String>();
-        try {
-            Connection connection = this.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT name FROM tour");
-            ResultSet placeList = stmt.executeQuery();
-            while (placeList.next()) {
-                tourList.add(placeList.getString(1));
-            }
-            placeList.close();
-            stmt.close();
-            connection.close();
-        } catch (Exception e) {
-            System.out.println("Failed to get from database" + e);
-        }
-        if (tourList != null)
-            return tourList;
-        throw new Exception("NOT FOUND");
+    List<String> getFilterList() throws Exception {
+    	if (filterList == null) return null;
+    	List<String> result = Arrays.asList(filterList.toString().split("\n"));
+    	return result;
     }
 }
