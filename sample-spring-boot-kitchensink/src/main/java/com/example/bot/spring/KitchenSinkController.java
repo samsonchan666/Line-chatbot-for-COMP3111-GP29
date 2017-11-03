@@ -100,7 +100,8 @@ public class KitchenSinkController {
 	private LineMessagingClient lineMessagingClient;
 
 	@SuppressWarnings("LossyEncoding")
-
+	
+	//handleTextMessageEvent
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
 		log.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -109,7 +110,8 @@ public class KitchenSinkController {
 		TextMessageContent message = event.getMessage();
 		handleTextContent(event.getReplyToken(), event, message);
 	}
-
+	
+	//handleStickerMessageEvent
 	@EventMapping
 	public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
 		handleSticker(event.getReplyToken(), event.getMessage());
@@ -187,6 +189,7 @@ public class KitchenSinkController {
 		log.info("Received message(Ignored): {}", event);
 	}
 
+	//REPLY
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
@@ -291,15 +294,16 @@ public class KitchenSinkController {
 		}
 
 		case "Hello": case"Hi": {
-			String reply = null;
-				reply = text;
 			String userId = event.getSource().getUserId();
 			if (userId != null) {
 				lineMessagingClient
 				.getProfile(userId)
 				.whenComplete(new ProfileGetter (this, replyToken));
 			}
-			replyToken = text;
+			this.replyText(
+					replyToken,
+					text
+					);
 			break;
 			}
 
