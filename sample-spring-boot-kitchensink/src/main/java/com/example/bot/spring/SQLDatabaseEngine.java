@@ -18,7 +18,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;
     String text = null;
     private StringBuilder filterList = null;
-    private List<Tour> tourList;
+    private List<Tour> tourList = null;
     @Override
     String search(String text) throws Exception {
         //Write your code here
