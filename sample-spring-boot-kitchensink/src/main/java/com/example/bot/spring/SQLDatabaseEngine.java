@@ -24,6 +24,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         this.text = text;
         this.connection = this.getConnection();
 
+        if (this.text.toLowerCase().matches("hello(.)*| hi(.)*| hey(.)*")){
+            result = "Welcome ";
+            return result;
+        }
+
         result = searchRes();
         if (result != null)
             return result;
@@ -33,6 +38,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             return result;
 
         result = searchTourByDate();
+        if (result != null)
+            return result;
+
+        result = searchTourByAttraction();
         if (result != null)
             return result;
 
@@ -152,6 +161,44 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
 
+    private String searchTourByAttraction() throws Exception{
+        String result = null;
+        StringBuilder str = new StringBuilder();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM tour "
+            );
+            ResultSet rs = stmt.executeQuery();
+            List<Tour> tourList = new ArrayList<Tour>() ;
+            boolean hasResult = false;
+            while(rs.next()) {
+                String dates = rs.getString("dates").toLowerCase();
+                if (!(matchByDate(dates))) continue;
+                Tour tour = new Tour(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("attraction"),
+                        rs.getInt("duration"),
+                        rs.getInt("weekDayPrice"),
+                        rs.getInt("weekEndPrice"),
+                        rs.getString("dates")
+                );
+                tourList.add(tour);
+                hasResult = true;
+            }
+            if (hasResult) {
+                if (matchBySort() && matchByPrice()){
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                }
+                else result = Tour.getBasicTourInfoByDate(tourList, text).toString();
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTourByDate()" + e);
+        }
+        return result;
+    }
     private boolean matchByName(String name){
         if (text.toLowerCase().matches("(.)*" + name + "(.)*")) return true;
         return false;

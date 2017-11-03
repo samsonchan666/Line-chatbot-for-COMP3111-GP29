@@ -287,11 +287,12 @@ public class KitchenSinkController {
             	this.reply(replyToken, multiMessages);
             	break;
             }
+
 // 		This is the part I mostly changed about greeting the customer and default error msg
 //		ProfileGetter() is also changed
 //		 ^Rex
 		default:{
-			if ((text.toLowerCase().matches("hi(.*)")) || (text.toLowerCase().matches("hello(.*)")))
+			if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 			{
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
@@ -301,7 +302,6 @@ public class KitchenSinkController {
 				}
 			}
 			else {
-
 				String reply = null;
 				try {
 					reply = database.search(text);
@@ -313,6 +313,7 @@ public class KitchenSinkController {
 				//                        replyToken,
 				//                        itscLOGIN + " says " + reply
 				//                );
+
 				this.replyText(
 						replyToken,
 						reply

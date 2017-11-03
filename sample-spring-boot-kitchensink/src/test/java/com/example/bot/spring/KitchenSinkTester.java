@@ -146,4 +146,16 @@ public class KitchenSinkTester {
 		System.out.println(result);
 	}
 
+	@Test
+	public void tourTestGreet() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("hello");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert (result != null);
+		System.out.println(result);
+	}
 }
