@@ -297,8 +297,12 @@ public class KitchenSinkController {
             	}
             	if (text.matches("Hello(.)*|Hi(.)*|Hey(.)*")){
 					String userId = event.getSource().getUserId();
-            		if (userId != null) reply = "Welcome " + userId;
-
+					if (userId != null) {
+						lineMessagingClient
+								.getProfile(userId)
+								.whenComplete(new ProfileGetter (this, replyToken));
+					}
+					break;
 				}
                 log.info("Returns echo message {}: {}", replyToken, reply);
 //                this.replyText(
@@ -390,13 +394,10 @@ public class KitchenSinkController {
             	ksc.replyText(replyToken, throwable.getMessage());
             	return;
         	}
-        	ksc.reply(
-                	replyToken,
-                	Arrays.asList(new TextMessage(
-                		"Display name: " + profile.getDisplayName()),
-                              	new TextMessage("Status message: "
-                            		  + profile.getStatusMessage()))
-        	);
+			ksc.reply(
+					replyToken,
+					Arrays.asList(new TextMessage( "Welcome " + profile.getDisplayName()))
+			);
     	}
     }
 	
