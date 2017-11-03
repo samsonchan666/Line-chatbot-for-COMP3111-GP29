@@ -300,10 +300,6 @@ public class KitchenSinkController {
 				.getProfile(userId)
 				.whenComplete(new ProfileGetter (this, replyToken, text));
 			}
-			this.replyText(
-					replyToken,
-					text
-					);
 			break;
 			}
 
