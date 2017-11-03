@@ -24,11 +24,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         this.text = text;
         this.connection = this.getConnection();
 
-        if (this.text.toLowerCase().matches("hello(.)*| hi(.)*| hey(.)*")){
-            result = "Welcome ";
-            return result;
-        }
-
         result = searchRes();
         if (result != null)
             return result;
@@ -172,8 +167,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             List<Tour> tourList = new ArrayList<Tour>() ;
             boolean hasResult = false;
             while(rs.next()) {
-                String dates = rs.getString("dates").toLowerCase();
-                if (!(matchByDate(dates))) continue;
+                String attraction = rs.getString("attraction").toLowerCase();
+                if (!(matchByAttraction(attraction))) continue;
                 Tour tour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
@@ -189,16 +184,25 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 if (matchBySort() && matchByPrice()){
                     result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
                 }
-                else result = Tour.getBasicTourInfoByDate(tourList, text).toString();
+                else result = Tour.getBasicTourInfoByDAttraction(tourList, text).toString();
             }
             rs.close();
             stmt.close();
         }
         catch (Exception e){
-            System.out.println("searchTourByDate()" + e);
+            System.out.println("searchTourByAttraction()" + e);
         }
         return result;
     }
+    private boolean matchByAttraction(String attraction){
+        Pattern p = Pattern.compile("\\w+");
+        Matcher m = p.matcher(attraction);
+        while (m.find()){
+            if (text.toLowerCase().matches("(.)*" + m.group() + "(.)*")) return true;
+        }
+        return false;
+    }
+
     private boolean matchByName(String name){
         if (text.toLowerCase().matches("(.)*" + name + "(.)*")) return true;
         return false;

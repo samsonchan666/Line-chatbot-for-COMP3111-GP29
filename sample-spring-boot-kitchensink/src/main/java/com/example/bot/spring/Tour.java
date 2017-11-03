@@ -86,6 +86,16 @@ public class Tour {
 		}
 		return tourBuilder;
 	}
+
+	public static StringBuilder getBasicTourInfoByDAttraction(List<Tour> tourList, String Attraction){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append("There are " + tourList.size() + " tours about " + Attraction + "\n" );
+		for (Tour tour : tourList){
+			tourBuilder.append(tour.getBasicTourInfo());
+		}
+		return tourBuilder;
+	}
+
 	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, String date){
 		StringBuilder tourBuilder = new StringBuilder();
 		tourBuilder.append("There are " + tourList.size() + " tours available on " + date + "\n" );

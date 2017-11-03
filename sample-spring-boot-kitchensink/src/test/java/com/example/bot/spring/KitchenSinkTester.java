@@ -147,15 +147,15 @@ public class KitchenSinkTester {
 	}
 
 	@Test
-	public void tourTestGreet() throws Exception {
+	public void tourTestByAttraction() throws Exception {
 		boolean thrown = false;
 		String result = null;
 		try {
-			result = this.databaseEngine.search("hello");
+			result = this.databaseEngine.search("spring");
 		} catch (Exception e) {
 			thrown = true;
 		}
-		assert (result != null);
 		System.out.println(result);
 	}
+
 }
