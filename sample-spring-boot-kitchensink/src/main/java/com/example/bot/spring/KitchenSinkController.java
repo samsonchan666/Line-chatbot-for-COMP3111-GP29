@@ -304,7 +304,7 @@ public class KitchenSinkController {
 		}*/
 
 		default:{
-			if ((text.toLowerCase().matches("hi(.*)")) or (text.toLowerCase().matches("hello(.*)")))
+			if ((text.toLowerCase().matches("hi(.*)")))
 			{
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
