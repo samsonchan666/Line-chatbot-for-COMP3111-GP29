@@ -293,7 +293,7 @@ public class KitchenSinkController {
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient
-                            .greetWithName(userId)
+                            .getProfile(userId)
                             .whenComplete(new ProfileGetter (this, replyToken));
                 } else {
                     this.replyText(replyToken, "Bot can't use profile API without user ID");
