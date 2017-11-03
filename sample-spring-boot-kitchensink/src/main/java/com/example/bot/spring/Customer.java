@@ -52,14 +52,40 @@ public class Customer {
 		int adult_num = this.customerNo.getAdultNo();
 		int children_num = this.customerNo.getChildrenNo();
 		
-		if ((dates == "Satauday")||(dates == "Sunday")) {
-			this.fee.setAdultFee(weekendPrice * adult_num);
-			this.fee.setChildrenFee(weekendPrice * children_num);
+		int weekday_num = 0;
+		int weekend_num = 0;
+		
+		// weekdays
+		if(dates.toLowerCase().contains("mon")) {
+			weekday_num += 1;
 		}
-		else {
-			this.fee.setAdultFee(weekdayPrice * adult_num);
-			this.fee.setChildrenFee(weekdayPrice * children_num);
+		if(dates.toLowerCase().contains("tue")) {
+			weekday_num += 1;
 		}
+		if(dates.toLowerCase().contains("wed")) {
+			weekday_num += 1;
+		}
+		if(dates.toLowerCase().contains("thu")) {
+			weekday_num += 1;
+		}
+		if(dates.toLowerCase().contains("fri")) {
+			weekday_num += 1;
+		}
+		// weekends
+		if (dates.toLowerCase().contains("sat")) {
+			weekend_num += 1;
+		}
+		if (dates.toLowerCase().contains("sun")) {
+			weekend_num += 1;
+		}
+		
+		double adultPrice = adult_num * (weekdayPrice * weekday_num + weekendPrice * weekend_num);
+		this.fee.setAdultFee(adultPrice);
+		
+		double childrenPrice = children_num * (weekdayPrice * weekday_num + weekendPrice * weekend_num);
+		this.fee.setChildrenFee(childrenPrice);
+		
+		this.fee.setTotalFee();
 	}
 	
 	public double pay(double amount) { 
