@@ -224,7 +224,7 @@ public class KitchenSinkController {
                 if (userId != null) {
                     lineMessagingClient
                             .getProfile(userId)
-                            .whenComplete(new ProfileGetter (this, replyToken));
+                            .whenComplete(new ProfileGetter (this, replyToken, ""));
                 } else {
                     this.replyText(replyToken, "Bot can't use profile API without user ID");
                 }
