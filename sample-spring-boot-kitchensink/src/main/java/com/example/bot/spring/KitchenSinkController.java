@@ -313,24 +313,24 @@ public class KitchenSinkController {
 					.whenComplete(new ProfileGetter (this, replyToken, text));
 				}
 			}
+			else {
 
-
-			String reply = null;
-			try {
-				reply = database.search(text);
-			} catch (Exception e) {
-				reply = "Sorry, I don't quite understand. Can you be more precise?";
+				String reply = null;
+				try {
+					reply = database.search(text);
+				} catch (Exception e) {
+					reply = "Sorry, I don't quite understand. Can you be more precise?";
+				}
+				log.info("Returns error message {}: {}", replyToken, reply);
+				//                this.replyText(
+				//                        replyToken,
+				//                        itscLOGIN + " says " + reply
+				//                );
+				this.replyText(
+						replyToken,
+						reply
+						);
 			}
-			log.info("Returns error message {}: {}", replyToken, reply);
-			//                this.replyText(
-			//                        replyToken,
-			//                        itscLOGIN + " says " + reply
-			//                );
-			this.replyText(
-					replyToken,
-					reply
-					);
-
 			break;
 		}
 		}
