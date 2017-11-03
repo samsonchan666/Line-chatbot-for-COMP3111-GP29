@@ -293,7 +293,7 @@ public class KitchenSinkController {
 			break;
 		}
 
-		case "Hello": case"Hi": {
+		case "Hello(.*)": case"Hi(.*)": {
 			String userId = event.getSource().getUserId();
 			if (userId != null) {
 				lineMessagingClient
