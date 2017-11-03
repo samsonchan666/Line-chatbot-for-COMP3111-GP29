@@ -296,7 +296,9 @@ public class KitchenSinkController {
             		reply = text;
             	}
             	if (text.matches("Hello(.)*|Hi(.)*|Hey(.)*")){
-            		reply = "Welcome " + itscLOGIN;
+					String userId = event.getSource().getUserId();
+            		if (userId != null) reply = "Welcome " + userId;
+
 				}
                 log.info("Returns echo message {}: {}", replyToken, reply);
 //                this.replyText(
