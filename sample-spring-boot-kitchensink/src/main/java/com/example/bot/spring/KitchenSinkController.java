@@ -299,10 +299,7 @@ public class KitchenSinkController {
 				.getProfile(userId)
 				.whenComplete(new ProfileGetter (this, replyToken));
 			}
-			this.replyText(
-					replyToken,
-					reply
-					);
+			replyToken = text + replyToken;
 			break;
 			}
 
