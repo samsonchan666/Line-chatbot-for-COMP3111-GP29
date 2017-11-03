@@ -288,22 +288,22 @@ public class KitchenSinkController {
 			//Creating Filter Result & Template Messages if filtering is done
             List<Message> multiMessages = new ArrayList<Message>();
             multiMessages.add(new TextMessage(reply));
-            List<String> tour = database.getFilterList();
+            //List<String> tour = database.getFilterList();
+            List<Tour> tourList = database.getTourList();
             
-            if (tour != null) {
+            if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
         	List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
         	List<CarouselColumn> carouselColumn;
         	List<Action> tourEnroll;
-        	int count = 1; //omit first string
-        	int numTour = tour.size();
-        	int templateCount = 0;
-        	
+        	int count = 0;
+        	int numTour = tourList.size();
+        	int templateCount = 0;        	
         	while (count < numTour) {
         		carouselColumn = new ArrayList<CarouselColumn>();
         		for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
         			tourEnroll = new ArrayList<Action>();            			
         			for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
-        				String tourID = tour.get(count).substring(0,5);
+        				String tourID = tourList.get(count).getID();
         				tourEnroll.add(new MessageAction(
         					tourID, "I want to enroll in " + tourID + "."));
         				count++;
@@ -316,7 +316,7 @@ public class KitchenSinkController {
         	}
             }
 			this.reply(replyToken, multiMessages);
-			database.resetFilterList();
+			//database.resetFilterList();
 			break;
 		}
 		}
