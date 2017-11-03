@@ -97,7 +97,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String name = rs.getString("name").toLowerCase();
-                if (!(matchByName(name))) continue;
+                String id = rs.getString("id").toLowerCase();
+                if ( !(matchByName(name) || matchByID(id)) ) continue;
                 Tour tour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
@@ -218,6 +219,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 
     private boolean matchByName(String name){
         if (text.toLowerCase().matches("(.)*" + name + "(.)*")) return true;
+        return false;
+    }
+    
+    private boolean matchByID(String id){
+        if (text.toLowerCase().matches("(.)*" + id + "(.)*")) return true;
         return false;
     }
 

@@ -316,7 +316,7 @@ public class KitchenSinkController {
         			for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
         				String tourID = tour.get(count).substring(0,5);
         				tourEnroll.add(new PostbackAction(
-        						tourID, "You successfully enroll in Tour " + tourID + ".","I choose this one."));
+        					tourID, "You successfully enroll in Tour " + tourID + ".","I want to enroll in " + tourID + "."));
         				count++;
         			}
         			carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
