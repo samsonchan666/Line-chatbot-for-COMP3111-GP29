@@ -224,7 +224,7 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 		switch (text) {
-		case "profile": {
+		/*case "profile": {
 			String userId = event.getSource().getUserId();
 			if (userId != null) {
 				lineMessagingClient
@@ -234,7 +234,7 @@ public class KitchenSinkController {
 				this.replyText(replyToken, "Bot can't use profile API without user ID");
 			}
 			break;
-		}
+		}*/
 		case "confirm": {
 			ConfirmTemplate confirmTemplate = new ConfirmTemplate(
 					"Do it?",
@@ -298,7 +298,7 @@ public class KitchenSinkController {
 			if (userId != null) {
 				lineMessagingClient
 				.getProfile(userId)
-				.whenComplete(new ProfileGetter (this, replyToken));
+				.whenComplete(new ProfileGetter (this, replyToken, text));
 			}
 			this.replyText(
 					replyToken,
@@ -393,10 +393,12 @@ public class KitchenSinkController {
 		class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
 			private KitchenSinkController ksc;
 			private String replyToken;
+			private String text;
 
-			public ProfileGetter(KitchenSinkController ksc, String replyToken) {
+			public ProfileGetter(KitchenSinkController ksc, String replyToken, String text) {
 				this.ksc = ksc;
 				this.replyToken = replyToken;
+				this.text = text;
 			}
 			@Override
 			public void accept(UserProfileResponse profile, Throwable throwable) {
@@ -406,7 +408,7 @@ public class KitchenSinkController {
 				}
 				ksc.reply(
 						replyToken,
-						Arrays.asList(new TextMessage(profile.getDisplayName()))
+						Arrays.asList(new TextMessage(text + " " + profile.getDisplayName()))
 						);
 			}
 		}
