@@ -12,6 +12,7 @@ public class Tour {
 	private int weekDayPrice;
 	private int weekEndPrice;
 	private String dates;
+	public enum Keyword{ DATE, ATTRACTION}
 	
 	public Tour(
 			String id,
@@ -57,7 +58,7 @@ public class Tour {
 	public void setDates(String dates) { this.dates = dates;}
 	public String getDates() { return this.dates;}
 
-	public StringBuilder getAllTourInfo(){
+	public StringBuilder getDetailTourInfo(){
 		StringBuilder tourBuilder = new StringBuilder();
 		tourBuilder.append(this.id + " " + this.name + "\n");
 		tourBuilder.append("Attractions:\n" + this.attraction + "\n");
@@ -66,9 +67,18 @@ public class Tour {
 		tourBuilder.append("Do you want to book this one?");
 		return tourBuilder;
 	}
+
 	public StringBuilder getBasicTourInfo(){
 		StringBuilder tourBuilder = new StringBuilder();
 		tourBuilder.append(this.id + "\t" + this.name + "\n");
+		return tourBuilder;
+	}
+
+	public static StringBuilder getBasicTourListInfo(List<Tour> tourList){
+		StringBuilder tourBuilder = new StringBuilder();
+		for (Tour tour : tourList){
+			tourBuilder.append(tour.getBasicTourInfo());
+		}
 		return tourBuilder;
 	}
 
@@ -78,29 +88,40 @@ public class Tour {
 		return tourBuilder;
 	}
 
-	public static StringBuilder getBasicTourInfoByDate(List<Tour> tourList, String date){
+	public static StringBuilder getBasicTourListInfoWithPrice(List<Tour> tourList){
 		StringBuilder tourBuilder = new StringBuilder();
-		tourBuilder.append("There are " + tourList.size() + " tours available on " + date + "\n" );
 		for (Tour tour : tourList){
-			tourBuilder.append(tour.getBasicTourInfo());
+			tourBuilder.append(tour.getBasicTourInfoWithPrice());
 		}
 		return tourBuilder;
 	}
 
-	public static StringBuilder getBasicTourInfoByDAttraction(List<Tour> tourList, String Attraction){
-		StringBuilder tourBuilder = new StringBuilder();
-		tourBuilder.append("There are " + tourList.size() + " tours about " + Attraction + "\n" );
-		for (Tour tour : tourList){
-			tourBuilder.append(tour.getBasicTourInfo());
+	public static String getTopicSentence(List<Tour> tourList, Keyword keyword){
+		switch (keyword){
+			case DATE:
+				return "There are " + tourList.size() + " tours available on that day\n";
+			case ATTRACTION:
+				return "There are " + tourList.size() + " tours related\n";
+			default:
+				return null;
 		}
-		return tourBuilder;
 	}
 
-	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, String date){
+	public static StringBuilder getBasicTourInfoByKeyword(List<Tour> tourList, Keyword keyword){
 		StringBuilder tourBuilder = new StringBuilder();
-		tourBuilder.append("There are " + tourList.size() + " tours available on " + date + "\n" );
-//		tourBuilder.append("Sorted by Price\n" );
+		tourBuilder.append(getTopicSentence(tourList, keyword));
+		return tourBuilder.append(getBasicTourListInfo(tourList));
+	}
 
+	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, Keyword keyword){
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append(getTopicSentence(tourList, keyword));
+		tourBuilder.append("Sorted by Price\n" );
+		sortTourListByPrice(tourList);
+		return tourBuilder.append(getBasicTourListInfoWithPrice(tourList));
+	}
+
+	public static void sortTourListByPrice(List<Tour> tourList){
 		Tour temp;
 		for (int x=0; x<tourList.size(); x++) // bubble sort outer loop
 		{
@@ -113,12 +134,9 @@ public class Tour {
 				}
 			}
 		}
-		for (Tour tour : tourList){
-			tourBuilder.append(tour.getBasicTourInfoWithPrice());
-		}
-		return tourBuilder;
 	}
 }
+
 
 	class Date{
 	private boolean isWeekend;

@@ -107,7 +107,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getInt("weekEndPrice"),
                         rs.getString("dates")
                 );
-                StringBuilder str = tour.getAllTourInfo();
+                StringBuilder str = tour.getDetailTourInfo();	
                 result = str.toString();
             }
             rs.close();
@@ -145,14 +145,14 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, text);
+                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE);
                     result = filterList.toString();
-                    //result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                    //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE).toString();
                 }
                 else {
-                	filterList = Tour.getBasicTourInfoByDate(tourList, text);
+                	filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE);
                 	result = filterList.toString();
-                	//result = Tour.getBasicTourInfoByDate(tourList, text).toString();
+                	//result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
                 }
             }
             rs.close();
@@ -190,14 +190,14 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, text);
+                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION);
                     result = filterList.toString();
-                    //result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                    //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
                 else {
-                	filterList = Tour.getBasicTourInfoByDAttraction(tourList, text);
+                	filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION);
                 	result = filterList.toString();
-                	//result = Tour.getBasicTourInfoByDAttraction(tourList, text).toString();
+                	//result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
             }
             rs.close();
