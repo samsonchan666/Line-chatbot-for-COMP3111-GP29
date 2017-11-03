@@ -6,8 +6,8 @@ public class Customer {
 	private int age;
 	private Tour tour;
 	private CustomerNo customerNo;
-	private Fee fee;			// Ryan Tang
-	private double paid_amount;	// Ryan Tang
+	private Fee fee;						// Ryan Tang
+	private double paid_amount;				// Ryan Tang
 	
 	public Customer(
 			String id,
@@ -15,14 +15,15 @@ public class Customer {
 			int age,
 			Tour tour, 
 			CustomerNo customerNo,
-			Fee fee) {			// Ryan Tang
+			Fee fee,						// Ryan Tang
+			double paid_amount) {			// Ryan Tang
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.tour = tour;
 		this.customerNo = customerNo;
-		this.fee = fee;			// Ryan Tang
-		this.paid_amount = 0;	// Ryan Tang
+		this.fee = fee;						// Ryan Tang
+		this.paid_amount = paid_amount;		// Ryan Tang
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -42,6 +43,24 @@ public class Customer {
 	// Working from here to ...
 	public void setFee(Fee fee) { this.fee = fee;}
 	public Fee getFee() { return this.fee;}
+	
+	public void calculateFee() {
+		String dates = this.tour.getDates();
+		int weekdayPrice = this.tour.getweekDayPrice();
+		int weekendPrice = this.tour.getweekEndPrice();
+		
+		int adult_num = this.customerNo.getAdultNo();
+		int children_num = this.customerNo.getChildrenNo();
+		
+		if ((dates == "Satauday")||(dates == "Sunday")) {
+			this.fee.setAdultFee(weekendPrice * adult_num);
+			this.fee.setChildrenFee(weekendPrice * children_num);
+		}
+		else {
+			this.fee.setAdultFee(weekdayPrice * adult_num);
+			this.fee.setChildrenFee(weekdayPrice * children_num);
+		}
+	}
 	
 	public double pay(double amount) { 
 		if (haveRemainPayment()) {
@@ -93,10 +112,13 @@ public class Fee{
 	private double adult_fee;
 	private double children_fee;
 	
-	public Fee() {
-		this.total_fee = 0;
-		this.adult_fee = 0;
-		this.children_fee = 0;
+	public Fee(
+			double total_fee,
+			double adult_fee,
+			double children_fee) {
+		this.total_fee = total_fee;
+		this.adult_fee = adult_fee;
+		this.children_fee = children_fee;
 	}
 	
 	public void setTotalFee() { this.total_fee = getAdultFee()+getChildrenFee();}
