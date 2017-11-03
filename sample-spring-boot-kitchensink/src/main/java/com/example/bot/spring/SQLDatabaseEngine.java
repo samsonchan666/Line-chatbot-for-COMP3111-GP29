@@ -24,6 +24,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         this.text = text;
         this.connection = this.getConnection();
 
+        if (this.text.toLowerCase().matches("hello(.)*| hi(.)*| hey(.)*")){
+            result = "Welcome ";
+            return result;
+        }
+
         result = searchRes();
         if (result != null)
             return result;

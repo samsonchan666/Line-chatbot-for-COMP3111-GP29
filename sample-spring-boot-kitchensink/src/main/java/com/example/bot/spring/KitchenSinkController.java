@@ -295,7 +295,7 @@ public class KitchenSinkController {
             	} catch (Exception e) {
             		reply = text;
             	}
-            	if (text.matches("Hello(.)* | Hi(.)* | Hey(.)*")){
+            	if (text.matches("Hello(.)*|Hi(.)*|Hey(.)*")){
             		reply = "Welcome " + itscLOGIN;
 				}
                 log.info("Returns echo message {}: {}", replyToken, reply);
