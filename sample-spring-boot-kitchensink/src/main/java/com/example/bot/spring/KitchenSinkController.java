@@ -303,8 +303,8 @@ public class KitchenSinkController {
 			break;
 		}*/
 
-		default:
-			if ((text.matches("Hi(.*)")) or (text.matches("Hello(.*)")))
+		default:{
+			if ((text.matches("Hi(.*)")))
 			{
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
@@ -313,6 +313,7 @@ public class KitchenSinkController {
 					.whenComplete(new ProfileGetter (this, replyToken, text));
 				}
 			}
+		}
 		}
 		String reply = null;
 		try {
