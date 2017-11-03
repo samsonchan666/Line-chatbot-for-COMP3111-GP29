@@ -18,6 +18,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;
     String text = null;
     private StringBuilder filterList = null;
+    private List<Tour> tourList = null;
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -135,7 +136,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                     "SELECT *  FROM tour "
             );
             ResultSet rs = stmt.executeQuery();
-            List<Tour> tourList = new ArrayList<Tour>() ;
+            tourList = new ArrayList<Tour>() ;
             boolean hasResult = false;
             while(rs.next()) {
                 String dates = rs.getString("dates").toLowerCase();
@@ -256,6 +257,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
+<<<<<<< HEAD
     List<String> getFilterList() throws Exception {
         if (filterList == null) return null;
         List<String> result = Arrays.asList(filterList.toString().split("\n"));
@@ -265,4 +267,20 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     void resetFilterList() {
         filterList = null;
     }
+=======
+    /*List<String> getFilterList() {
+    	if (filterList == null) return null;
+    	List<String> result = Arrays.asList(filterList.toString().split("\n"));
+    	return result;
+    }*/
+    
+    List<Tour> getTourList() {
+    	if (tourList == null) return null;
+    	return tourList;
+    }
+    
+    /*void resetFilterList() {
+    	filterList = null;
+    }*/
+>>>>>>> 956c9ea411c690b5f3e582088379df91540cfeed
 }

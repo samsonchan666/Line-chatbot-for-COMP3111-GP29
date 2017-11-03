@@ -263,9 +263,6 @@ public class KitchenSinkController {
 				break;
 			}
 
-// 		This is the part I mostly changed about greeting the customer and default error msg
-//		ProfileGetter() is also changed
-//		 ^Rex
 			default:{
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
@@ -290,35 +287,45 @@ public class KitchenSinkController {
 				multiMessages.add(new TextMessage(reply));
 				List<String> tour = database.getFilterList();
 
-				if (tour != null) {
-					List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
-					List<CarouselColumn> carouselColumn;
-					List<Action> tourEnroll;
-					int count = 1; //omit first string
-					int numTour = tour.size();
-					int templateCount = 0;
 
-					while (count < numTour) {
-						carouselColumn = new ArrayList<CarouselColumn>();
-						for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {
-							tourEnroll = new ArrayList<Action>();
-							for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {
-								String tourID = tour.get(count).substring(0,5);
-								tourEnroll.add(new MessageAction(
-										tourID, "I want to enroll in " + tourID + "."));
-								count++;
-							}
-							carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
-							if ((numTour - count) < 3) break;
+
+				log.info("Returns error message {}: {}", replyToken, reply);
+
+				//Creating Filter Result & Template Messages if filtering is done
+				List<Message> multiMessages = new ArrayList<Message>();
+				multiMessages.add(new TextMessage(reply));
+				//List<String> tour = database.getFilterList();
+				List<Tour> tourList = database.getTourList();
+
+				if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
+				List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
+				List<CarouselColumn> carouselColumn;
+				List<Action> tourEnroll;
+				int count = 0;
+				int numTour = tourList.size();
+				int templateCount = 0;
+				while (count < numTour) {
+					carouselColumn = new ArrayList<CarouselColumn>();
+					for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {
+						tourEnroll = new ArrayList<Action>();
+						for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {
+							String tourID = tourList.get(count).getID();
+							tourEnroll.add(new MessageAction(
+								tourID, "I want to enroll in " + tourID + "."));
+							count++;
 						}
-						carouselTemplate.add(new CarouselTemplate(carouselColumn));
-						multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
+						carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
+						if ((numTour - count) < 3) break;
+					}
+					carouselTemplate.add(new CarouselTemplate(carouselColumn));
+					multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
 					}
 				}
 				this.reply(replyToken, multiMessages);
-				database.resetFilterList();
+				//database.resetFilterList();
 				break;
 			}
+
 		}
 	}
 
