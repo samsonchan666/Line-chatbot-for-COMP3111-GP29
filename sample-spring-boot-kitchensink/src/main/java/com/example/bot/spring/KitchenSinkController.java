@@ -94,14 +94,11 @@ import java.net.URI;
 @LineMessageHandler
 public class KitchenSinkController {
 
-
-
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
 	@SuppressWarnings("LossyEncoding")
 
-	//handleTextMessageEvent
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
 		log.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -111,7 +108,6 @@ public class KitchenSinkController {
 		handleTextContent(event.getReplyToken(), event, message);
 	}
 
-	//handleStickerMessageEvent
 	@EventMapping
 	public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
 		handleSticker(event.getReplyToken(), event.getMessage());
@@ -189,7 +185,6 @@ public class KitchenSinkController {
 		log.info("Received message(Ignored): {}", event);
 	}
 
-	//REPLY
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
@@ -219,90 +214,82 @@ public class KitchenSinkController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content)
-			throws Exception {
-		String text = content.getText();
+            throws Exception {
+        String text = content.getText();
 
-		log.info("Got text message from {}: {}", replyToken, text);
-		switch (text) {
-		/*case "profile": {
-			String userId = event.getSource().getUserId();
-			if (userId != null) {
-				lineMessagingClient
-				.getProfile(userId)
-				.whenComplete(new ProfileGetter (this, replyToken));
-			} else {
-				this.replyText(replyToken, "Bot can't use profile API without user ID");
-			}
-			break;
-		}*/
-		case "confirm": {
-			ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-					"Do it?",
-					new MessageAction("Yes", "Yes!"),
-					new MessageAction("No", "No!")
-					);
-			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-			this.reply(replyToken, templateMessage);
-			break;
-		}
-		case "carousel": {
-			String imageUrl = createUri("/static/buttons/1040.jpg");
-			CarouselTemplate carouselTemplate = new CarouselTemplate(
-					Arrays.asList(
-							new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-									new URIAction("Go to line.me",
-											"https://line.me"),
-									new PostbackAction("Say hello1",
-											"hello 1")
-									)),
-							new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-									new PostbackAction("say hello2",
-											"hello 2",
-											"hello 2"),
-									new MessageAction("Say message",
-											"Rice=sad")
-									))
-							));
-			TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-			this.reply(replyToken, templateMessage);
-			break;
-		}
-		case "tour": {
-			List<String> tour = database.getTourList();
-			List<Message> multiMessages = new ArrayList<Message>();
-			List<ButtonsTemplate> buttonTemplate = new ArrayList<ButtonsTemplate>();
-
-			int j = 0; int diff;
-			int count = tour.size();
-			int templateCount = 0;
-
-			List<Action> tourEnroll;
-
-			while (j < count) {
-				tourEnroll = new ArrayList<Action>();
-				for (int i = 0; i < 4 && j < count; i++) {            			
-					String tourName = tour.get(j);
-					tourEnroll.add(new PostbackAction(
-							tourName, "You successfully enroll in " + tourName + ".","Enroll in "+tourName+"."));
-					j++;
-				}
-				buttonTemplate.add(new ButtonsTemplate(null, null, "Tour Selection", tourEnroll));
-				multiMessages.add(new TemplateMessage("Button alt text", buttonTemplate.get(templateCount++)));            		
-			}            	
-			this.reply(replyToken, multiMessages);
-			break;
-		}
-
-		/*case "Hello": case"Hi": {
-			String userId = event.getSource().getUserId();
-			if (userId != null) {
-				lineMessagingClient
-				.getProfile(userId)
-				.whenComplete(new ProfileGetter (this, replyToken, text));
-			}
-			break;
-		}*/
-
+        log.info("Got text message from {}: {}", replyToken, text);
+        switch (text) {
+            case "profile": {
+                String userId = event.getSource().getUserId();
+                if (userId != null) {
+                    lineMessagingClient
+                            .getProfile(userId)
+                            .whenComplete(new ProfileGetter (this, replyToken));
+                } else {
+                    this.replyText(replyToken, "Bot can't use profile API without user ID");
+                }
+                break;
+            }
+            case "confirm": {
+                ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+                        "Do it?",
+                        new MessageAction("Yes", "Yes!"),
+                        new MessageAction("No", "No!")
+                );
+                TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+                this.reply(replyToken, templateMessage);
+                break;
+            }
+            case "carousel": {
+                String imageUrl = createUri("/static/buttons/1040.jpg");
+                CarouselTemplate carouselTemplate = new CarouselTemplate(
+                        Arrays.asList(
+                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+                                        new URIAction("Go to line.me",
+                                                      "https://line.me"),
+                                        new PostbackAction("Say hello1",
+                                                           "hello 1")
+                                )),
+                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+                                        new PostbackAction("say hello2",
+                                                           "hello 2",
+                                                           "hello 2"),
+                                        new MessageAction("Say message",
+                                                          "Rice=sad")
+                                ))
+                        ));
+                TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+                this.reply(replyToken, templateMessage);
+                break;
+            }
+            case "tour": {
+            	List<String> tour = database.getTourList();
+            	List<Message> multiMessages = new ArrayList<Message>();
+            	List<ButtonsTemplate> buttonTemplate = new ArrayList<ButtonsTemplate>();
+            	
+            	int j = 0; int diff;
+            	int count = tour.size();
+            	int templateCount = 0;
+            	
+            	List<Action> tourEnroll;
+            	
+            	while (j < count) {
+            		tourEnroll = new ArrayList<Action>();
+            		for (int i = 0; i < 4 && j < count; i++) {            			
+            			String tourName = tour.get(j);
+            			tourEnroll.add(new PostbackAction(
+            				tourName, "You successfully enroll in " + tourName + ".","Enroll in "+tourName+"."));
+            			j++;
+            		}
+            		buttonTemplate.add(new ButtonsTemplate(null, null, "Tour Selection", tourEnroll));
+            		multiMessages.add(new TemplateMessage("Button alt text", buttonTemplate.get(templateCount++)));            		
+            		}            	
+            	this.reply(replyToken, multiMessages);
+            	break;
+            }
+// 		This is the part I mostly changed about greeting the customer and default error msg
+//		ProfileGetter() is also changed
+//		 ^Rex
 		default:{
 			if ((text.toLowerCase().matches("hi(.*)")) || (text.toLowerCase().matches("hello(.*)")))
 			{
