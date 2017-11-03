@@ -300,25 +300,25 @@ public class KitchenSinkController {
 					.getProfile(userId)
 					.whenComplete(new ProfileGetter (this, replyToken, "Welcome"));
 				}
+				break;
 			}
-			else {
-				String reply = null;
-				try {
-					reply = database.search(text);
-				} catch (Exception e) {
-					reply = "Sorry, I don't quite understand. Can you be more precise?";
-				}
-				log.info("Returns error message {}: {}", replyToken, reply);
-				//                this.replyText(
-				//                        replyToken,
-				//                        itscLOGIN + " says " + reply
-				//                );
+			String reply = null;
+			try {
+				reply = database.search(text);
+			} catch (Exception e) {
+				reply = "Sorry, I don't quite understand. Can you be more precise?";
+			}
+			log.info("Returns error message {}: {}", replyToken, reply);
+			//                this.replyText(
+			//                        replyToken,
+			//                        itscLOGIN + " says " + reply
+			//                );
 
-				this.replyText(
-						replyToken,
-						reply
-						);
-			}
+			this.replyText(
+					replyToken,
+					reply
+					);
+
 			break;
 		}
 		}
