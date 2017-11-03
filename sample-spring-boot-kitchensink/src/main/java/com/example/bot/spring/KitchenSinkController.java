@@ -214,111 +214,111 @@ public class KitchenSinkController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content)
-            throws Exception {
-        String text = content.getText();
+			throws Exception {
+		String text = content.getText();
 
-        log.info("Got text message from {}: {}", replyToken, text);
-        switch (text) {
-            case "profile": {
-                String userId = event.getSource().getUserId();
-                if (userId != null) {
-                    lineMessagingClient
-                            .getProfile(userId)
-                            .whenComplete(new ProfileGetter (this, replyToken, ""));
-                } else {
-                    this.replyText(replyToken, "Bot can't use profile API without user ID");
-                }
-                break;
-            }
-            case "confirm": {
-                ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-                        "Do it?",
-                        new MessageAction("Yes", "Yes!"),
-                        new MessageAction("No", "No!")
-                );
-                TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "carousel": {
-                String imageUrl = createUri("/static/buttons/1040.jpg");
-                CarouselTemplate carouselTemplate = new CarouselTemplate(
-                        Arrays.asList(
-                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new URIAction("Go to line.me",
-                                                      "https://line.me"),
-                                        new PostbackAction("Say hello1",
-                                                           "hello 1")
-                                )),
-                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new PostbackAction("say hello2",
-                                                           "hello 2",
-                                                           "hello 2"),
-                                        new MessageAction("Say message",
-                                                          "Rice=sad")
-                                ))
-                        ));
-                TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
+		log.info("Got text message from {}: {}", replyToken, text);
+		switch (text) {
+			case "profile": {
+				String userId = event.getSource().getUserId();
+				if (userId != null) {
+					lineMessagingClient
+							.getProfile(userId)
+							.whenComplete(new ProfileGetter (this, replyToken, ""));
+				} else {
+					this.replyText(replyToken, "Bot can't use profile API without user ID");
+				}
+				break;
+			}
+			case "confirm": {
+				ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+						"Do it?",
+						new MessageAction("Yes", "Yes!"),
+						new MessageAction("No", "No!")
+				);
+				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+				this.reply(replyToken, templateMessage);
+				break;
+			}
+			case "carousel": {
+				String imageUrl = createUri("/static/buttons/1040.jpg");
+				CarouselTemplate carouselTemplate = new CarouselTemplate(
+						Arrays.asList(
+								new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+										new URIAction("Go to line.me",
+												"https://line.me"),
+										new PostbackAction("Say hello1",
+												"hello 1")
+								)),
+								new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+										new PostbackAction("say hello2",
+												"hello 2",
+												"hello 2"),
+										new MessageAction("Say message",
+												"Rice=sad")
+								))
+						));
+				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+				this.reply(replyToken, templateMessage);
+				break;
+			}
 
 // 		This is the part I mostly changed about greeting the customer and default error msg
 //		ProfileGetter() is also changed
 //		 ^Rex
-		default:{
-			if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
-			{
-				String userId = event.getSource().getUserId();
-				if (userId != null) {
-					lineMessagingClient
-					.getProfile(userId)
-					.whenComplete(new ProfileGetter (this, replyToken, "Welcome"));
+			default:{
+				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
+				{
+					String userId = event.getSource().getUserId();
+					if (userId != null) {
+						lineMessagingClient
+								.getProfile(userId)
+								.whenComplete(new ProfileGetter (this, replyToken, "Welcome"));
+					}
+					break;
 				}
+				String reply = null;
+				try {
+					reply = database.search(text);
+				} catch (Exception e) {
+					reply = "Sorry, I don't quite understand. Can you be more precise?";
+				}
+				log.info("Returns error message {}: {}", replyToken, reply);
+
+				//Creating Filter Result & Template Messages if filtering is done
+				List<Message> multiMessages = new ArrayList<Message>();
+				multiMessages.add(new TextMessage(reply));
+				List<String> tour = database.getFilterList();
+
+				if (tour != null) {
+					List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
+					List<CarouselColumn> carouselColumn;
+					List<Action> tourEnroll;
+					int count = 1; //omit first string
+					int numTour = tour.size();
+					int templateCount = 0;
+
+					while (count < numTour) {
+						carouselColumn = new ArrayList<CarouselColumn>();
+						for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {
+							tourEnroll = new ArrayList<Action>();
+							for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {
+								String tourID = tour.get(count).substring(0,5);
+								tourEnroll.add(new MessageAction(
+										tourID, "I want to enroll in " + tourID + "."));
+								count++;
+							}
+							carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
+							if ((numTour - count) < 3) break;
+						}
+						carouselTemplate.add(new CarouselTemplate(carouselColumn));
+						multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
+					}
+				}
+				this.reply(replyToken, multiMessages);
+				database.resetFilterList();
 				break;
 			}
-			String reply = null;
-			try {
-				reply = database.search(text);
-			} catch (Exception e) {
-				reply = "Sorry, I don't quite understand. Can you be more precise?";
-			}
-			log.info("Returns error message {}: {}", replyToken, reply);
-
-			//Creating Filter Result & Template Messages if filtering is done
-            List<Message> multiMessages = new ArrayList<Message>();
-            multiMessages.add(new TextMessage(reply));
-            List<String> tour = database.getFilterList();
-            
-            if (tour != null) {
-        	List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
-        	List<CarouselColumn> carouselColumn;
-        	List<Action> tourEnroll;
-        	int count = 1; //omit first string
-        	int numTour = tour.size();
-        	int templateCount = 0;
-        	
-        	while (count < numTour) {
-        		carouselColumn = new ArrayList<CarouselColumn>();
-        		for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
-        			tourEnroll = new ArrayList<Action>();            			
-        			for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
-        				String tourID = tour.get(count).substring(0,5);
-        				tourEnroll.add(new MessageAction(
-        					tourID, "I want to enroll in " + tourID + "."));
-        				count++;
-        			}
-        			carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
-        			if ((numTour - count) < 3) break;
-        		}
-        		carouselTemplate.add(new CarouselTemplate(carouselColumn));
-        		multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
-        	}
-            }
-			this.reply(replyToken, multiMessages);
-			database.resetFilterList();
-			break;
-		}
 		}
 	}
 
@@ -403,7 +403,7 @@ public class KitchenSinkController {
 			ksc.reply(
 					replyToken,
 					Arrays.asList(new TextMessage(text + " " + profile.getDisplayName() + "!"))
-					);
+			);
 		}
 	}
 

@@ -26,21 +26,27 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         this.connection = this.getConnection();
 
         result = searchRes();
-        if (result != null)
+        if (result != null){
+            connection.close();
             return result;
+        }
 
         result = searchTour();
-        if (result != null)
+        if (result != null){
+            connection.close();
             return result;
-
+        }
         result = searchTourByDate();
-        if (result != null)
+        if (result != null){
+            connection.close();
             return result;
+        }
 
         result = searchTourByAttraction();
-        if (result != null)
+        if (result != null){
+            connection.close();
             return result;
-
+        }
         connection.close();
         throw new Exception("NOT FOUND");
     }
@@ -108,7 +114,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getString("dates")
                 );
 
-                StringBuilder str = tour.getDetailTourInfo();	
+                StringBuilder str = tour.getDetailTourInfo();
 
                 result = str.toString();
             }
@@ -147,14 +153,14 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE);
+                    filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE);
                     result = filterList.toString();
                     //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE).toString();
                 }
                 else {
-                	filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE);
-                	result = filterList.toString();
-                	//result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
+                    filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE);
+                    result = filterList.toString();
+                    //result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
                 }
 
             }
@@ -194,14 +200,14 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
 
-                	filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION);
+                    filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION);
                     result = filterList.toString();
                     //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
                 else {
-                	filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION);
-                	result = filterList.toString();
-                	//result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
+                    filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION);
+                    result = filterList.toString();
+                    //result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
 
             }
@@ -226,7 +232,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         if (text.toLowerCase().matches("(.)*" + name + "(.)*")) return true;
         return false;
     }
-    
+
     private boolean matchByID(String id){
         if (text.toLowerCase().matches("(.)*" + id + "(.)*")) return true;
         return false;
@@ -251,12 +257,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
 
     List<String> getFilterList() throws Exception {
-    	if (filterList == null) return null;
-    	List<String> result = Arrays.asList(filterList.toString().split("\n"));
-    	return result;
+        if (filterList == null) return null;
+        List<String> result = Arrays.asList(filterList.toString().split("\n"));
+        return result;
     }
-    
+
     void resetFilterList() {
-    	filterList = null;
+        filterList = null;
     }
 }
