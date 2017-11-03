@@ -6,18 +6,21 @@ public class Customer {
 	private int age;
 	private Tour tour;
 	private CustomerNo customerNo;
+	private Fee fee;
 	
 	public Customer(
 			String id,
 			String name,
 			int age,
 			Tour tour, 
-			CustomerNo customerNo) {			
+			CustomerNo customerNo,
+			Fee fee) {			
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.tour = tour;
 		this.customerNo = customerNo;
+		this.fee = fee;
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -34,6 +37,8 @@ public class Customer {
 	public void setCustomerNo(CustomerNo customerNo) { this.customerNo = customerNo;}
 	public CustomerNo getCustomerNo() { return this.customerNo;}
 	
+	public void setFee(Fee fee) {this.fee = fee;}
+	public Fee getFee() {return this.fee;}
 }
 
 class CustomerNo{
@@ -60,4 +65,25 @@ class CustomerNo{
 	public int getToodlerNo() { return this.toodlerNo;}
 	
 	
+}
+
+public class Fee{
+	private double total_fee;
+	private double adult_fee;
+	private double children_fee;
+	
+	public Fee() {
+		this.total_fee = 0;
+		this.adult_fee = 0;
+		this.children_fee = 0;
+	}
+	
+	public void setTotalFee() { this.total_fee = getAdultFee()+getChildrenFee();}
+	public double getTotalFee()  {return total_fee;}
+	
+	public void setAdultFee(int fee) { this.adult_fee += fee;} // adult has no discount
+	public double getAdultFee() { return adult_fee;}
+	
+	public void setChildrenFee(int fee) { this.children_fee += fee*0.2;} // children has 20% discount, toodler is free
+	public double getChildrenFee() { return children_fee;}
 }
