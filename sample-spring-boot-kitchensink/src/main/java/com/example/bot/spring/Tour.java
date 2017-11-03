@@ -117,6 +117,7 @@ public class Tour {
 		StringBuilder tourBuilder = new StringBuilder();
 		tourBuilder.append(getTopicSentence(tourList, keyword));
 		//tourBuilder.append("Sorted by Price\n" );
+
 		sortTourListByPrice(tourList);
 		return tourBuilder.append(getBasicTourListInfoWithPrice(tourList));
 	}
