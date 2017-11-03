@@ -105,7 +105,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getInt("weekEndPrice"),
                         rs.getString("dates")
                 );
-                StringBuilder str = tour.getAllTourInfo();
+                StringBuilder str = tour.getDetailTourInfo();
                 result = str.toString();
             }
             rs.close();
@@ -143,9 +143,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, text, Tour.Keyword.DATE).toString();
                 }
-                else result = Tour.getBasicTourInfoByDate(tourList, text).toString();
+                else result = Tour.getBasicTourInfoByKeyword(tourList, text, Tour.Keyword.DATE).toString();
             }
             rs.close();
             stmt.close();
@@ -182,9 +182,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    result = Tour.getBasicTourInfoSortByPrice(tourList, text).toString();
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, text, Tour.Keyword.ATTRACTION).toString();
                 }
-                else result = Tour.getBasicTourInfoByDAttraction(tourList, text).toString();
+                else result = Tour.getBasicTourInfoByKeyword(tourList, text, Tour.Keyword.ATTRACTION).toString();
             }
             rs.close();
             stmt.close();
