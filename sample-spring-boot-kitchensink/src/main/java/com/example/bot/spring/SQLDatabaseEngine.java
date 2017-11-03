@@ -23,6 +23,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         String result = null;
         this.text = text;
         this.connection = this.getConnection();
+        
+        // greeting keywords
+        result = searchGreetings();
+        if (result != null)
+        	return result;
 
         result = searchRes();
         if (result != null)
@@ -55,7 +60,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection = DriverManager.getConnection(dbUrl, username, password);
 
         return connection;
-    }
+    }  
 
     private String searchRes() throws Exception{
         String result = null;
