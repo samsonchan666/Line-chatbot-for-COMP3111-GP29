@@ -295,7 +295,7 @@ public class KitchenSinkController {
         	List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
         	List<CarouselColumn> carouselColumn;
         	List<Action> tourEnroll;
-        	int count = 1; //omit first string
+        	int count = 0;
         	int numTour = tourList.size();
         	int templateCount = 0;        	
         	while (count < numTour) {

@@ -251,18 +251,18 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
-    List<String> getFilterList() {
+    /*List<String> getFilterList() {
     	if (filterList == null) return null;
     	List<String> result = Arrays.asList(filterList.toString().split("\n"));
     	return result;
-    }
+    }*/
     
     List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
     }
     
-    void resetFilterList() {
+    /*void resetFilterList() {
     	filterList = null;
-    }
+    }*/
 }
