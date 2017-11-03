@@ -224,7 +224,7 @@ public class KitchenSinkController {
                 if (userId != null) {
                     lineMessagingClient
                             .getProfile(userId)
-                            .whenComplete(new ProfileGetter (this, replyToken));
+                            .whenComplete(new ProfileGetter (this, replyToken, ""));
                 } else {
                     this.replyText(replyToken, "Bot can't use profile API without user ID");
                 }
@@ -288,35 +288,41 @@ public class KitchenSinkController {
             	break;
             }
 
-            default:
-            	String reply = null;
-            	try {
-            		reply = database.search(text);
-            	} catch (Exception e) {
-            		reply = text;
-            	}
-            	if (text.matches("Hello(.)*|Hi(.)*|Hey(.)*")){
-					String userId = event.getSource().getUserId();
-					if (userId != null) {
-						lineMessagingClient
-								.getProfile(userId)
-								.whenComplete(new ProfileGetter (this, replyToken));
-					}
-					break;
+// 		This is the part I mostly changed about greeting the customer and default error msg
+//		ProfileGetter() is also changed
+//		 ^Rex
+		default:{
+			if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
+			{
+				String userId = event.getSource().getUserId();
+				if (userId != null) {
+					lineMessagingClient
+					.getProfile(userId)
+					.whenComplete(new ProfileGetter (this, replyToken, "Welcome"));
 				}
-                log.info("Returns echo message {}: {}", replyToken, reply);
-//                this.replyText(
-//                        replyToken,
-//                        itscLOGIN + " says " + reply
-//                );
+			}
+			else {
+				String reply = null;
+				try {
+					reply = database.search(text);
+				} catch (Exception e) {
+					reply = "Sorry, I don't quite understand. Can you be more precise?";
+				}
+				log.info("Returns error message {}: {}", replyToken, reply);
+				//                this.replyText(
+				//                        replyToken,
+				//                        itscLOGIN + " says " + reply
+				//                );
+
 				this.replyText(
 						replyToken,
 						reply
-				);
-
-                break;
-        }
-    }
+						);
+			}
+			break;
+		}
+		}
+	}
 
 	static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
@@ -357,7 +363,7 @@ public class KitchenSinkController {
 	}
 
 
-	
+
 
 
 	public KitchenSinkController() {
@@ -367,7 +373,7 @@ public class KitchenSinkController {
 
 	private SQLDatabaseEngine database;
 	private String itscLOGIN;
-	
+
 
 	//The annontation @Value is from the package lombok.Value
 	//Basically what it does is to generate constructor and getter for the class below
@@ -383,24 +389,26 @@ public class KitchenSinkController {
 	class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
 		private KitchenSinkController ksc;
 		private String replyToken;
-		
-		public ProfileGetter(KitchenSinkController ksc, String replyToken) {
+		private String text;
+
+		public ProfileGetter(KitchenSinkController ksc, String replyToken, String text) {
 			this.ksc = ksc;
 			this.replyToken = replyToken;
+			this.text = text;
 		}
 		@Override
-    	public void accept(UserProfileResponse profile, Throwable throwable) {
-    		if (throwable != null) {
-            	ksc.replyText(replyToken, throwable.getMessage());
-            	return;
-        	}
+		public void accept(UserProfileResponse profile, Throwable throwable) {
+			if (throwable != null) {
+				ksc.replyText(replyToken, throwable.getMessage());
+				return;
+			}
 			ksc.reply(
 					replyToken,
-					Arrays.asList(new TextMessage( "Welcome " + profile.getDisplayName()))
-			);
-    	}
-    }
-	
-	
+					Arrays.asList(new TextMessage(text + " " + profile.getDisplayName() + "!"))
+					);
+		}
+	}
+
+
 
 }
