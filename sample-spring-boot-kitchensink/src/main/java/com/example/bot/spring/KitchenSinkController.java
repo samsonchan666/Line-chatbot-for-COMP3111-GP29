@@ -93,7 +93,7 @@ import java.net.URI;
 @Slf4j
 @LineMessageHandler
 public class KitchenSinkController {
-	
+
 
 
 	@Autowired
@@ -216,187 +216,200 @@ public class KitchenSinkController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content)
-            throws Exception {
-        String text = content.getText();
+			throws Exception {
+		String text = content.getText();
 
-        log.info("Got text message from {}: {}", replyToken, text);
-        switch (text) {
-            case "profile": {
-                String userId = event.getSource().getUserId();
-                if (userId != null) {
-                    lineMessagingClient
-                            .getProfile(userId)
-                            .whenComplete(new ProfileGetter (this, replyToken));
-                } else {
-                    this.replyText(replyToken, "Bot can't use profile API without user ID");
-                }
-                break;
-            }
-            case "confirm": {
-                ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-                        "Do it?",
-                        new MessageAction("Yes", "Yes!"),
-                        new MessageAction("No", "No!")
-                );
-                TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "carousel": {
-                String imageUrl = createUri("/static/buttons/1040.jpg");
-                CarouselTemplate carouselTemplate = new CarouselTemplate(
-                        Arrays.asList(
-                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new URIAction("Go to line.me",
-                                                      "https://line.me"),
-                                        new PostbackAction("Say hello1",
-                                                           "hello 1")
-                                )),
-                                new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new PostbackAction("say hello2",
-                                                           "hello 2",
-                                                           "hello 2"),
-                                        new MessageAction("Say message",
-                                                          "Rice=sad")
-                                ))
-                        ));
-                TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-                this.reply(replyToken, templateMessage);
-                break;
-            }
-            case "tour": {
-            	List<String> tour = database.getTourList();
-            	List<Message> multiMessages = new ArrayList<Message>();
-            	List<ButtonsTemplate> buttonTemplate = new ArrayList<ButtonsTemplate>();
-            	
-            	int j = 0; int diff;
-            	int count = tour.size();
-            	int templateCount = 0;
-            	
-            	List<Action> tourEnroll;
-            	
-            	while (j < count) {
-            		tourEnroll = new ArrayList<Action>();
-            		for (int i = 0; i < 4 && j < count; i++) {            			
-            			String tourName = tour.get(j);
-            			tourEnroll.add(new PostbackAction(
-            				tourName, "You successfully enroll in " + tourName + ".","Enroll in "+tourName+"."));
-            			j++;
-            		}
-            		buttonTemplate.add(new ButtonsTemplate(null, null, "Tour Selection", tourEnroll));
-            		multiMessages.add(new TemplateMessage("Button alt text", buttonTemplate.get(templateCount++)));            		
-            		}            	
-            	this.reply(replyToken, multiMessages);
-            	break;
-            }
+		log.info("Got text message from {}: {}", replyToken, text);
+		switch (text) {
+		case "profile": {
+			String userId = event.getSource().getUserId();
+			if (userId != null) {
+				lineMessagingClient
+				.getProfile(userId)
+				.whenComplete(new ProfileGetter (this, replyToken));
+			} else {
+				this.replyText(replyToken, "Bot can't use profile API without user ID");
+			}
+			break;
+		}
+		case "confirm": {
+			ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+					"Do it?",
+					new MessageAction("Yes", "Yes!"),
+					new MessageAction("No", "No!")
+					);
+			TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+			this.reply(replyToken, templateMessage);
+			break;
+		}
+		case "carousel": {
+			String imageUrl = createUri("/static/buttons/1040.jpg");
+			CarouselTemplate carouselTemplate = new CarouselTemplate(
+					Arrays.asList(
+							new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+									new URIAction("Go to line.me",
+											"https://line.me"),
+									new PostbackAction("Say hello1",
+											"hello 1")
+									)),
+							new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+									new PostbackAction("say hello2",
+											"hello 2",
+											"hello 2"),
+									new MessageAction("Say message",
+											"Rice=sad")
+									))
+							));
+			TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+			this.reply(replyToken, templateMessage);
+			break;
+		}
+		case "tour": {
+			List<String> tour = database.getTourList();
+			List<Message> multiMessages = new ArrayList<Message>();
+			List<ButtonsTemplate> buttonTemplate = new ArrayList<ButtonsTemplate>();
 
-            default:
-            	String reply = null;
-            	try {
-            		reply = database.search(text);
-            	} catch (Exception e) {
-            		reply = "Sorry, I don't quite understand. Can you be more precise?";
-            	}
-                log.info("Returns error message {}: {}", replyToken, reply);
-//                this.replyText(
-//                        replyToken,
-//                        itscLOGIN + " says " + reply
-//                );
-				this.replyText(
+			int j = 0; int diff;
+			int count = tour.size();
+			int templateCount = 0;
+
+			List<Action> tourEnroll;
+
+			while (j < count) {
+				tourEnroll = new ArrayList<Action>();
+				for (int i = 0; i < 4 && j < count; i++) {            			
+					String tourName = tour.get(j);
+					tourEnroll.add(new PostbackAction(
+							tourName, "You successfully enroll in " + tourName + ".","Enroll in "+tourName+"."));
+					j++;
+				}
+				buttonTemplate.add(new ButtonsTemplate(null, null, "Tour Selection", tourEnroll));
+				multiMessages.add(new TemplateMessage("Button alt text", buttonTemplate.get(templateCount++)));            		
+			}            	
+			this.reply(replyToken, multiMessages);
+			break;
+		}
+
+		case "Hello" or "Hi": {
+			String reply = null;
+				reply = text;
+			String userId = event.getSource().getUserId();
+			if (userId != null) {
+				lineMessagingClient
+				.getProfile(userId)
+				.whenComplete(new ProfileGetter (this, replyToken));
+			}
+			this.replyText(
+					replyToken,
+					reply
+					);
+			break;
+			}
+
+		default:
+			String reply = null;
+			try {
+				reply = database.search(text);
+			} catch (Exception e) {
+				reply = "Sorry, I don't quite understand. Can you be more precise?";
+			}
+			log.info("Returns error message {}: {}", replyToken, reply);
+			//                this.replyText(
+			//                        replyToken,
+			//                        itscLOGIN + " says " + reply
+			//                );
+			this.replyText(
+					replyToken,
+					reply
+					);
+
+			break;
+		}
+		}
+
+		static String createUri(String path) {
+			return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
+		}
+
+		private void system(String... args) {
+			ProcessBuilder processBuilder = new ProcessBuilder(args);
+			try {
+				Process start = processBuilder.start();
+				int i = start.waitFor();
+				log.info("result: {} =>  {}", Arrays.toString(args), i);
+			} catch (IOException e) {
+				throw new UncheckedIOException(e);
+			} catch (InterruptedException e) {
+				log.info("Interrupted", e);
+				Thread.currentThread().interrupt();
+			}
+		}
+
+		private static DownloadedContent saveContent(String ext, MessageContentResponse responseBody) {
+			log.info("Got content-type: {}", responseBody);
+
+			DownloadedContent tempFile = createTempFile(ext);
+			try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
+				ByteStreams.copy(responseBody.getStream(), outputStream);
+				log.info("Saved {}: {}", ext, tempFile);
+				return tempFile;
+			} catch (IOException e) {
+				throw new UncheckedIOException(e);
+			}
+		}
+
+		private static DownloadedContent createTempFile(String ext) {
+			String fileName = LocalDateTime.now().toString() + '-' + UUID.randomUUID().toString() + '.' + ext;
+			Path tempFile = KitchenSinkApplication.downloadedContentDir.resolve(fileName);
+			tempFile.toFile().deleteOnExit();
+			return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
+		}
+
+
+
+
+
+		public KitchenSinkController() {
+			database = new SQLDatabaseEngine();
+			itscLOGIN = System.getenv("ITSC_LOGIN");
+		}
+
+		private SQLDatabaseEngine database;
+		private String itscLOGIN;
+
+
+		//The annontation @Value is from the package lombok.Value
+		//Basically what it does is to generate constructor and getter for the class below
+		//See https://projectlombok.org/features/Value
+		@Value
+		public static class DownloadedContent {
+			Path path;
+			String uri;
+		}
+
+
+		//an inner class that gets the user profile and status message
+		class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
+			private KitchenSinkController ksc;
+			private String replyToken;
+
+			public ProfileGetter(KitchenSinkController ksc, String replyToken) {
+				this.ksc = ksc;
+				this.replyToken = replyToken;
+			}
+			@Override
+			public void accept(UserProfileResponse profile, Throwable throwable) {
+				if (throwable != null) {
+					ksc.replyText(replyToken, throwable.getMessage());
+					return;
+				}
+				ksc.reply(
 						replyToken,
-						reply
-				);
-
-                break;
-        }
-    }
-
-	static String createUri(String path) {
-		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
-	}
-
-	private void system(String... args) {
-		ProcessBuilder processBuilder = new ProcessBuilder(args);
-		try {
-			Process start = processBuilder.start();
-			int i = start.waitFor();
-			log.info("result: {} =>  {}", Arrays.toString(args), i);
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		} catch (InterruptedException e) {
-			log.info("Interrupted", e);
-			Thread.currentThread().interrupt();
+						Arrays.asList(new TextMessage(profile.getDisplayName()))
+						);
+			}
 		}
+
+
+
 	}
-
-	private static DownloadedContent saveContent(String ext, MessageContentResponse responseBody) {
-		log.info("Got content-type: {}", responseBody);
-
-		DownloadedContent tempFile = createTempFile(ext);
-		try (OutputStream outputStream = Files.newOutputStream(tempFile.path)) {
-			ByteStreams.copy(responseBody.getStream(), outputStream);
-			log.info("Saved {}: {}", ext, tempFile);
-			return tempFile;
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
-
-	private static DownloadedContent createTempFile(String ext) {
-		String fileName = LocalDateTime.now().toString() + '-' + UUID.randomUUID().toString() + '.' + ext;
-		Path tempFile = KitchenSinkApplication.downloadedContentDir.resolve(fileName);
-		tempFile.toFile().deleteOnExit();
-		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
-	}
-
-
-	
-
-
-	public KitchenSinkController() {
-		database = new SQLDatabaseEngine();
-		itscLOGIN = System.getenv("ITSC_LOGIN");
-	}
-
-	private SQLDatabaseEngine database;
-	private String itscLOGIN;
-	
-
-	//The annontation @Value is from the package lombok.Value
-	//Basically what it does is to generate constructor and getter for the class below
-	//See https://projectlombok.org/features/Value
-	@Value
-	public static class DownloadedContent {
-		Path path;
-		String uri;
-	}
-
-
-	//an inner class that gets the user profile and status message
-	class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
-		private KitchenSinkController ksc;
-		private String replyToken;
-		
-		public ProfileGetter(KitchenSinkController ksc, String replyToken) {
-			this.ksc = ksc;
-			this.replyToken = replyToken;
-		}
-		@Override
-    	public void accept(UserProfileResponse profile, Throwable throwable) {
-    		if (throwable != null) {
-            	ksc.replyText(replyToken, throwable.getMessage());
-            	return;
-        	}
-        	ksc.reply(
-                	replyToken,
-                	Arrays.asList(new TextMessage(
-                		"Display name: " + profile.getDisplayName()),
-                              	new TextMessage("Status message: "
-                            		  + profile.getStatusMessage()))
-        	);
-    	}
-    }
-	
-	
-
-}
