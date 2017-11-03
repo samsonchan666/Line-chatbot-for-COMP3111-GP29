@@ -145,5 +145,4 @@ public class KitchenSinkTester {
 		}
 		System.out.println(result);
 	}
-
 }

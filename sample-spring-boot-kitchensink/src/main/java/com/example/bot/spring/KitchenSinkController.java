@@ -93,8 +93,6 @@ import java.net.URI;
 @Slf4j
 @LineMessageHandler
 public class KitchenSinkController {
-	
-
 
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
@@ -297,6 +295,9 @@ public class KitchenSinkController {
             	} catch (Exception e) {
             		reply = text;
             	}
+            	if (text.matches("Hello(.)* | Hi(.)* | Hey(.)*")){
+            		reply = "Welcome " + itscLOGIN;
+				}
                 log.info("Returns echo message {}: {}", replyToken, reply);
 //                this.replyText(
 //                        replyToken,
