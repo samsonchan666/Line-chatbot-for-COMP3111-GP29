@@ -293,7 +293,7 @@ public class KitchenSinkController {
 			break;
 		}
 
-		case "Hello.*": case"Hi.*": {
+		/*case "Hello": case"Hi": {
 			String userId = event.getSource().getUserId();
 			if (userId != null) {
 				lineMessagingClient
@@ -301,10 +301,10 @@ public class KitchenSinkController {
 				.whenComplete(new ProfileGetter (this, replyToken, text));
 			}
 			break;
-		}
+		}*/
 
 		default:
-			if (text.matches("Hi(.*)") or text.matches("Hello(.*)"))
+			if ((text.matches("Hi(.*)")) or (text.matches("Hello(.*)")))
 			{
 				String userId = event.getSource().getUserId();
 				if (userId != null) {
