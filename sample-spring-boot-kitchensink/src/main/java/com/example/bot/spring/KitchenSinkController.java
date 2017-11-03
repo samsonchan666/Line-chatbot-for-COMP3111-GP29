@@ -310,7 +310,7 @@ public class KitchenSinkController {
 				if (userId != null) {
 					lineMessagingClient
 					.getProfile(userId)
-					.whenComplete(new ProfileGetter (this, replyToken, text));
+					.whenComplete(new ProfileGetter (this, replyToken, "Welcome"));
 				}
 			}
 			else {
@@ -416,7 +416,7 @@ public class KitchenSinkController {
 			}
 			ksc.reply(
 					replyToken,
-					Arrays.asList(new TextMessage(text + " " + profile.getDisplayName()))
+					Arrays.asList(new TextMessage(text + " " + profile.getDisplayName() + "!"))
 					);
 		}
 	}
