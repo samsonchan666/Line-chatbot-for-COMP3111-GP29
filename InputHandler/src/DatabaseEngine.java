@@ -226,8 +226,35 @@ public class DatabaseEngine {
                     + rset.getString("name") + ", "
                     + rset.getString("attraction") + ", "
                     + rset.getInt("duration") + ", "
+                    + rset.getString("dates") + ", "
                     + rset.getInt("weekDayPrice") + ", "
                     + rset.getInt("weekEndPrice"));
+        }
+        rset.close();
+        stmt.close();
+    }
+
+    public void addFaq(String keyword, String respond)
+            throws URISyntaxException, SQLException {
+        String sqlInsert = "insert into faq values (?, ?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+        preparedStatement.setString(1, keyword);
+        preparedStatement.setString(2, respond);
+
+        preparedStatement.executeUpdate();
+
+        printFaq();
+        preparedStatement.close();
+    }
+
+    public void printFaq() throws URISyntaxException, SQLException{
+        Statement stmt = connection.createStatement();
+        String strSelect = "select * from faq";
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            System.out.println(rset.getString("keywords") + ", "
+                    + rset.getString("respond"));
         }
         rset.close();
         stmt.close();

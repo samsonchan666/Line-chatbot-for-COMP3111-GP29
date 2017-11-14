@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.linecorp.bot.model.event.beacon.BeaconContentTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-03T15:25:04" hostname="Samson-PC" time="0.008">
+<testsuite name="com.linecorp.bot.model.event.beacon.BeaconContentTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-14T12:22:41" hostname="Samson-PC" time="0.156">
   <properties/>
-  <testcase name="beaconContentEqualityTest" classname="com.linecorp.bot.model.event.beacon.BeaconContentTest" time="0.005"/>
-  <testcase name="beaconContentArrayProtectedTest" classname="com.linecorp.bot.model.event.beacon.BeaconContentTest" time="0.003"/>
+  <testcase name="beaconContentEqualityTest" classname="com.linecorp.bot.model.event.beacon.BeaconContentTest" time="0.14"/>
+  <testcase name="beaconContentArrayProtectedTest" classname="com.linecorp.bot.model.event.beacon.BeaconContentTest" time="0.016"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

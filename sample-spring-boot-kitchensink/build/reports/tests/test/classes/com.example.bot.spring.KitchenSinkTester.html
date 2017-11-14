@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">18.196s</div>
+<div class="counter">21.906s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,42 +79,42 @@
 </thead>
 <tr>
 <td class="success">anothertestFound</td>
-<td>2.682s</td>
+<td>2.969s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">anothertestFound2</td>
-<td>2.159s</td>
+<td>2.562s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testFound</td>
-<td>2.634s</td>
+<td>2.562s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testNotFound</td>
-<td>2.796s</td>
+<td>3.897s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">tourTest</td>
-<td>1.739s</td>
+<td>2.340s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">tourTestByAttraction</td>
-<td>2.214s</td>
+<td>2.638s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">tourTestByDate</td>
-<td>1.933s</td>
+<td>2.485s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">tourTestByPrice</td>
-<td>2.039s</td>
+<td>2.453s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -122,32 +122,32 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>23:25:22.355 [Test worker] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.example.bot.spring.KitchenSinkTester]
-23:25:22.362 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
-23:25:22.373 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
-23:25:22.402 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.example.bot.spring.KitchenSinkTester] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
-23:25:22.414 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.bot.spring.KitchenSinkTester], using SpringBootContextLoader
-23:25:22.417 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.example.bot.spring.KitchenSinkTester]: class path resource [com/example/bot/spring/KitchenSinkTester-context.xml] does not exist
-23:25:22.418 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.example.bot.spring.KitchenSinkTester]: class path resource [com/example/bot/spring/KitchenSinkTesterContext.groovy] does not exist
-23:25:22.418 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.example.bot.spring.KitchenSinkTester]: no resource found for suffixes {-context.xml, Context.groovy}.
-23:25:22.466 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.example.bot.spring.KitchenSinkTester]
-23:25:22.475 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.example.bot.spring.KitchenSinkTester]: using defaults.
-23:25:22.479 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-23:25:22.488 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Could not instantiate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
-23:25:22.492 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Could not instantiate TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttributeSource]
-23:25:22.493 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6f4a97b1, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1d93fad, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3cb24a6a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@79c4dabd, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@42883d2b, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@a645680, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@242bacbc, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@7b659bb6, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@78878094, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@507f0952]
-23:25:22.497 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.example.bot.spring.KitchenSinkTester]
-23:25:22.497 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.example.bot.spring.KitchenSinkTester]
-23:25:22.498 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.example.bot.spring.KitchenSinkTester]
-23:25:22.498 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.example.bot.spring.KitchenSinkTester]
-23:25:22.503 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@632abc59 testClass = KitchenSinkTester, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@11f4f525 testClass = KitchenSinkTester, locations = '{}', classes = '{class com.example.bot.spring.KitchenSinkTester, class com.example.bot.spring.SQLDatabaseEngine, class com.example.bot.spring.KitchenSinkTester, class com.example.bot.spring.SQLDatabaseEngine}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.SpringBootTestContextCustomizer@3a59835c, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@596a0268, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@7cb0285], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null].
-23:25:22.504 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.example.bot.spring.KitchenSinkTester]
-23:25:22.504 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.example.bot.spring.KitchenSinkTester]
-23:25:22.590 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
-23:25:22.591 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
-23:25:22.591 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
-23:25:22.593 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=-1}
-23:25:22.593 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Adding [Inlined Test Properties] PropertySource with highest search precedence
+<pre>20:23:27.311 [Test worker] DEBUG org.springframework.test.context.junit4.SpringJUnit4ClassRunner - SpringJUnit4ClassRunner constructor called with [class com.example.bot.spring.KitchenSinkTester]
+20:23:28.936 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+20:23:28.998 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+20:23:29.170 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [com.example.bot.spring.KitchenSinkTester] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+20:23:29.233 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.example.bot.spring.KitchenSinkTester], using SpringBootContextLoader
+20:23:29.248 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.example.bot.spring.KitchenSinkTester]: class path resource [com/example/bot/spring/KitchenSinkTester-context.xml] does not exist
+20:23:29.248 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [com.example.bot.spring.KitchenSinkTester]: class path resource [com/example/bot/spring/KitchenSinkTesterContext.groovy] does not exist
+20:23:29.248 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.example.bot.spring.KitchenSinkTester]: no resource found for suffixes {-context.xml, Context.groovy}.
+20:23:29.692 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [com.example.bot.spring.KitchenSinkTester]
+20:23:29.692 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [com.example.bot.spring.KitchenSinkTester]: using defaults.
+20:23:29.707 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+20:23:29.817 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Could not instantiate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
+20:23:29.817 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Could not instantiate TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttributeSource]
+20:23:29.817 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6f4a97b1, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1d93fad, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@3cb24a6a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@79c4dabd, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@42883d2b, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@a645680, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@242bacbc, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@7b659bb6, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@78878094, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@507f0952]
+20:23:29.832 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.example.bot.spring.KitchenSinkTester]
+20:23:29.832 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.example.bot.spring.KitchenSinkTester]
+20:23:29.848 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.example.bot.spring.KitchenSinkTester]
+20:23:29.848 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.example.bot.spring.KitchenSinkTester]
+20:23:29.864 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@632abc59 testClass = KitchenSinkTester, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@11f4f525 testClass = KitchenSinkTester, locations = '{}', classes = '{class com.example.bot.spring.KitchenSinkTester, class com.example.bot.spring.SQLDatabaseEngine, class com.example.bot.spring.KitchenSinkTester, class com.example.bot.spring.SQLDatabaseEngine}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.context.SpringBootTestContextCustomizer@3a59835c, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@596a0268, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@7cb0285], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]]], class annotated with @DirtiesContext [false] with mode [null].
+20:23:29.864 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved @ProfileValueSourceConfiguration [null] for test class [com.example.bot.spring.KitchenSinkTester]
+20:23:29.864 [Test worker] DEBUG org.springframework.test.annotation.ProfileValueUtils - Retrieved ProfileValueSource type [class org.springframework.test.annotation.SystemProfileValueSource] for class [com.example.bot.spring.KitchenSinkTester]
+20:23:30.633 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+20:23:30.633 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+20:23:30.633 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+20:23:30.633 [Test worker] DEBUG org.springframework.test.context.support.TestPropertySourceUtils - Adding inlined properties to environment: {spring.jmx.enabled=false, org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true, server.port=-1}
+20:23:30.633 [Test worker] DEBUG org.springframework.core.env.StandardEnvironment - Adding [Inlined Test Properties] PropertySource with highest search precedence
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -157,20 +157,20 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v1.4.2.RELEASE)
 
-2017-11-03 23:25:23.100  INFO 11156 --- [    Test worker] c.example.bot.spring.KitchenSinkTester   : Starting KitchenSinkTester on Samson-PC with PID 11156 (started by Samson in C:\Users\Samson\OneDrive\comp3111\project\Line-chatbot-for-COMP3111-GP29\sample-spring-boot-kitchensink)
-2017-11-03 23:25:23.101  INFO 11156 --- [    Test worker] c.example.bot.spring.KitchenSinkTester   : No active profile set, falling back to default profiles: default
-2017-11-03 23:25:23.151  INFO 11156 --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@3f65dfe7: startup date [Fri Nov 03 23:25:23 CST 2017]; root of context hierarchy
-2017-11-03 23:25:23.560  INFO 11156 --- [    Test worker] c.example.bot.spring.KitchenSinkTester   : Started KitchenSinkTester in 0.957 seconds (JVM running for 1.97)
-2017-11-03 23:25:23.595  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:23.599  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:32.230  INFO 8412 --- [    Test worker] c.example.bot.spring.KitchenSinkTester   : Starting KitchenSinkTester on Samson-PC with PID 8412 (started by Samson in C:\Users\Samson\OneDrive\comp3111\project\Line-chatbot-for-COMP3111-GP29\sample-spring-boot-kitchensink)
+2017-11-14 20:23:32.230  INFO 8412 --- [    Test worker] c.example.bot.spring.KitchenSinkTester   : No active profile set, falling back to default profiles: default
+2017-11-14 20:23:32.340  INFO 8412 --- [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@3f65dfe7: startup date [Tue Nov 14 20:23:32 CST 2017]; root of context hierarchy
+2017-11-14 20:23:32.887  INFO 8412 --- [    Test worker] c.example.bot.spring.KitchenSinkTester   : Started KitchenSinkTester in 2.134 seconds (JVM running for 6.367)
+2017-11-14 20:23:33.021  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:33.045  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
-2017-11-03 23:25:26.381  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:26.381  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:36.862  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:36.862  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
-2017-11-03 23:25:29.021  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:29.022  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:39.424  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:39.424  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
 There are 7 tours related
@@ -182,8 +182,8 @@ There are 7 tours related
 3D010	Dynamic Zhuhai-Macau tour
 3D991	Qingyuan historic-landscape tour
 
-2017-11-03 23:25:31.240  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:31.242  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:42.078  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:42.078  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
 2D002 Yangshan Hot Spring Tour
@@ -192,8 +192,8 @@ Unlimited use of hot spring * Famous Yangshan roaster cusine
 We have confirmed tour on Mon / Wed / Fri
 Fee: Weekday 299 / Weekend 399
 Do you want to book this one?
-2017-11-03 23:25:32.981  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:32.982  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:44.418  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:44.418  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
 There are 5 tours available on that day
@@ -203,12 +203,12 @@ There are 5 tours available on that day
 3D019	Guangdong country-side relax trip
 3D075	Kaipinng culture tour
 
-2017-11-03 23:25:34.916  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:34.917  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:46.903  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:46.903  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
-2017-11-03 23:25:37.078  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:37.078  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:49.465  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:49.465  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
 There are 5 tours available on that day
@@ -219,8 +219,8 @@ Sorted by Price
 3D019	Guangdong country-side relax trip	599
 3D075	Kaipinng culture tour	699
 
-2017-11-03 23:25:39.122  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
-2017-11-03 23:25:39.124  INFO 11156 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
+2017-11-14 20:23:51.918  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : Username: agztmngmcxsmtw Password: 53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d
+2017-11-14 20:23:51.918  INFO 8412 --- [    Test worker] c.example.bot.spring.SQLDatabaseEngine   : dbUrl: jdbc:postgresql://ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory
 searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quot; does not exist
   Position: 31
 </pre>
@@ -234,7 +234,7 @@ searchRes()org.postgresql.util.PSQLException: ERROR: relation &quot;restable&quo
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 3.5</a> at Nov 3, 2017 11:25:41 PM</p>
+<a href="http://www.gradle.org">Gradle 3.5</a> at Nov 14, 2017 8:23:54 PM</p>
 </div>
 </div>
 </body>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.linecorp.bot.model.event.CallbackRequestTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2017-11-03T15:25:04" hostname="Samson-PC" time="0.205">
+<testsuite name="com.linecorp.bot.model.event.CallbackRequestTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2017-11-14T12:22:41" hostname="Samson-PC" time="0.563">
   <properties/>
-  <testcase name="textTextUser" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.109"/>
-  <testcase name="testImage" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.006"/>
-  <testcase name="testLeave" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.008"/>
-  <testcase name="testFile" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.016"/>
-  <testcase name="testJoin" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.006"/>
-  <testcase name="textTextGroup" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.007"/>
-  <testcase name="testUnknown" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.007"/>
-  <testcase name="testBeaconWithDeviceMessage" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.009"/>
-  <testcase name="testUnfollow" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.004"/>
-  <testcase name="testBeacon" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.006"/>
-  <testcase name="testFollow" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.004"/>
-  <testcase name="testPostback" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.013"/>
-  <testcase name="testSticker" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.007"/>
+  <testcase name="textTextUser" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.203"/>
+  <testcase name="testImage" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.016"/>
+  <testcase name="testLeave" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.062"/>
+  <testcase name="testFile" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.063"/>
+  <testcase name="testJoin" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.016"/>
+  <testcase name="textTextGroup" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.015"/>
+  <testcase name="testUnknown" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.0"/>
+  <testcase name="testBeaconWithDeviceMessage" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.094"/>
+  <testcase name="testUnfollow" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.031"/>
+  <testcase name="testBeacon" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.016"/>
+  <testcase name="testFollow" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.015"/>
+  <testcase name="testPostback" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.016"/>
+  <testcase name="testSticker" classname="com.linecorp.bot.model.event.CallbackRequestTest" time="0.016"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
