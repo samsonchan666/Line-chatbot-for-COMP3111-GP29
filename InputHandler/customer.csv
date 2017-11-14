@@ -1,0 +1,7 @@
+Name,ID,Phone number,Age,Tour Joined,Number of Adults,Number of Children (4-11),Number of Toodler (<=3),Tour Fee,Amount Paid,Special Request
+Peppa PIG,A111222,(use your team member phone),35,2D00120171108,2,2,0,1796.4,1796.4,Non smoking room
+Emily ELEPHANT,A222444,(use your team member phone),36,2D00120171108,2,0,0,998,500,
+Emily ELEPHANT,A222444,(use your team member phone),36,2D00120171118,2,0,0,998,600,
+,,,,,,,,,,
+,,,,,,,,,,
+"(Create you own set of customer list (at least 20 records), phone number can be random)",,,,,,,,,,
