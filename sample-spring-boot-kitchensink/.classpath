@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="lib" path="build/libs/sample-spring-boot-kitchensink-1.9.0-SNAPSHOT-Samson-PC.jar"/>
+	<classpathentry kind="lib" path="build/libs/sample-spring-boot-kitchensink-1.9.0-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="build/classes/main"/>
+</classpath>

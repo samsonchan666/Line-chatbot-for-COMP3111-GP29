@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.linecorp.bot.client.HeaderInterceptorWireMockTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-02T20:18:48" hostname="Samson-PC" time="1.061">
+  <properties/>
+  <testcase name="forChannelTokenSupplier" classname="com.linecorp.bot.client.HeaderInterceptorWireMockTest" time="1.061"/>
+  <system-out><![CDATA[04:18:49.435 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - --> GET http://localhost:50568/v2/bot/message/TEST/content http/1.1
+04:18:49.443 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - Authorization: Bearer 1st
+04:18:49.443 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - User-Agent: line-botsdk-java/null
+04:18:49.443 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - --> END GET
+04:18:49.522 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - --> GET http://localhost:50568/v2/bot/message/TEST/content http/1.1
+04:18:49.523 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - Authorization: Bearer 2nd
+04:18:49.523 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - User-Agent: line-botsdk-java/null
+04:18:49.523 [OkHttp http://localhost:50568/...] INFO com.linecorp.bot.client.wire - --> END GET
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

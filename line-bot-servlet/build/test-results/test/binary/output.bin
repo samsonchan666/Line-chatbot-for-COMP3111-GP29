@@ -1,0 +1,62 @@
+b23:25:07.877 [Test worker] DEBUG com.linecorp.bot.servlet.LineBotCallbackRequestParser - got: {}
+b23:25:08.226 [Test worker] DEBUG com.linecorp.bot.servlet.LineBotCallbackRequestParser - got: {}
+a23:25:08.230 [Test worker] DEBUG com.linecorp.bot.servlet.LineBotCallbackRequestParser - got: {
+  "events": [
+    {
+7      "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+      "type": "message",
+#      "timestamp": 1462629479859,
+      "source": {
+        "type": "user",
+7        "userId": "u206d25c2ea6bd87c17655609a1c37cb8"
+
+      },
+      "message": {
+        "id": "325708",
+        "type": "text",
+         "text": "Hello, world"
+	      }
+    },
+    {
+7      "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+      "type": "follow",
+#      "timestamp": 1462629479859,
+      "source": {
+        "type": "user",
+7        "userId": "u206d25c2ea6bd87c17655609a1c37cb8"
+	      }
+    }
+  ]
+}
+
+d23:25:08.382 [Test worker] DEBUG com.linecorp.bot.servlet.LineBotCallbackRequestParser - got: null
+a23:25:08.387 [Test worker] DEBUG com.linecorp.bot.servlet.LineBotCallbackRequestParser - got: {
+  "events": [
+    {
+7      "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+      "type": "message",
+#      "timestamp": 1462629479859,
+      "source": {
+        "type": "user",
+7        "userId": "u206d25c2ea6bd87c17655609a1c37cb8"
+
+      },
+      "message": {
+        "id": "325708",
+        "type": "text",
+         "text": "Hello, world"
+	      }
+    },
+    {
+7      "replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA",
+      "type": "follow",
+#      "timestamp": 1462629479859,
+      "source": {
+        "type": "user",
+7        "userId": "u206d25c2ea6bd87c17655609a1c37cb8"
+	      }
+    }
+  ]
+}
+
+	d23:25:08.398 [Test worker] DEBUG com.linecorp.bot.servlet.LineBotCallbackRequestParser - got: null
