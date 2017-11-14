@@ -182,7 +182,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                     "SELECT *  FROM tour "
             );
             ResultSet rs = stmt.executeQuery();
-            List<Tour> tourList = new ArrayList<Tour>() ;
+            tourList = new ArrayList<Tour>() ;
             boolean hasResult = false;
             while(rs.next()) {
                 String attraction = rs.getString("attraction").toLowerCase();
