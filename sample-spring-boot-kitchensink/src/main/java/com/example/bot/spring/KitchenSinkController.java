@@ -214,6 +214,7 @@ public class KitchenSinkController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content)
+
 			throws Exception {
 		String text = content.getText();
 
@@ -262,6 +263,32 @@ public class KitchenSinkController {
 				this.reply(replyToken, templateMessage);
 				break;
 			}
+//             case "tour": {
+//             	List<String> tour = database.getTourList();
+//             	List<Message> multiMessages = new ArrayList<Message>();
+//             	List<ButtonsTemplate> buttonTemplate = new ArrayList<ButtonsTemplate>();
+            	
+//             	int j = 0; int diff;
+//             	int count = tour.size();
+//             	int templateCount = 0;
+            	
+//             	List<Action> tourEnroll;
+            	
+//             	while (j < count) {
+//             		tourEnroll = new ArrayList<Action>();
+//             		for (int i = 0; i < 4 && j < count; i++) {            			
+//             			String tourName = tour.get(j);
+//             			tourEnroll.add(new PostbackAction(
+//             				tourName, "You successfully enroll in " + tourName + ".","Enroll in "+tourName+"."));
+//             			j++;
+//             		}
+//             		buttonTemplate.add(new ButtonsTemplate(null, null, "Tour Selection", tourEnroll));
+//             		multiMessages.add(new TemplateMessage("Button alt text", buttonTemplate.get(templateCount++)));            		
+//             		}            	
+//             	this.reply(replyToken, multiMessages);
+//             	break;
+//             }              
+        
 
 			default:{
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
@@ -408,3 +435,4 @@ public class KitchenSinkController {
 
 
 }
+
