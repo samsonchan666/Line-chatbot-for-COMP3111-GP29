@@ -26,11 +26,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         this.text = text;
         this.connection = this.getConnection();
 
-        result = searchRes();
-        if (result != null){
-            connection.close();
-            return result;
-        }
+//        result = searchRes();
+//        if (result != null){
+//            connection.close();
+//            return result;
+//        }
 
         result = searchTour();
         if (result != null){
@@ -67,7 +67,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection = DriverManager.getConnection(dbUrl, username, password);
 
         return connection;
-    }
+    }  
 
     private String searchRes() throws Exception{
         String result = null;

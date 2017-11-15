@@ -263,6 +263,9 @@ public class KitchenSinkController {
 				break;
 			}
 
+// 		This is the part I mostly changed about greeting the customer and default error msg
+//		ProfileGetter() is also changed
+//		 ^Rex
 			default:{
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
@@ -289,34 +292,33 @@ public class KitchenSinkController {
 				List<Tour> tourList = database.getTourList();
 
 				if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
-				List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
-				List<CarouselColumn> carouselColumn;
-				List<Action> tourEnroll;
-				int count = 0;
-				int numTour = tourList.size();
-				int templateCount = 0;
-				while (count < numTour) {
-					carouselColumn = new ArrayList<CarouselColumn>();
-					for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {
-						tourEnroll = new ArrayList<Action>();
-						for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {
-							String tourID = tourList.get(count).getID();
-							tourEnroll.add(new MessageAction(
-								tourID, "I want to enroll in " + tourID + "."));
-							count++;
+					List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
+					List<CarouselColumn> carouselColumn;
+					List<Action> tourEnroll;
+					int count = 0;
+					int numTour = tourList.size();
+					int templateCount = 0;
+					while (count < numTour) {
+						carouselColumn = new ArrayList<CarouselColumn>();
+						for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {
+							tourEnroll = new ArrayList<Action>();
+							for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {
+								String tourID = tourList.get(count).getID();
+								tourEnroll.add(new MessageAction(
+										tourID, "I want to enroll in " + tourID + "."));
+								count++;
+							}
+							carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
+							if ((numTour - count) < 3) break;
 						}
-						carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
-						if ((numTour - count) < 3) break;
-					}
-					carouselTemplate.add(new CarouselTemplate(carouselColumn));
-					multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
+						carouselTemplate.add(new CarouselTemplate(carouselColumn));
+						multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
 					}
 				}
 				this.reply(replyToken, multiMessages);
 				//database.resetFilterList();
 				break;
 			}
-
 		}
 	}
 

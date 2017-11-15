@@ -37,7 +37,6 @@ public class Tour {
 	public String getName() { return this.name;}
 	
 	public void setAttraction(String attraction) {
-//		assert attraction != null : "_attraction null pointer";
 		this.attraction = attraction;
 		}
 	public String getAttraction() { return this.attraction; }
