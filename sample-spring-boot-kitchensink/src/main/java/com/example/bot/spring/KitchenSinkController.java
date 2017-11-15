@@ -263,9 +263,6 @@ public class KitchenSinkController {
 				break;
 			}
 
-// 		This is the part I mostly changed about greeting the customer and default error msg
-//		ProfileGetter() is also changed
-//		 ^Rex
 			default:{
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
