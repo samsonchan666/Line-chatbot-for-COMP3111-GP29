@@ -314,12 +314,12 @@ public class KitchenSinkController {
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
 								new MessageAction("ID", "ID"),
 								new MessageAction("Name", "Name"), 
-								new MessageAction("Age", "Age"))
+								new MessageAction("Age", "Age")
 						)),
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
 								new MessageAction("No. of Adults", "No. of Adults"),
 								new MessageAction("No. of Children", "No. of Children"), 
-								new MessageAction("No. of Toodlers", "No. of Toodlers"))
+								new MessageAction("No. of Toodlers", "No. of Toodlers")
 						))
 				));
 		return new TemplateMessage("Carousel alt text", carouselTemplate);
