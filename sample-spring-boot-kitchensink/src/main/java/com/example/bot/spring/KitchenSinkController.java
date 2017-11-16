@@ -283,7 +283,7 @@ public class KitchenSinkController {
 	
 	private void createMenu(String text, List<Message> multiMessages) {
 		List<Tour> tourList = database.getTourList();    
-		if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
+		if (tourList != null) {
 			List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 			List<CarouselColumn> carouselColumn;
 			List<Action> tourEnroll;
@@ -311,6 +311,7 @@ public class KitchenSinkController {
 				multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
 			}
 		}
+		database.resetTourList();
 	}
 	
 	static String createUri(String path) {

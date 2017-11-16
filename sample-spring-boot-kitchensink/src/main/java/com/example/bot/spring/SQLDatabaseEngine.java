@@ -246,5 +246,5 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     	return tourList;
     }
     
-
+    void resetTourList() { tourList = null;}
 }
