@@ -234,19 +234,17 @@ public class KitchenSinkController {
 				String reply = null;
 				try {
 					reply = database.search(text);
-					if (text.matches("I want to enroll in(.)*"))
-						customer.stageProceed();
 				} catch (Exception e) {
 					reply = "Sorry, I don't quite understand. Can you be more precise?";
 				}
 				log.info("Returns error message {}: {}", replyToken, reply);
 
 				//Creating Filter Result & Template Messages if filtering is done
-				this.reply(replyToken, createMenu(reply, text));
+				this.reply(replyToken, createMessages(reply, text));
 				break;
 			}
         	case 1: {
-        		if ((text.toLowerCase().matches("(.)*no(.)*"))) {
+        		if ((text.toLowerCase().matches("no(.)*"))) {
         			this.replyText(replyToken, "Restore");
     				customer.stageRestore();    	
     				break;
@@ -263,11 +261,22 @@ public class KitchenSinkController {
 		}
 	}
 
-	private List<Message> createMenu(String reply, String text){
+	private List<Message> createMessages(String reply, String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
-		List<Tour> tourList = database.getTourList();
-    
+		
+		if (text.matches("I want to enroll in(.)*")) {
+			customer.stageProceed();
+    		ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+                    "Do you want to book this one?",
+                    new MessageAction("Yes", "Yes"),
+                    new MessageAction("No", "No")
+            );
+    		multiMessages.add(new TemplateMessage("Confirm alt text", confirmTemplate));
+    		return multiMessages;
+		}
+		
+		List<Tour> tourList = database.getTourList();    
 		if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
 			List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 			List<CarouselColumn> carouselColumn;
@@ -291,7 +300,6 @@ public class KitchenSinkController {
 						}
 					}
 					carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
-					//if ((numTour - count) < 3) break;
 				}
 				carouselTemplate.add(new CarouselTemplate(carouselColumn));
 				multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
