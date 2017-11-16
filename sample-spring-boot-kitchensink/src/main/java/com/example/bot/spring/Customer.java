@@ -8,6 +8,7 @@ public class Customer {
 	private CustomerNo customerNo;
 	private Fee fee;						// Ryan Tang
 	private double paid_amount;				// Ryan Tang
+	private int stage;
 	
 	public Customer(
 			String id,
@@ -24,6 +25,7 @@ public class Customer {
 		this.customerNo = customerNo;
 		this.fee = fee;						// Ryan Tang
 		this.paid_amount = paid_amount;		// Ryan Tang
+		this.stage = 0;
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -104,6 +106,10 @@ public class Customer {
 	public double getPayAmount() { return paid_amount;}
 	public boolean haveRemainPayment()  { return (paid_amount >= fee.getTotalFee());}
 	// here (by Ryan Tang)
+	
+	public int getStage() { return this.stage;}
+	public void stageProceed() { this.stage++;}
+	public void stageRestore() { this.stage--;}
 }
 
 class CustomerNo{
