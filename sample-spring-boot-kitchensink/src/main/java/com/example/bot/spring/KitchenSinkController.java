@@ -242,7 +242,6 @@ public class KitchenSinkController {
 				log.info("Returns error message {}: {}", replyToken, reply);
 
 				//Creating Filter Result & Template Messages if filtering is done
-
 				this.reply(replyToken, createMenu(reply, text));
 				break;
 			}
@@ -285,9 +284,14 @@ public class KitchenSinkController {
 						tourEnroll.add(new MessageAction(
 								tourID, "I want to enroll in " + tourID + "."));
 						count++;
+						if (actionCount+1 < 3 && count == numTour) {
+							for (int temp = actionCount+1; temp < 3; temp++) {
+								tourEnroll.add(new MessageAction("", ""));
+							}
+						}
 					}
 					carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
-					if ((numTour - count) < 3) break;
+					//if ((numTour - count) < 3) break;
 				}
 				carouselTemplate.add(new CarouselTemplate(carouselColumn));
 				multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
