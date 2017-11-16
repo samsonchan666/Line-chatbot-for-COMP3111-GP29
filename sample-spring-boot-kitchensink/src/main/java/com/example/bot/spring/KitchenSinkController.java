@@ -266,46 +266,6 @@ public class KitchenSinkController {
 		multiMessages.add(new TextMessage(reply));
 		createConfirm(text, multiMessages);
 		createMenu(text, multiMessages);
-		/*if (text.matches("I want to enroll in(.)*")) {
-			customer.stageProceed();
-    		ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-                    "Do you want to book this one?",
-                    new MessageAction("Yes", "Yes"),
-                    new MessageAction("No", "No")
-            );
-    		multiMessages.add(new TemplateMessage("Confirm alt text", confirmTemplate));
-    		return multiMessages;
-		}*/
-		
-		/*List<Tour> tourList = database.getTourList();    
-		if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
-			List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
-			List<CarouselColumn> carouselColumn;
-			List<Action> tourEnroll;
-			int count = 0;
-			int numTour = tourList.size();
-			int templateCount = 0;        	
-			while (count < numTour) {
-				carouselColumn = new ArrayList<CarouselColumn>();
-				for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
-					tourEnroll = new ArrayList<Action>();            			
-					for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
-						String tourID = tourList.get(count).getID();
-						tourEnroll.add(new MessageAction(
-								tourID, "I want to enroll in " + tourID + "."));
-						count++;
-						if (columnCount != 0 && actionCount+1 < 3 && count == numTour) {
-							for (int temp = actionCount+1; temp < 3; temp++) {
-								tourEnroll.add(new MessageAction(" ", " "));
-							}
-						}
-					}
-					carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
-				}
-				carouselTemplate.add(new CarouselTemplate(carouselColumn));
-				multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
-			}
-		}*/
 		return multiMessages;
 	}
 	
@@ -323,7 +283,7 @@ public class KitchenSinkController {
 	
 	private void createMenu(String text, List<Message> multiMessages) {
 		List<Tour> tourList = database.getTourList();    
-		if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
+		if (tourList != null ))) {
 			List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 			List<CarouselColumn> carouselColumn;
 			List<Action> tourEnroll;
