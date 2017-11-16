@@ -243,6 +243,7 @@ public class KitchenSinkController {
 				this.reply(replyToken, createMessages(reply, text));
 				break;
 			}
+        	
         	case 1: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
@@ -252,6 +253,31 @@ public class KitchenSinkController {
         		this.reply(replyToken, createInputMenu());
                 break;
         	}
+        	
+        	case 2: {
+        		String reply = null;
+        		switch (text) {
+        			case "ID": {
+        				this.reply(replyToken, inputOptionReply("ID")); break;
+        			}
+        			case "Name": {
+        				this.reply(replyToken, inputOptionReply("Name")); break;
+        			}
+        			case "Age": {
+        				this.reply(replyToken, inputOptionReply("Age")); break;
+        			}
+        			case "No. of Adults": {
+        				this.reply(replyToken, inputOptionReply("No. of Adults")); break;
+        			}
+        			case "No. of Children": {
+        				this.reply(replyToken, inputOptionReply("No. of Children")); break;
+        			}
+        			case "No. of Toodlers": {
+        				this.reply(replyToken, inputOptionReply("No. of Toodlers")); break;
+        			}
+        		}
+        	}
+        	
 		}
 	}
 
@@ -309,6 +335,7 @@ public class KitchenSinkController {
 	}
 	
 	private TemplateMessage createInputMenu() {
+		customer.stageProceed();
 		CarouselTemplate carouselTemplate = new CarouselTemplate(
 				Arrays.asList(
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
@@ -324,6 +351,10 @@ public class KitchenSinkController {
 				));
 		return new TemplateMessage("Carousel alt text", carouselTemplate);
 		
+	}
+	
+	private String inputOptionReply(String option) {
+		return "Please input " + option + ".";
 	}
 	
 	static String createUri(String path) {
