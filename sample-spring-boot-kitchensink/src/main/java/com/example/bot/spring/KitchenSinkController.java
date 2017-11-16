@@ -340,6 +340,7 @@ public class KitchenSinkController {
 
 	public KitchenSinkController() {
 		database = new SQLDatabaseEngine();
+		customer = new Customer(null, null, 0, null, null);
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 
