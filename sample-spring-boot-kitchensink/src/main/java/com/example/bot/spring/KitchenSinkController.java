@@ -283,7 +283,7 @@ public class KitchenSinkController {
 	
 	private void createMenu(String text, List<Message> multiMessages) {
 		List<Tour> tourList = database.getTourList();    
-		if (tourList != null ))) {
+		if (tourList != null) {
 			List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 			List<CarouselColumn> carouselColumn;
 			List<Action> tourEnroll;
