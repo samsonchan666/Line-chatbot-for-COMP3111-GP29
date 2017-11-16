@@ -220,7 +220,7 @@ public class KitchenSinkController {
 		log.info("Got text message from {}: {}", replyToken, text);
         int stage = customer.getStage();
         switch (stage) {            
-        	case 0 :{
+        	case 0: {
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
 					String userId = event.getSource().getUserId();
@@ -245,17 +245,11 @@ public class KitchenSinkController {
 			}
         	case 1: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
-        			this.replyText(replyToken, "Restore");
+        			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
     				customer.stageRestore();    	
     				break;
-        		}        			
-        		ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-                        "Do it?",
-                        new MessageAction("Yes", "Yes!"),
-                        new MessageAction("No", "No!")
-                );
-                TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-                this.reply(replyToken, templateMessage);
+        		}
+        		this.reply(replyToken, createInputMenu());
                 break;
         	}
 		}
@@ -265,7 +259,7 @@ public class KitchenSinkController {
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
 		createConfirm(text, multiMessages);
-		createMenu(text, multiMessages);
+		createFilterMenu(text, multiMessages);
 		return multiMessages;
 	}
 	
@@ -281,7 +275,7 @@ public class KitchenSinkController {
 		}
 	}
 	
-	private void createMenu(String text, List<Message> multiMessages) {
+	private void createFilterMenu(String text, List<Message> multiMessages) {
 		List<Tour> tourList = database.getTourList();    
 		if (tourList != null) {
 			List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
@@ -312,6 +306,24 @@ public class KitchenSinkController {
 			}
 		}
 		database.resetTourList();
+	}
+	
+	private TemplateMessage createInputMenu() {
+		CarouselTemplate carouselTemplate = new CarouselTemplate(
+				Arrays.asList(
+						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
+								new MessageAction("ID", "ID"),
+								new MessageAction("Name", "Name"), 
+								new MessageAction("Age", "Age"))
+						)),
+						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
+								new MessageAction("No. of Adults", "No. of Adults"),
+								new MessageAction("No. of Children", "No. of Children"), 
+								new MessageAction("No. of Toodlers", "No. of Toodlers"))
+						))
+				));
+		return new TemplateMessage("Carousel alt text", carouselTemplate);
+		
 	}
 	
 	static String createUri(String path) {
