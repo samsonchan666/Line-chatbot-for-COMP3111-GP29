@@ -353,8 +353,8 @@ public class KitchenSinkController {
 		
 	}
 	
-	private String inputOptionReply(String option) {
-		return "Please input " + option + ".";
+	private TextMessage inputOptionReply(String option) {
+		return new TextMessage("Please input " + option + ".");
 	}
 	
 	static String createUri(String path) {
