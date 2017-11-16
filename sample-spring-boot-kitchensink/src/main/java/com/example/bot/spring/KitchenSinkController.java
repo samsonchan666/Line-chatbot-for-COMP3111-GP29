@@ -284,7 +284,7 @@ public class KitchenSinkController {
 						tourEnroll.add(new MessageAction(
 								tourID, "I want to enroll in " + tourID + "."));
 						count++;
-						if (actionCount+1 < 3 && count == numTour) {
+						if (columnCount != 0 && actionCount+1 < 3 && count == numTour) {
 							for (int temp = actionCount+1; temp < 3; temp++) {
 								tourEnroll.add(new MessageAction(" ", " "));
 							}
