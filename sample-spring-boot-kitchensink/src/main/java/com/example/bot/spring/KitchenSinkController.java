@@ -286,7 +286,7 @@ public class KitchenSinkController {
 						count++;
 						if (actionCount+1 < 3 && count == numTour) {
 							for (int temp = actionCount+1; temp < 3; temp++) {
-								tourEnroll.add(new MessageAction("-", "-"));
+								tourEnroll.add(new MessageAction(" ", " "));
 							}
 						}
 					}
