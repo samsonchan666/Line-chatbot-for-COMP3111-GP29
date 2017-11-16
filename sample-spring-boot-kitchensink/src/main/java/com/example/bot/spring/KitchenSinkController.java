@@ -345,6 +345,7 @@ public class KitchenSinkController {
 	}
 
 	private SQLDatabaseEngine database;
+	private Customer customer;
 	private String itscLOGIN;
 
 
