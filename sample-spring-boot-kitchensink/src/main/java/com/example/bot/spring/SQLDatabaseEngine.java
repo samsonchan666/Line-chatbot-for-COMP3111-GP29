@@ -276,7 +276,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	}
 
 	private boolean matchByQuestionKey(String question) {
-		if (text.toLowerCase().matches("(.)*" + text + "(.)*")) return true;
+		if (question.toLowerCase().matches("(.)*" + text + "(.)*")) return true;
 		return false;
 	}
 
