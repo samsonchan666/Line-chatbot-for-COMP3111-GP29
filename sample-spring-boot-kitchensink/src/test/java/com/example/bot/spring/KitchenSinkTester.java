@@ -125,8 +125,8 @@ public class KitchenSinkTester {
 		} catch (Exception e) {
 			thrown = true;
 		}
-		assert result!= null;
-		System.out.println(result);
+		assert (result!= null);
+		assert (result.equals("Each customer need to pay an additional service charge at the rate $60/day/person on top of the tour fee. It is collected by the tour guide at the end of the tour."));
 	}
 
 }
