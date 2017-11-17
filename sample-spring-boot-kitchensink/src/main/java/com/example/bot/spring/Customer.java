@@ -10,6 +10,7 @@ public class Customer {
 	private double paid_amount;				// Ryan Tang
 	private int stage;
 	private int inputOption;
+	private int numInput;
 	
 	public Customer(
 			String id,
@@ -26,6 +27,7 @@ public class Customer {
 		this.paid_amount = paid_amount;		// Ryan Tang
 		this.stage = 0;
 		this.inputOption = -1;
+		this.numInput = 0;
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -110,10 +112,14 @@ public class Customer {
 	public int getStage() { return this.stage;}
 	public void stageProceed() { this.stage++;}
 	public void stageRestore() { this.stage--;}
+	public void stageZero() {this.stage = 0; }
 	
 	public int getInputOption() { return this.inputOption;}
-	public void setInputOption(int inputOption) { this.inputOption = inputOption;}
+	public void setInputOption(int inputOption) { this.inputOption = inputOption; numInput++;}
 	public void resetInputOption() { this.inputOption = -1;}
+	
+	public int getNumInput() { return this.numInput;}
+	public void resetNumInput() { this.numInput = 0;}
 	
 	public boolean inputFinished() {
 		if (id != null && name != null && age != -1 && tour != null && 

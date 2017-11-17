@@ -253,6 +253,7 @@ public class KitchenSinkController {
         		}
         		customer.setTour(database.getSelectedTour());
         		this.reply(replyToken, createInputMenu());
+        		customer.stageProceed();
                 break;
         	}
         	
@@ -261,22 +262,22 @@ public class KitchenSinkController {
         		if (customer.getInputOption() == -1)
         			askInputReply(replyToken, text);
         		else
-        			inputReceive(replyToken, text);    
+        			inputReceive(replyToken, text);        			
         		break;
         	}
         	
         	case 3: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
-        			this.replyText(replyToken, "Okay. You may input your info again.");
+        			List<Message> multiMessages = new ArrayList<Message>();
+        			multiMessages.add(new TextMessage("Okay. You may input your info again."));
+        			multiMessages.add(createInputMenu());
+        			this.reply(replyToken, multiMessages);
     				customer.stageRestore();    	
     				break;
         		}
         		outputFee(replyToken);
-        		if ((text.toLowerCase().matches("restore"))) {  //For testing
-        			this.replyText(replyToken, "restore");
-    				customer.stageRestore();    	
-    				break;
-        		}
+    			customer.stageZero();    	
+    			break;        		
         	}        	
 		}
 	}
@@ -335,7 +336,6 @@ public class KitchenSinkController {
 	}
 	
 	private TemplateMessage createInputMenu() {
-		customer.stageProceed();
 		CarouselTemplate carouselTemplate = new CarouselTemplate(
 				Arrays.asList(
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
@@ -356,40 +356,40 @@ public class KitchenSinkController {
 	private void askInputReply(String replyToken, String text) {
 		switch (text) {
 			case "ID": {
-				this.reply(replyToken, askInput("ID"));
+				this.replyText(replyToken, askInput("ID"));
 				customer.setInputOption(0);
 				break;
 			}
 			case "Name": {
-				this.reply(replyToken, askInput("Name"));
+				this.replyText(replyToken, askInput("Name"));
 				customer.setInputOption(1);
 				break;
 			}
 			case "Age": {
-				this.reply(replyToken, askInput("Age"));
+				this.replyText(replyToken, askInput("Age"));
 				customer.setInputOption(2);
 				break;
 			}
 			case "No. of Adults": {
-				this.reply(replyToken, askInput("No. of Adults"));
+				this.replyText(replyToken, askInput("No. of Adults"));
 				customer.setInputOption(3);
 				break;
 			}
 			case "No. of Children": {
-				this.reply(replyToken, askInput("No. of Children"));
+				this.replyText(replyToken, askInput("No. of Children"));
 				customer.setInputOption(4);
 				break;
 			}
 			case "No. of Toodlers": {
-				this.reply(replyToken, askInput("No. of Toodlers"));
+				this.replyText(replyToken, askInput("No. of Toodlers"));
 				customer.setInputOption(5);
 				break;
 			}
 		}
 	}
 	
-	private TextMessage askInput(String option) {
-		return new TextMessage("Please input " + option + ".");
+	private String askInput(String option) {
+		return "Please input " + option + ".";
 	}
 	
 	private void inputReceive(String replyToken, String text) {
@@ -404,7 +404,11 @@ public class KitchenSinkController {
 		}
 		customer.resetInputOption();
 		if (customer.inputFinished())
-			this.reply(replyToken, confirmInfo());		
+			this.reply(replyToken, confirmInfo());
+		else if (customer.getNumInput() > 2) {
+			this.reply(replyToken, createInputMenu());
+			customer.resetNumInput();
+		}
 	}
 	
 	private List<Message> confirmInfo() {
