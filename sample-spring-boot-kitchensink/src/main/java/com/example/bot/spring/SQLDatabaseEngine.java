@@ -270,7 +270,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	}
 
 	private boolean matchByQuestionMark() {
-		char qm = "?";
+		char qm = '?';
 		if (text.matches("(.)*" + qm + "(.)*")) return true;
 		return false;
 	}
