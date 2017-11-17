@@ -250,7 +250,7 @@ public class KitchenSinkController {
     				customer.stageRestore();    	
     				break;
         		}
-        		customer.setTour(database.getSelectedTour);
+        		customer.setTour(database.getSelectedTour());
         		this.reply(replyToken, createInputMenu());
                 break;
         	}
@@ -405,7 +405,7 @@ public class KitchenSinkController {
 				break;
 			}
 		}
-		this.reply(replyToken, "Your Input is " + text + ".");
+		this.reply(replyToken, new TextMessage("Your Input is " + text + "."));
 		customer.resetInputOption();
 	}
 	
