@@ -256,11 +256,12 @@ public class KitchenSinkController {
         	}
         	
         	case 2: {
-        		String reply = null;
+        		String reply = null;        		    			
         		if (customer.getInputOption() == -1)
         			askInputReply(replyToken, text);
         		else
-        			inputReceive(replyToken, text);        		
+        			inputReceive(replyToken, text);    
+        		break;
         	}
         	
 		}
@@ -378,6 +379,7 @@ public class KitchenSinkController {
 	}
 	
 	private void inputReceive (String replyToken, String text) {
+		List<Message> multiMessages = new ArrayList<Message>();
 		int inputOption = customer.getInputOption();
 		switch (inputOption) {
 			case 0: {
@@ -405,8 +407,23 @@ public class KitchenSinkController {
 				break;
 			}
 		}
-		this.reply(replyToken, new TextMessage(Integer.toString(customer.getCustomerNo().getAdultNo())));
+		multiMessages.add(new TextMessage("Your Input is " + text + "."));
+		if (customer.inputFinished())
+			addConfirmInfo(multiMessages);
+		this.reply(replyToken, multiMessages);
 		customer.resetInputOption();
+	}
+	
+	private void addConfirmInfo (List<Message> multiMessages) {
+		StringBuilder confirmInfo = new StringBuilder();
+		confirmInfo.append("Please confirm you have input the correct info.\n");
+		confirmInfo.append("ID: " + customer.getId() + "\n");
+		confirmInfo.append("Name: " + customer.getName() + "\n");
+		confirmInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
+		confirmInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
+		confirmInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
+		confirmInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo) + "\n");
+		multiMessages.add(new TextMessage(confirmInfo.toString()));
 	}
 	
 	static String createUri(String path) {
@@ -453,7 +470,7 @@ public class KitchenSinkController {
 
 	public KitchenSinkController() {
 		database = new SQLDatabaseEngine();
-		customer = new Customer(null, null, -1, null, null, null, -1);
+		customer = new Customer(null, null, -1, null, null, -1);
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 

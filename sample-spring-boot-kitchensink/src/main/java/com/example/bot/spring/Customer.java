@@ -15,8 +15,7 @@ public class Customer {
 			String id,
 			String name,
 			int age,
-			Tour tour, 
-			CustomerNo customerNo,
+			Tour tour,
 			Fee fee,						// Ryan Tang
 			double paid_amount) {			// Ryan Tang
 		this.id = id;
@@ -116,6 +115,13 @@ public class Customer {
 	public int getInputOption() { return this.inputOption;}
 	public void setInputOption(int inputOption) { this.inputOption = inputOption;}
 	public void resetInputOption() { this.inputOption = -1;}
+	
+	public boolean inputFinished() {
+		if (id != null && name != null && age != -1 && tour != null && 
+				customerNo.customerNoFinished())
+			return true;
+		return false;
+	}
 }
 
 class CustomerNo{
@@ -141,7 +147,11 @@ class CustomerNo{
 	public void setToodlerNo(int toodlerNo) { this.toodlerNo = toodlerNo;}
 	public int getToodlerNo() { return this.toodlerNo;}
 	
-	
+	public boolean customerNoFinished() {
+		if (adultNo != -1 && childrenNo != -1 && toodlerNo != -1)
+			return true;
+		return false;
+	}
 }
 
 // Working form here to ...
