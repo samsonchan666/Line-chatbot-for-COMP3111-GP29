@@ -299,8 +299,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     
     void resetTourList() { tourList = null;}
     
-    List<Calendar> listBookingDate(String text) throws Exception{
-        List<Calendar> result = new ArrayList<Calendar>();
+    List<String> listBookingDate(String text) throws Exception{
+        List<String> result = new ArrayList<String>();
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM booking "

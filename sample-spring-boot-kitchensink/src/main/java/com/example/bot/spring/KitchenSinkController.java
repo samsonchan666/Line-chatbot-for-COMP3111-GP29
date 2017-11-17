@@ -297,7 +297,7 @@ public class KitchenSinkController {
 	
 	private void createDaySelect(String text, List<Message> multiMessages) {
 		String selectedTour = database.getSelectedTour().getID().toLowerCase();
-		List<Calendar> tourDateList = database.listBookingDate(selectedTour);
+		List<String> tourDateList = database.listBookingDate(selectedTour);
 		List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 		List<CarouselColumn> carouselColumn;
 		List<Action> tourEnroll;
@@ -309,7 +309,7 @@ public class KitchenSinkController {
 			for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
 				tourEnroll = new ArrayList<Action>();            			
 				for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
-					String tourDate = tourDateList.get(count).toString();
+					String tourDate = tourDateList.get(count);
 					tourEnroll.add(new MessageAction(
 							tourDate, "I pick " + tourDate + "."));
 					count++;
