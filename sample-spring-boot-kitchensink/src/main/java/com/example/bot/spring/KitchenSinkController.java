@@ -256,25 +256,8 @@ public class KitchenSinkController {
         	
         	case 2: {
         		String reply = null;
-        		switch (text) {
-        			case "ID": {
-        				this.reply(replyToken, inputOptionReply("ID")); break;
-        			}
-        			case "Name": {
-        				this.reply(replyToken, inputOptionReply("Name")); break;
-        			}
-        			case "Age": {
-        				this.reply(replyToken, inputOptionReply("Age")); break;
-        			}
-        			case "No. of Adults": {
-        				this.reply(replyToken, inputOptionReply("No. of Adults")); break;
-        			}
-        			case "No. of Children": {
-        				this.reply(replyToken, inputOptionReply("No. of Children")); break;
-        			}
-        			case "No. of Toodlers": {
-        				this.reply(replyToken, inputOptionReply("No. of Toodlers")); break;
-        			}
+        		if (customer.getInputOption() == -1) {
+        			inputReply(replyToken, text);
         		}
         	}
         	
@@ -353,7 +336,42 @@ public class KitchenSinkController {
 		
 	}
 	
-	private TextMessage inputOptionReply(String option) {
+	private void inputReply(String replyToken, String text) {
+		switch (text) {
+			case "ID": {
+				this.reply(replyToken, inputReplyString("ID"));
+				customer.setInputOption(0);
+				break;
+			}
+			case "Name": {
+				this.reply(replyToken, inputReplyString("Name"));
+				customer.setInputOption(1);
+				break;
+			}
+			case "Age": {
+				this.reply(replyToken, inputReplyString("Age"));
+				customer.setInputOption(2);
+				break;
+			}
+			case "No. of Adults": {
+				this.reply(replyToken, inputReplyString("No. of Adults"));
+				customer.setInputOption(3);
+				break;
+			}
+			case "No. of Children": {
+				this.reply(replyToken, inputReplyString("No. of Children"));
+				customer.setInputOption(4);
+				break;
+			}
+			case "No. of Toodlers": {
+				this.reply(replyToken, inputReplyString("No. of Toodlers"));
+				customer.setInputOption(5);
+				break;
+			}
+		}
+	}
+	
+	private TextMessage inputReplyString(String option) {
 		return new TextMessage("Please input " + option + ".");
 	}
 	

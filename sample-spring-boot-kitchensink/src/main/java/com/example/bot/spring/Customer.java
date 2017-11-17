@@ -9,6 +9,7 @@ public class Customer {
 	private Fee fee;						// Ryan Tang
 	private double paid_amount;				// Ryan Tang
 	private int stage;
+	private int inputOption;
 	
 	public Customer(
 			String id,
@@ -26,6 +27,7 @@ public class Customer {
 		this.fee = fee;						// Ryan Tang
 		this.paid_amount = paid_amount;		// Ryan Tang
 		this.stage = 0;
+		this.inputOption = -1;
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -110,6 +112,10 @@ public class Customer {
 	public int getStage() { return this.stage;}
 	public void stageProceed() { this.stage++;}
 	public void stageRestore() { this.stage--;}
+	
+	public int getInputOption() { return this.inputOption;}
+	public void setInputOption(int inputOption) { this.inputOption = inputOption;}
+	public void resetInputOption() { this.inputOption = -1;}
 }
 
 class CustomerNo{
