@@ -2,7 +2,7 @@ package com.example.bot.spring;
 
 public class Booking {
 	private String ID;
-	private Tour tour;
+	private String tourId;
 	private TourGuide tourGuide;
 	private String hotel;
 	private int capacity;
@@ -10,13 +10,13 @@ public class Booking {
 
 	public Booking(
 			String ID,
-			Tour tour,
+			String tourId,
 			TourGuide tourGuide,
 			String hotel,
 			int capacity,
 			int miniCustomer) {
 		this.ID = ID;
-		this.tour = tour;
+		this.tourId = tourId;
 		this.tourGuide = tourGuide;
 		this.hotel = hotel;
 		this.capacity = capacity;
@@ -26,8 +26,8 @@ public class Booking {
 	public void setID(String ID) { this.ID = ID;}
 	public String getID() { return this.ID;}
 	
-	public void setTour(Tour tour) { this.tour = tour;}
-	public Tour getTour() { return this.tour;}
+	public void setTour(String tourId) { this.tourId = tourId;}
+	public String getTour() { return this.tourId;}
 	
 	public void setTourGuide(TourGuide tourGuide) { this.tourGuide = tourGuide;}
 	public TourGuide getTourGuide() { return this.tourGuide;}
