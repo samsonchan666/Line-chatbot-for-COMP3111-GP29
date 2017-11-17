@@ -253,6 +253,7 @@ public class KitchenSinkController {
         		}
         		customer.setTour(database.getSelectedTour());
         		this.reply(replyToken, createInputMenu());
+        		customer.stageProceed();
                 break;
         	}
         	
@@ -261,7 +262,7 @@ public class KitchenSinkController {
         		if (customer.getInputOption() == -1)
         			askInputReply(replyToken, text);
         		else
-        			inputReceive(replyToken, text);    
+        			inputReceive(replyToken, text);        			
         		break;
         	}
         	
@@ -332,7 +333,6 @@ public class KitchenSinkController {
 	}
 	
 	private TemplateMessage createInputMenu() {
-		customer.stageProceed();
 		CarouselTemplate carouselTemplate = new CarouselTemplate(
 				Arrays.asList(
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
@@ -401,7 +401,9 @@ public class KitchenSinkController {
 		}
 		customer.resetInputOption();
 		if (customer.inputFinished())
-			this.reply(replyToken, confirmInfo());		
+			this.reply(replyToken, confirmInfo());
+		else
+			this.reply(replyToken, createInputMenu());
 	}
 	
 	private List<Message> confirmInfo() {
