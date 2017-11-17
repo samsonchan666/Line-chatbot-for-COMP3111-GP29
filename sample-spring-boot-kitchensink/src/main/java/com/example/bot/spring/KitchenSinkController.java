@@ -393,15 +393,15 @@ public class KitchenSinkController {
 				break;
 			}
 			case 3: {
-				customerNo.setAdultNo(Integer.parseInt(text));
+				customer.getCustomerNo().setAdultNo(Integer.parseInt(text));
 				break;
 			}
 			case 4: {
-				customer.setChildrenNo(Integer.parseInt(text));
+				customer.getCustomerNo().setChildrenNo(Integer.parseInt(text));
 				break;
 			}
 			case 5: {
-				customer.setToodlerNo(Integer.parseInt(text));
+				customer.getCustomerNo().setToodlerNo(Integer.parseInt(text));
 				break;
 			}
 		}
@@ -452,14 +452,12 @@ public class KitchenSinkController {
 
 
 	public KitchenSinkController() {
-		database = new SQLDatabaseEngine();		
-		customerNo = new CustomerNo(-1, -1, -1);
-		customer = new Customer(null, null, -1, null, customerNo, null, -1);
+		database = new SQLDatabaseEngine();
+		customer = new Customer(null, null, -1, null, new CustomerNo(-1, -1, -1), null, -1);
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 
 	private SQLDatabaseEngine database;
-	private CustomerNo customerNo;
 	private Customer customer;	
 	private String itscLOGIN;
 
