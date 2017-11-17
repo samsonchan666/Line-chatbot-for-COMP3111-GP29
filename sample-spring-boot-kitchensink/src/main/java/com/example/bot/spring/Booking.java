@@ -36,7 +36,7 @@ public class Booking {
 
 	public void setDate(Calendar date) { this.date = date;}
 	public Calendar getDate() {return this.date;}
-	public static int dateToday(String dateString){
+	public static int dateToDay(String dateString){
 		String[] dateArr = dateString.split("/");
 		Calendar date = Calendar.getInstance();
 		date.set(Integer.parseInt(dateArr[2]),Integer.parseInt(dateArr[1])-1,Integer.parseInt(dateArr[0]));
