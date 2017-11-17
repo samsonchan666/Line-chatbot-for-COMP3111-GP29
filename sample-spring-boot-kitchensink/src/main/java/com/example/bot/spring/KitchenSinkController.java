@@ -381,38 +381,20 @@ public class KitchenSinkController {
 	private void inputReceive (String replyToken, String text) {
 		int inputOption = customer.getInputOption();
 		switch (inputOption) {
-			case 0: {
-				customer.setId(text);
-				break;
-			}
-			case 1: {
-				customer.setName(text);
-				break;
-			}
-			case 2: {
-				customer.setAge(Integer.parseInt(text));
-				break;
-			}
-			case 3: {
-				customer.getCustomerNo().setAdultNo(Integer.parseInt(text));
-				break;
-			}
-			case 4: {
-				customer.getCustomerNo().setChildrenNo(Integer.parseInt(text));
-				break;
-			}
-			case 5: {
-				customer.getCustomerNo().setToodlerNo(Integer.parseInt(text));
-				break;
-			}
+			case 0: { customer.setId(text); break;}
+			case 1: { customer.setName(text); break;}
+			case 2: { customer.setAge(Integer.parseInt(text)); break;}
+			case 3: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
+			case 4: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
+			case 5: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
 		}
 		if (customer.inputFinished())
-			this.reply(replyToken, addConfirmInfo);
+			this.reply(replyToken, confirmInfo());
 		
 		customer.resetInputOption();
 	}
 	
-	private TextMessage addConfirmInfo (List<Message> multiMessages) {
+	private TextMessage confirmInfo () {
 		StringBuilder confirmInfo = new StringBuilder();
 		confirmInfo.append("Please check you have input the correct info.\n");
 		confirmInfo.append("ID: " + customer.getId() + "\n");
