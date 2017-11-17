@@ -17,7 +17,7 @@ import java.util.regex.*;
 public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;
     String text = null;
-    private StringBuilder filterList = null;
+    private Tour selectedTour = null;
     private List<Tour> tourList = null;
     @Override
     String search(String text) throws Exception {
@@ -25,12 +25,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         String result = null;
         this.text = text;
         this.connection = this.getConnection();
-
-//        result = searchRes();
-//        if (result != null){
-//            connection.close();
-//            return result;
-//        }
 
         result = searchTour();
         if (result != null){
@@ -106,7 +100,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 String name = rs.getString("name").toLowerCase();
                 String id = rs.getString("id").toLowerCase();
                 if ( !(matchByName(name) || matchByID(id)) ) continue;
-                Tour tour = new Tour(rs.getString("id"),
+                selectedTour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
                         rs.getInt("duration"),
@@ -115,7 +109,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getString("dates")
                 );
 
-                StringBuilder str = tour.getDetailTourInfo();
+                StringBuilder str = selectedTour.getDetailTourInfo();
 
                 result = str.toString();
             }
@@ -154,14 +148,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-                    filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE);
-                    result = filterList.toString();
-                    //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE).toString();
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DATE).toString();
                 }
                 else {
-                    filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE);
-                    result = filterList.toString();
-                    //result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
+                    result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DATE).toString();
                 }
 
             }
@@ -200,15 +190,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             if (hasResult) {
                 if (matchBySort() && matchByPrice()){
-
-                    filterList = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION);
-                    result = filterList.toString();
-                    //result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION).toString();
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
                 else {
-                    filterList = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION);
-                    result = filterList.toString();
-                    //result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
+                    result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.ATTRACTION).toString();
                 }
 
             }
@@ -257,23 +242,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
-
-//    List<String> getFilterList() throws Exception {
-//        if (filterList == null) return null;
-//        List<String> result = Arrays.asList(filterList.toString().split("\n"));
-//        return result;
-//    }
-//
-//    void resetFilterList() {
-//        filterList = null;
-//    }
-
-
+    Tour getSelectedTour() { 
+    	if (selectedTour == null) return null;
+    	return selectedTour;
+    }
     
     List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
     }
     
-
+    void resetTourList() { tourList = null;}
 }

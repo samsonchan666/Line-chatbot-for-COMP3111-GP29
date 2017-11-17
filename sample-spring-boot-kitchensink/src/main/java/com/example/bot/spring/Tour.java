@@ -62,8 +62,8 @@ public class Tour {
 		tourBuilder.append(this.id + " " + this.name + "\n");
 		tourBuilder.append("Attractions:\n" + this.attraction + "\n");
 		tourBuilder.append("We have confirmed tour on " + this.dates + "\n");
-		tourBuilder.append("Fee: Weekday " + this.weekDayPrice + " / Weekend " + this.weekEndPrice + "\n");
-		tourBuilder.append("Do you want to book this one?");
+		tourBuilder.append("Fee: Weekday " + this.weekDayPrice + " / Weekend " + this.weekEndPrice);
+		//tourBuilder.append("Do you want to book this one?");
 		return tourBuilder;
 	}
 

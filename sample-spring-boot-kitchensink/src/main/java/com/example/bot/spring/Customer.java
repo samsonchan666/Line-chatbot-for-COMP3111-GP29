@@ -8,22 +8,24 @@ public class Customer {
 	private CustomerNo customerNo;
 	private Fee fee;						// Ryan Tang
 	private double paid_amount;				// Ryan Tang
+	private int stage;
+	private int inputOption;
 	
 	public Customer(
 			String id,
 			String name,
 			int age,
-			Tour tour, 
-			CustomerNo customerNo,
-			Fee fee,						// Ryan Tang
+			Tour tour,
 			double paid_amount) {			// Ryan Tang
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.tour = tour;
-		this.customerNo = customerNo;
-		this.fee = fee;						// Ryan Tang
+		this.customerNo = new CustomerNo(-1, -1, -1);
+		this.fee = new Fee(0, 0, 0);		// Ryan Tang
 		this.paid_amount = paid_amount;		// Ryan Tang
+		this.stage = 0;
+		this.inputOption = -1;
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -104,6 +106,21 @@ public class Customer {
 	public double getPayAmount() { return paid_amount;}
 	public boolean haveRemainPayment()  { return (paid_amount >= fee.getTotalFee());}
 	// here (by Ryan Tang)
+	
+	public int getStage() { return this.stage;}
+	public void stageProceed() { this.stage++;}
+	public void stageRestore() { this.stage--;}
+	
+	public int getInputOption() { return this.inputOption;}
+	public void setInputOption(int inputOption) { this.inputOption = inputOption;}
+	public void resetInputOption() { this.inputOption = -1;}
+	
+	public boolean inputFinished() {
+		if (id != null && name != null && age != -1 && tour != null && 
+				customerNo.inputDone())
+			return true;
+		return false;
+	}
 }
 
 class CustomerNo{
@@ -129,7 +146,11 @@ class CustomerNo{
 	public void setToodlerNo(int toodlerNo) { this.toodlerNo = toodlerNo;}
 	public int getToodlerNo() { return this.toodlerNo;}
 	
-	
+	public boolean inputDone() {
+		if (adultNo != -1 && childrenNo != -1 && toodlerNo != -1)
+			return true;
+		return false;
+	}
 }
 
 // Working form here to ...
@@ -153,7 +174,7 @@ class Fee{
 	public void setAdultFee(double fee) { this.adult_fee += fee;} // adult has no discount
 	public double getAdultFee() { return adult_fee;}
 	
-	public void setChildrenFee(double fee) { this.children_fee += fee*0.2;} // children has 20% discount, toodler is free
+	public void setChildrenFee(double fee) { this.children_fee += fee*0.8;} // children has 20% discount, toodler is free
 	public double getChildrenFee() { return children_fee;}
 } 
 // here (by Ryan Tang)
