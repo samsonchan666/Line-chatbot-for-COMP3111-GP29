@@ -42,6 +42,19 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             connection.close();
             return result;
         }
+        
+        result = searchTourByRegion();
+        if (result != null){
+            connection.close();
+            return result;
+        }
+        
+        result = searchTourByDuration();
+        if (result != null){
+            connection.close();
+            return result;
+        }
+        
         connection.close();
         throw new Exception("NOT FOUND");
     }
@@ -250,6 +263,54 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             System.out.println("searchTourByRegion()" + e);
         }
         return result;
+    }
+    
+    private String searchTourByDuration() throws Exception{
+        String result = null;
+        StringBuilder str = new StringBuilder();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM tour "
+            );
+            ResultSet rs = stmt.executeQuery();
+            tourList = new ArrayList<Tour>() ;
+            boolean hasResult = false;
+            while(rs.next()) {
+                String attraction = rs.getString("duration").toLowerCase();
+                if (!(matchByDuration(duration))) continue;
+                Tour tour = new Tour(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("attraction"),
+                        rs.getString("region"),
+                        rs.getInt("duration"),
+                        rs.getInt("weekDayPrice"),
+                        rs.getInt("weekEndPrice"),
+                        rs.getString("dates")
+                );
+                tourList.add(tour);
+                hasResult = true;
+            }
+            if (hasResult) {
+                if (matchBySort() && matchByPrice()){
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.DURATION).toString();
+                }
+                else {
+                    result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.DURATION).toString();
+                }
+
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTourByDuration()" + e);
+        }
+        return result;
+    }
+    
+    private boolean matchByDuration(String id){
+        if (text.toLowerCase().matches("(.)*" + duration + "days" + "(.)*")) return true;
+        return false;
     }
     
     private boolean matchByRegion(String region){
