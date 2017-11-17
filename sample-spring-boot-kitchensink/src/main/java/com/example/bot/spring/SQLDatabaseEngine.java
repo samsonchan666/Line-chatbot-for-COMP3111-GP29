@@ -299,9 +299,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     
     void resetTourList() { tourList = null;}
     
-    List<String> listBookingDate(String text) throws Exception{
+    List<String> listBookingDate(String text) {
         List<String> result = new ArrayList<String>();
-        try {
+        
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM booking "
             );
@@ -313,10 +313,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             }
             rs.close();
             stmt.close();
-        }
-        catch (Exception e){
-            System.out.println("searchTour()" + e);
-        }
         return result;
     }
 }
