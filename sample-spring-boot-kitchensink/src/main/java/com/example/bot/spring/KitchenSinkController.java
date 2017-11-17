@@ -218,59 +218,17 @@ public class KitchenSinkController {
 		String text = content.getText();
 
 		log.info("Got text message from {}: {}", replyToken, text);
-		switch (text) {
-			case "profile": {
-				String userId = event.getSource().getUserId();
-				if (userId != null) {
-					lineMessagingClient
-							.getProfile(userId)
-							.whenComplete(new ProfileGetter (this, replyToken, ""));
-				} else {
-					this.replyText(replyToken, "Bot can't use profile API without user ID");
-				}
-				break;
-			}
-			case "confirm": {
-				ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-						"Do it?",
-						new MessageAction("Yes", "Yes!"),
-						new MessageAction("No", "No!")
-				);
-				TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-				this.reply(replyToken, templateMessage);
-				break;
-			}
-			case "carousel": {
-				String imageUrl = createUri("/static/buttons/1040.jpg");
-				CarouselTemplate carouselTemplate = new CarouselTemplate(
-						Arrays.asList(
-								new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-										new URIAction("Go to line.me",
-												"https://line.me"),
-										new PostbackAction("Say hello1",
-												"hello 1")
-								)),
-								new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-										new PostbackAction("say hello2",
-												"hello 2",
-												"hello 2"),
-										new MessageAction("Say message",
-												"Rice=sad")
-								))
-						));
-				TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
-				this.reply(replyToken, templateMessage);
-				break;
-			}
-
-			default:{
+		//0 for searching, 1 for confirm tour, 2 for ask input
+        int stage = customer.getStage();
+        switch (stage) {            
+        	case 0: {
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
 					String userId = event.getSource().getUserId();
 					if (userId != null) {
 						lineMessagingClient
-								.getProfile(userId)
-								.whenComplete(new ProfileGetter (this, replyToken, "Welcome"));
+						.getProfile(userId)
+						.whenComplete(new ProfileGetter (this, replyToken, "Welcome"));
 					}
 					break;
 				}
@@ -283,42 +241,198 @@ public class KitchenSinkController {
 				log.info("Returns error message {}: {}", replyToken, reply);
 
 				//Creating Filter Result & Template Messages if filtering is done
-				List<Message> multiMessages = new ArrayList<Message>();
-				multiMessages.add(new TextMessage(reply));
-				//List<String> tour = database.getFilterList();
-				List<Tour> tourList = database.getTourList();
+				this.reply(replyToken, createMessages(reply, text));
+				break;
+			}
+        	
+        	case 1: {
+        		if ((text.toLowerCase().matches("no(.)*"))) {
+        			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
+    				customer.stageRestore();    	
+    				break;
+        		}
+        		customer.setTour(database.getSelectedTour());
+        		this.reply(replyToken, createInputMenu());
+                break;
+        	}
+        	
+        	case 2: {
+        		String reply = null;        		    			
+        		if (customer.getInputOption() == -1)
+        			askInputReply(replyToken, text);
+        		else
+        			inputReceive(replyToken, text);    
+        		break;
+        	}
+        	
+        	case 3: {
+        		if ((text.toLowerCase().matches("no(.)*"))) {
+        			this.replyText(replyToken, "Okay. You may input your info again.");
+    				customer.stageRestore();    	
+    				break;
+        		}
+        		outputFee(replyToken);
+        		if ((text.toLowerCase().matches("restore"))) {  //For testing
+        			this.replyText(replyToken, "restore");
+    				customer.stageRestore();    	
+    				break;
+        		}
+        	}        	
+		}
+	}
 
-				if (tourList != null && !(text.matches("I want to enroll in(.)*"))) {
-					List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
-					List<CarouselColumn> carouselColumn;
-					List<Action> tourEnroll;
-					int count = 0;
-					int numTour = tourList.size();
-					int templateCount = 0;
-					while (count < numTour) {
-						carouselColumn = new ArrayList<CarouselColumn>();
-						for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {
-							tourEnroll = new ArrayList<Action>();
-							for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {
-								String tourID = tourList.get(count).getID();
-								tourEnroll.add(new MessageAction(
-										tourID, "I want to enroll in " + tourID + "."));
-								count++;
+	private List<Message> createMessages(String reply, String text){
+		List<Message> multiMessages = new ArrayList<Message>();
+		multiMessages.add(new TextMessage(reply));
+		if (text.matches("I want to enroll in(.)*")) {
+			createConfirm("Do you want to book this one?", multiMessages);
+		}		
+		createFilterMenu(text, multiMessages);
+		return multiMessages;
+	}
+	
+	private void createConfirm(String question, List<Message> multiMessages) {
+		customer.stageProceed();
+    	ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+    			question, 
+    			new MessageAction("Yes", "Yes"), 
+    			new MessageAction("No", "No")
+        );
+    	multiMessages.add(new TemplateMessage("Confirm alt text", confirmTemplate));		
+	}
+	
+	private void createFilterMenu(String text, List<Message> multiMessages) {
+		List<Tour> tourList = database.getTourList();    
+		if (tourList != null) {
+			List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
+			List<CarouselColumn> carouselColumn;
+			List<Action> tourEnroll;
+			int count = 0;
+			int numTour = tourList.size();
+			int templateCount = 0;        	
+			while (count < numTour) {
+				carouselColumn = new ArrayList<CarouselColumn>();
+				for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
+					tourEnroll = new ArrayList<Action>();            			
+					for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
+						String tourID = tourList.get(count).getID();
+						tourEnroll.add(new MessageAction(
+								tourID, "I want to enroll in " + tourID + "."));
+						count++;
+						if (columnCount != 0 && actionCount+1 < 3 && count == numTour) {
+							for (int temp = actionCount+1; temp < 3; temp++) {
+								tourEnroll.add(new MessageAction(" ", " "));
 							}
-							carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
-							if ((numTour - count) < 3) break;
 						}
-						carouselTemplate.add(new CarouselTemplate(carouselColumn));
-						multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
 					}
+					carouselColumn.add(new CarouselColumn(null, null, "Tour Selection", tourEnroll));
 				}
-				this.reply(replyToken, multiMessages);
-				//database.resetFilterList();
+				carouselTemplate.add(new CarouselTemplate(carouselColumn));
+				multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
+			}
+		}
+		database.resetTourList();
+	}
+	
+	private TemplateMessage createInputMenu() {
+		customer.stageProceed();
+		CarouselTemplate carouselTemplate = new CarouselTemplate(
+				Arrays.asList(
+						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
+								new MessageAction("ID", "ID"),
+								new MessageAction("Name", "Name"), 
+								new MessageAction("Age", "Age")
+						)),
+						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
+								new MessageAction("No. of Adults", "No. of Adults"),
+								new MessageAction("No. of Children", "No. of Children"), 
+								new MessageAction("No. of Toodlers", "No. of Toodlers")
+						))
+				));
+		return new TemplateMessage("Carousel alt text", carouselTemplate);
+		
+	}
+	
+	private void askInputReply(String replyToken, String text) {
+		switch (text) {
+			case "ID": {
+				this.reply(replyToken, askInput("ID"));
+				customer.setInputOption(0);
+				break;
+			}
+			case "Name": {
+				this.reply(replyToken, askInput("Name"));
+				customer.setInputOption(1);
+				break;
+			}
+			case "Age": {
+				this.reply(replyToken, askInput("Age"));
+				customer.setInputOption(2);
+				break;
+			}
+			case "No. of Adults": {
+				this.reply(replyToken, askInput("No. of Adults"));
+				customer.setInputOption(3);
+				break;
+			}
+			case "No. of Children": {
+				this.reply(replyToken, askInput("No. of Children"));
+				customer.setInputOption(4);
+				break;
+			}
+			case "No. of Toodlers": {
+				this.reply(replyToken, askInput("No. of Toodlers"));
+				customer.setInputOption(5);
 				break;
 			}
 		}
 	}
-
+	
+	private TextMessage askInput(String option) {
+		return new TextMessage("Please input " + option + ".");
+	}
+	
+	private void inputReceive(String replyToken, String text) {
+		int inputOption = customer.getInputOption();
+		switch (inputOption) {
+			case 0: { customer.setId(text); break;}
+			case 1: { customer.setName(text); break;}
+			case 2: { customer.setAge(Integer.parseInt(text)); break;}
+			case 3: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
+			case 4: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
+			case 5: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
+		}
+		customer.resetInputOption();
+		if (customer.inputFinished())
+			this.reply(replyToken, confirmInfo());		
+	}
+	
+	private List<Message> confirmInfo() {
+		List<Message> multiMessages = new ArrayList<Message>();
+		StringBuilder currentInfo = new StringBuilder();
+		currentInfo.append("Please confirm you have input the correct info.\n");
+		currentInfo.append("Tour chosen: " + customer.getTour().getID() + customer.getTour().getName() + "\n");
+		currentInfo.append("ID: " + customer.getId() + "\n");
+		currentInfo.append("Name: " + customer.getName() + "\n");
+		currentInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
+		currentInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
+		currentInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
+		currentInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));
+		multiMessages.add(new TextMessage(currentInfo.toString()));
+		createConfirm("Is the info correct?", multiMessages);
+		return multiMessages;
+	}
+	
+	private void outputFee(String replyToken) {
+		customer.calculateFee();
+		StringBuilder feeInfo = new StringBuilder();
+		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
+		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
+		feeInfo.append("No fee charged for toodlers\n");
+		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
+		this.reply(replyToken, new TextMessage(feeInfo.toString()));
+	}
+	
 	static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
 	}
@@ -363,10 +477,12 @@ public class KitchenSinkController {
 
 	public KitchenSinkController() {
 		database = new SQLDatabaseEngine();
+		customer = new Customer(null, null, -1, null, -1);
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 
 	private SQLDatabaseEngine database;
+	private Customer customer;	
 	private String itscLOGIN;
 
 
