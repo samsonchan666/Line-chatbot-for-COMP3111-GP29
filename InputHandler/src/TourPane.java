@@ -5,7 +5,7 @@ import javax.swing.*;
 
 import java.awt.*;
 
-public class TourPane {
+public class TourPane extends JPanel implements CenterPane{
     //Labels to identify the fields
     private JLabel idLabel;
     private JLabel nameLabel;
@@ -45,40 +45,23 @@ public class TourPane {
 
     DatabaseEngine databaseEngine;
 
-    public TourPane(){
+    public TourPane() {
+        super(new BorderLayout());
         initLabelField();
+        initTourPanel();
         try {
             databaseEngine = new DatabaseEngine();
         }
         catch (Exception e){
             e.printStackTrace();
         }
-
-        labelPane = new JPanel(new GridLayout(0,1));
-        labelPane.add(idLabel);
-        labelPane.add(nameLabel);
-        labelPane.add(descripLabel);
-        labelPane.add(durationLabel);
-        labelPane.add(dayLabel);
-        labelPane.add(weekDayCostLabel);
-        labelPane.add(weekEndCostLabel);
-
-        fieldPane = new JPanel(new GridLayout(0,1));
-        fieldPane.add(idField);
-        fieldPane.add(nameField);
-        fieldPane.add(descripField);
-        fieldPane.add(durationField);
-        fieldPane.add(dayField);
-        fieldPane.add(weekDayCostField);
-        fieldPane.add(weekEndCostField);
+        add(labelPane,BorderLayout.LINE_START);
+        add(fieldPane,BorderLayout.LINE_END);
     }
-
-    public JPanel getLabelPane() { return labelPane;}
-    public JPanel getFieldPane() { return fieldPane;}
 
     public String performSubmit(){
         getFields();
-        if (isValid()) {
+        if (inputIsValid()) {
             reset();
             addToDatabase();
             return "Tour inserted successfully ";
@@ -105,7 +88,7 @@ public class TourPane {
         }
     }
 
-    private boolean isValid(){
+    private boolean inputIsValid(){
         return CheckingHandler.inputCheck(id, duration, weekDayCost, weekEndCost);
     }
 
@@ -165,6 +148,26 @@ public class TourPane {
         dayLabel.setLabelFor(descripField);
         weekDayCostLabel.setLabelFor(weekDayCostField);
         weekEndCostLabel.setLabelFor(weekEndCostField);
+    }
+
+    private void initTourPanel(){
+        labelPane = new JPanel(new GridLayout(0,1));
+        labelPane.add(idLabel);
+        labelPane.add(nameLabel);
+        labelPane.add(descripLabel);
+        labelPane.add(durationLabel);
+        labelPane.add(dayLabel);
+        labelPane.add(weekDayCostLabel);
+        labelPane.add(weekEndCostLabel);
+
+        fieldPane = new JPanel(new GridLayout(0,1));
+        fieldPane.add(idField);
+        fieldPane.add(nameField);
+        fieldPane.add(descripField);
+        fieldPane.add(durationField);
+        fieldPane.add(dayField);
+        fieldPane.add(weekDayCostField);
+        fieldPane.add(weekEndCostField);
     }
 
 }

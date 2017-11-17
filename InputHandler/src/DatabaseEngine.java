@@ -74,8 +74,9 @@ public class DatabaseEngine {
                 preparedStatement .executeUpdate();
 //                System.out.println(attribute[0] + " " + attribute[1] + " " + attribute[2]
 //                        + " " + attribute[3] + " " + attribute[4] + " " + attribute[5]);
-                br.close();
+
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -128,6 +129,7 @@ public class DatabaseEngine {
 //                System.out.println(attribute[0] + " " + attribute[1] + " " + attribute[2]
 //                        + " " + attribute[3] + " " + attribute[4] + " " + attribute[5]);
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,46 +153,39 @@ public class DatabaseEngine {
     public void addFAQData()  throws URISyntaxException, SQLException{
         Statement stmt = connection.createStatement();
 
-        String sqlDelete = "delete from FAQ";
+        String sqlDelete = "delete from faq";
         stmt.executeUpdate(sqlDelete);
 
-        String sqlInsert = "insert into FAQ values (?, ?)";
+        String sqlInsert = "insert into faq values (?, ?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
 
-        String csvFile = "./faq_database.csv";
+        String csvFile = "./faq.txt";
         String line = null;
-        String cvsSplitBy = "?,";
+        String cvsSplitBy = "\t";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 
-            boolean first = true;
             while ((line = br.readLine()) != null) {
 
-                //ignore first row
-                if (first) {
-                    first = false;
-                    continue;
-                }
-
-                // use comma as separator
                 String[] attribute = line.split(cvsSplitBy);
 
-                if (attribute.length < 2) continue;
-                preparedStatement.setString(1, attribute[0]);
-                preparedStatement.setString(2, attribute[1]);
+                preparedStatement.setString(1, attribute[0].trim());
+                preparedStatement.setString(2, attribute[1].trim());
 
                 preparedStatement .executeUpdate();
 
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String strSelect = "select Question from FAQ";
+        String strSelect = "select * from faq";
         ResultSet rset = stmt.executeQuery(strSelect);
         while(rset.next()) {   // Move the cursor to the next row
-            System.out.println(rset.getString("Answer"));
+            System.out.println(rset.getString("keywords"));
+            System.out.println(rset.getString("respond"));
         }
     }
 
@@ -214,7 +209,6 @@ public class DatabaseEngine {
 
         printTour();
         preparedStatement.close();
-
     }
 
     public void printTour() throws URISyntaxException, SQLException{
@@ -228,6 +222,29 @@ public class DatabaseEngine {
                     + rset.getInt("duration") + ", "
                     + rset.getInt("weekDayPrice") + ", "
                     + rset.getInt("weekEndPrice"));
+        }
+        rset.close();
+        stmt.close();
+    }
+
+    public void addFaq(String keywords, String respond) throws URISyntaxException, SQLException{
+        String sqlInsert = "insert into faq values (?,?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+        preparedStatement.setString(1, keywords);
+        preparedStatement.setString(2, respond);
+
+
+        preparedStatement.executeUpdate();
+
+        preparedStatement.close();
+
+        Statement stmt = connection.createStatement();
+        String strSelect = "select * from faq";
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            System.out.println(rset.getString("keywords"));
+            System.out.println(rset.getString("respond"));
         }
         rset.close();
         stmt.close();

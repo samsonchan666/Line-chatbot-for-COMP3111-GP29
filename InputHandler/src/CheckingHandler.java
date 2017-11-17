@@ -14,6 +14,12 @@ public class CheckingHandler {
                 )  return true;
         return false;
     }
+
+    public static boolean inputCheck(String keyword){
+        if (keyword.matches("(\\w*,)*\\w+")) return true;
+        return false;
+    }
+
     public static boolean idCheck(String id){
         if (id.matches("[A-Z]{2}[0-9]{3}")) return true;
         return false;

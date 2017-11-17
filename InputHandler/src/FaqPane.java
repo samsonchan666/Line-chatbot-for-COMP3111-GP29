@@ -42,7 +42,7 @@ public class FaqPane extends JPanel implements CenterPane{
         if (inputIsValid()) {
             reset();
             addToDatabase();
-            return "Tour inserted successfully ";
+            return "Faq inserted successfully ";
         }
         else return errorMsg();
     }

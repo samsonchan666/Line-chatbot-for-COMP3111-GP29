@@ -1,39 +1,42 @@
 import javax.swing.*;
 
 import java.awt.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class MainWindow extends JPanel  {
 
-    private Button addTourButton;
-    private Button addFAQButton;
-
     private TourPane tourPane;
-    private LowerPanel lowerPanel;
+    private FaqPane faqPane;
+    private LowerPane lowerPane;
 
     public MainWindow()  {
         super(new BorderLayout());
 
         //Get the tour label and field panel
         tourPane = new TourPane();
-        JPanel labelPane = tourPane.getLabelPane();
-        JPanel fieldPane = tourPane.getFieldPane();
+        faqPane = new FaqPane();
 
         setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
-        add(labelPane, BorderLayout.LINE_START);
-        add(fieldPane, BorderLayout.LINE_END);
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Add Tour", tourPane);
+        tabbedPane.addTab("Add FAQ", faqPane);
 
-        lowerPanel = new LowerPanel();
-        lowerPanel.setTriggerPanel(tourPane);
-        add(lowerPanel,BorderLayout.PAGE_END);
+        add(tabbedPane, BorderLayout.CENTER);
 
-        JPanel upperPane = new JPanel(new GridLayout(1,0));
-        addTourButton = new Button("Add Tour");
-//        addTourButton.addActionListener(this);
-        addFAQButton = new Button("Add FAQ");
-//        addFAQButton.addActionListener(this);
-        upperPane.add(addTourButton);
-        upperPane.add(addFAQButton);
-        add(upperPane,BorderLayout.PAGE_START);
+        lowerPane = new LowerPane();
+        lowerPane.setTriggerPanel(tourPane);
+        add(lowerPane,BorderLayout.PAGE_END);
+
+        tabbedPane.getModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                JPanel panel = (JPanel) tabbedPane.getSelectedComponent();
+                if (panel == tourPane) lowerPane.setTriggerPanel(tourPane);
+                else if (panel == faqPane) lowerPane.setTriggerPanel(faqPane);
+            }
+        });
+
 
     }
 
