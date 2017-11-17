@@ -379,7 +379,7 @@ public class KitchenSinkController {
 	
 	private void inputReceive (String replyToken, String text) {
 		int inputOption = customer.getInputOption();
-		String confirm;
+		String confirm = " ";
 		switch (inputOption) {
 			case 0: {
 				customer.setId(text);
