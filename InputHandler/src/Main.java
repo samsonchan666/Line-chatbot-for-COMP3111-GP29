@@ -36,15 +36,9 @@ public class Main {
             }
         });
 
-//        try{
-//            DatabaseEngine databaseEngine = new DatabaseEngine();
-//            databaseEngine.addTour();
-//            databaseEngine.addCustomer();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-
+//        DatabaseEngine databaseEngine = new DatabaseEngine();
+//        databaseEngine.addTour();
+//        databaseEngine.addCustomer();
     }
 
 }

@@ -24,7 +24,6 @@ public class DatabaseEngine {
 
         this.connection = DriverManager.getConnection(dbUrl, username, password);
     }
-
     public void addTour() throws URISyntaxException, SQLException {
         Statement stmt = connection.createStatement();
 
@@ -43,6 +42,7 @@ public class DatabaseEngine {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 
             while ((line = br.readLine()) != null) {
+
                 // use comma as separator
                 String[] attribute = line.split(cvsSplitBy);
 
@@ -72,16 +72,23 @@ public class DatabaseEngine {
                 preparedStatement.setInt(6, weekEndPrice);
                 preparedStatement.setString(7, attribute[4]);
                 preparedStatement .executeUpdate();
-//                System.out.println(attribute[0] + " " + attribute[1] + " " + attribute[2]
-//                        + " " + attribute[3] + " " + attribute[4] + " " + attribute[5]);
-                br.close();
+                System.out.println(attribute[0] + " " + attribute[1] + " " + attribute[2]
+                        + " " + attribute[3] + " " + attribute[4] + " " + attribute[5]);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        preparedStatement.close();
-        printTour();
+        String strSelect = "select * from tour";
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            System.out.println(rset.getString("id") + ", "
+                    + rset.getString("name") + ", "
+                    + rset.getString("attraction") + ", "
+                    + rset.getInt("duration") + ", "
+                    + rset.getInt("weekDayPrice") + ", "
+                    + rset.getInt("weekEndPrice"));
+        }
     }
 
     public void addCustomer()  throws URISyntaxException, SQLException{
@@ -190,46 +197,9 @@ public class DatabaseEngine {
         String strSelect = "select Question from FAQ";
         ResultSet rset = stmt.executeQuery(strSelect);
         while(rset.next()) {   // Move the cursor to the next row
-            System.out.println(rset.getString("Answer"));
+            System.out.println(rset.getString("Answer");
         }
     }
 
-    public void addTour(String id, String name, String descrip, String dura, String days, String dayCost, String endCost)
-            throws URISyntaxException, SQLException {
-        String sqlInsert = "insert into tour select ?, ?, ?, ?, ?, ?, ? where not exists (select id from tour where id = ?)";
 
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
-        preparedStatement.setString(1, id);
-        preparedStatement.setString(2, name);
-        preparedStatement.setString(3, descrip);
-        preparedStatement.setInt(4, Integer.parseInt(dura));
-        preparedStatement.setString(7, days);
-        if (dayCost.isEmpty()) preparedStatement.setInt(5, 0);
-        else preparedStatement.setInt(5, Integer.parseInt(dayCost));
-        if (endCost.isEmpty()) preparedStatement.setInt(6, 0);
-        else preparedStatement.setInt(6, Integer.parseInt(endCost));
-        preparedStatement.setString(8, id);
-
-        preparedStatement.executeUpdate();
-
-        printTour();
-        preparedStatement.close();
-
-    }
-
-    public void printTour() throws URISyntaxException, SQLException{
-        Statement stmt = connection.createStatement();
-        String strSelect = "select * from tour";
-        ResultSet rset = stmt.executeQuery(strSelect);
-        while(rset.next()) {   // Move the cursor to the next row
-            System.out.println(rset.getString("id") + ", "
-                    + rset.getString("name") + ", "
-                    + rset.getString("attraction") + ", "
-                    + rset.getInt("duration") + ", "
-                    + rset.getInt("weekDayPrice") + ", "
-                    + rset.getInt("weekEndPrice"));
-        }
-        rset.close();
-        stmt.close();
-    }
 }
