@@ -402,8 +402,10 @@ public class KitchenSinkController {
 		customer.resetInputOption();
 		if (customer.inputFinished())
 			this.reply(replyToken, confirmInfo());
-		else
+		else if (customer.getNumInput() > 2) {
 			this.reply(replyToken, createInputMenu());
+			customer.resetNumInput();
+		}
 	}
 	
 	private List<Message> confirmInfo() {
