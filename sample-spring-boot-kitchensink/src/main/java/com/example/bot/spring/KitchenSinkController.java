@@ -379,7 +379,6 @@ public class KitchenSinkController {
 	}
 	
 	private void inputReceive (String replyToken, String text) {
-		List<Message> multiMessages = new ArrayList<Message>();
 		int inputOption = customer.getInputOption();
 		switch (inputOption) {
 			case 0: {
@@ -407,23 +406,22 @@ public class KitchenSinkController {
 				break;
 			}
 		}
-		multiMessages.add(new TextMessage("Your Input is " + text + "."));
 		if (customer.inputFinished())
-			addConfirmInfo(multiMessages);
-		this.reply(replyToken, multiMessages);
+			this.reply(replyToken, confirmInfo);
+		
 		customer.resetInputOption();
 	}
 	
-	private void addConfirmInfo (List<Message> multiMessages) {
+	private TextMessage confirmInfo (List<Message> multiMessages) {
 		StringBuilder confirmInfo = new StringBuilder();
-		confirmInfo.append("Please confirm you have input the correct info.\n");
+		confirmInfo.append("Please check you have input the correct info.\n");
 		confirmInfo.append("ID: " + customer.getId() + "\n");
 		confirmInfo.append("Name: " + customer.getName() + "\n");
 		confirmInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
 		confirmInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
 		confirmInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
 		confirmInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()) + "\n");
-		multiMessages.add(new TextMessage(confirmInfo.toString()));
+		return new TextMessage(confirmInfo.toString());
 	}
 	
 	static String createUri(String path) {
