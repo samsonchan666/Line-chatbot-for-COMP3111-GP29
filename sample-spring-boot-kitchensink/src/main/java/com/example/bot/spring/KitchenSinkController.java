@@ -379,17 +379,21 @@ public class KitchenSinkController {
 	
 	private void inputReceive (String replyToken, String text) {
 		int inputOption = customer.getInputOption();
+		String confirm;
 		switch (inputOption) {
 			case 0: {
 				customer.setId(text);
+				confirm = customer.getId();
 				break;
 			}
 			case 1: {
 				customer.setName(text);
+				confirm = customer.getName();
 				break;
 			}
 			case 2: {
 				customer.setAge(Integer.parseInt(text));
+				confirm = customer.getAge();
 				break;
 			}
 			/*case 3: {
@@ -405,7 +409,7 @@ public class KitchenSinkController {
 				break;
 			}*/
 		}
-		this.reply(replyToken, new TextMessage("Your Input is " + text + "."));
+		this.reply(replyToken, new TextMessage("Your Input is " + confirm + "."));
 		customer.resetInputOption();
 	}
 	
