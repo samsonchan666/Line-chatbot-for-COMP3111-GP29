@@ -102,7 +102,14 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 				result = rs.getString(1);
 			}
 
+
+			rs.close();
+			stmt.close();
 		}
+		catch (Exception e){
+			System.out.println("searchFAQ()" + e);
+		}
+		return result;
 	}
 	private String searchTour() throws Exception{
 		String result = null;
@@ -267,7 +274,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		if (text.matches("(.)*" + qm + "(.)*")) return true;
 		return false;
 	}
-	
+
 	private boolean matchByQuestionKey(String question) {
 		if (text.toLowerCase().matches("(.)*" + text + "(.)*")) return true;
 		return false;
