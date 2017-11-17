@@ -286,10 +286,44 @@ public class KitchenSinkController {
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
 		if (text.matches("I want to enroll in(.)*")) {
+			createDaySelect("Which Day do you want to pick?", multiMessages);
+		}		
+		if (text.matches("I pick (.)*")) {
 			createConfirm("Do you want to book this one?", multiMessages);
 		}		
 		createFilterMenu(text, multiMessages);
 		return multiMessages;
+	}
+	
+	private void createDaySelect(String text, List<Message> multiMessages) {
+		String selectedTour = database.getSelectedTour().getID().toLowerCase();
+		List<Calendar> tourDateList = database.listBookingDate(selectedTour);
+		List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
+		List<CarouselColumn> carouselColumn;
+		List<Action> tourEnroll;
+		int count = 0;
+		int numTour = tourDateList.size();
+		int templateCount = 0;
+		while (count < numTour) {
+			carouselColumn = new ArrayList<CarouselColumn>();
+			for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
+				tourEnroll = new ArrayList<Action>();            			
+				for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
+					String tourDate = tourDateList.get(count).toString();
+					tourEnroll.add(new MessageAction(
+							tourDate, "I pick " + tourDate + "."));
+					count++;
+					if (columnCount != 0 && actionCount+1 < 3 && count == numTour) {
+						for (int temp = actionCount+1; temp < 3; temp++) {
+							tourEnroll.add(new MessageAction(" ", " "));
+						}
+					}
+				}
+				carouselColumn.add(new CarouselColumn(null, null, text, tourEnroll));
+			}
+			carouselTemplate.add(new CarouselTemplate(carouselColumn));
+			multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
+		}
 	}
 	
 	private void createConfirm(String question, List<Message> multiMessages) {

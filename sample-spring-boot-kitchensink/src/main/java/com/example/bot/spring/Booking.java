@@ -1,8 +1,11 @@
 package com.example.bot.spring;
 
+import java.util.Calendar;
+
 public class Booking {
 	private String ID;
-	private String tourId;
+	private Tour tour;
+	private Calendar date;
 	private TourGuide tourGuide;
 	private String hotel;
 	private int capacity;
@@ -10,13 +13,15 @@ public class Booking {
 
 	public Booking(
 			String ID,
-			String tourId,
+			Tour tour,
+			Calendar date,
 			TourGuide tourGuide,
 			String hotel,
 			int capacity,
 			int miniCustomer) {
 		this.ID = ID;
-		this.tourId = tourId;
+		this.tour = tour;
+		this.date = date;
 		this.tourGuide = tourGuide;
 		this.hotel = hotel;
 		this.capacity = capacity;
@@ -26,9 +31,18 @@ public class Booking {
 	public void setID(String ID) { this.ID = ID;}
 	public String getID() { return this.ID;}
 	
-	public void setTour(String tourId) { this.tourId = tourId;}
-	public String getTour() { return this.tourId;}
-	
+	public void setTour(Tour tour) { this.tour = tour;}
+	public Tour getTour() { return this.tour;}
+
+	public void setDate(Calendar date) { this.date = date;}
+	public Calendar getDate() {return this.date;}
+	public static int dateToDay(String dateString){
+		String[] dateArr = dateString.split("/");
+		Calendar date = Calendar.getInstance();
+		date.set(Integer.parseInt(dateArr[2]),Integer.parseInt(dateArr[1])-1,Integer.parseInt(dateArr[0]));
+		return date.get(Calendar.DAY_OF_WEEK);
+	}
+
 	public void setTourGuide(TourGuide tourGuide) { this.tourGuide = tourGuide;}
 	public TourGuide getTourGuide() { return this.tourGuide;}
 	

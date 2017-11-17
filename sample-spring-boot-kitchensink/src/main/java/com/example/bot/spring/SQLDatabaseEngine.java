@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URI;
 import java.lang.*;
 import java.util.regex.*;
+import java.util.Calendar;
 
 
 @Slf4j
@@ -231,6 +232,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return result;
     }
+    
     private boolean matchByAttraction(String attraction){
         Pattern p = Pattern.compile("\\w{3,}");
         Matcher m = p.matcher(attraction);
@@ -296,4 +298,25 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
     
     void resetTourList() { tourList = null;}
+    
+    List<Calendar> listBookingDate(String text) throws Exception{
+        List<Calendar> result = new ArrayList<Calendar>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM booking "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String tourid = rs.getString("tourid").toLowerCase();
+                if (!(text.equals(tourid))) continue;
+                result.add(rs.getString("dates"));
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTour()" + e);
+        }
+        return result;
+    }
 }
