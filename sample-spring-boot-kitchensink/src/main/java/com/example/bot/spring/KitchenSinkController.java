@@ -392,7 +392,7 @@ public class KitchenSinkController {
 				customer.setAge(Integer.parseInt(text));
 				break;
 			}
-			case 3: {
+			/*case 3: {
 				customer.getCustomerNo().setAdultNo(Integer.parseInt(text));
 				break;
 			}
@@ -403,7 +403,7 @@ public class KitchenSinkController {
 			case 5: {
 				customer.getCustomerNo().setToodlerNo(Integer.parseInt(text));
 				break;
-			}
+			}*/
 		}
 		this.reply(replyToken, new TextMessage("Your Input is " + text + "."));
 		customer.resetInputOption();
@@ -453,7 +453,7 @@ public class KitchenSinkController {
 
 	public KitchenSinkController() {
 		database = new SQLDatabaseEngine();
-		customer = new Customer(null, null, -1, null, new CustomerNo(-1, -1, -1), null, -1);
+		customer = new Customer(null, null, -1, null, null, null, -1);
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 
