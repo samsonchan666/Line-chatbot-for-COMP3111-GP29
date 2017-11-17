@@ -103,6 +103,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 selectedTour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
+                        rs.getString("region"),
                         rs.getInt("duration"),
                         rs.getInt("weekDayPrice"),
                         rs.getInt("weekEndPrice"),
@@ -138,6 +139,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 Tour tour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
+                        rs.getString("region"),
                         rs.getInt("duration"),
                         rs.getInt("weekDayPrice"),
                         rs.getInt("weekEndPrice"),
@@ -180,6 +182,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 Tour tour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
+                        rs.getString("region"),
                         rs.getInt("duration"),
                         rs.getInt("weekDayPrice"),
                         rs.getInt("weekEndPrice"),
@@ -205,6 +208,59 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return result;
     }
+    
+    private String searchTourByRegion() throws Exception{
+        String result = null;
+        StringBuilder str = new StringBuilder();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM tour "
+            );
+            ResultSet rs = stmt.executeQuery();
+            tourList = new ArrayList<Tour>() ;
+            boolean hasResult = false;
+            while(rs.next()) {
+                String attraction = rs.getString("region").toLowerCase();
+                if (!(matchByRegion(region))) continue;
+                Tour tour = new Tour(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("attraction"),
+                        rs.getString("region"),
+                        rs.getInt("duration"),
+                        rs.getInt("weekDayPrice"),
+                        rs.getInt("weekEndPrice"),
+                        rs.getString("dates")
+                );
+                tourList.add(tour);
+                hasResult = true;
+            }
+            if (hasResult) {
+                if (matchBySort() && matchByPrice()){
+                    result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.REGION).toString();
+                }
+                else {
+                    result = Tour.getBasicTourInfoByKeyword(tourList, Tour.Keyword.REGION).toString();
+                }
+
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTourByRegion()" + e);
+        }
+        return result;
+    }
+    
+    private boolean matchByRegion(String region){
+        Pattern p = Pattern.compile("\\w+");
+        Matcher m = p.matcher(region);
+        while (m.find()){
+            if (text.toLowerCase().matches("(.)*" + m.group() + "(.)*")) return true;
+        }
+        return false;
+    }
+    
     private boolean matchByAttraction(String attraction){
         Pattern p = Pattern.compile("\\w+");
         Matcher m = p.matcher(attraction);
