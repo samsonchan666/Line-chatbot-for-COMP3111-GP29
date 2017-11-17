@@ -243,6 +243,7 @@ public class KitchenSinkController {
 				//Creating Filter Result & Template Messages if filtering is done
 				this.reply(replyToken, createMessages(reply, text));
 				break;
+				
 			}
         	
         	case 1: {
