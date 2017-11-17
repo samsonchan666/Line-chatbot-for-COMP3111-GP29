@@ -272,8 +272,7 @@ public class KitchenSinkController {
     				break;
         		}
         		outputFee(replyToken);
-        	}
-        	
+        	}        	
 		}
 	}
 
