@@ -265,6 +265,14 @@ public class KitchenSinkController {
         		break;
         	}
         	
+        	case 3: {
+        		if ((text.toLowerCase().matches("no(.)*"))) {
+        			this.replyText(replyToken, "Okay. You may input your info again.");
+    				customer.stageRestore();    	
+    				break;
+        		}
+        	}
+        	
 		}
 	}
 
@@ -389,21 +397,22 @@ public class KitchenSinkController {
 			case 4: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
 			case 5: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
 		}
-		if (customer.inputFinished())
-			this.reply(replyToken, confirmInfo());
 		customer.resetInputOption();
+		if (customer.inputFinished())
+			this.reply(replyToken, confirmInfo());		
 	}
 	
 	private List<Message> confirmInfo () {
 		List<Message> multiMessages = new ArrayList<Message>();
-		confirmInfo.append("Please confirm you have input the correct info.\n");
-		confirmInfo.append("ID: " + customer.getId() + "\n");
-		confirmInfo.append("Name: " + customer.getName() + "\n");
-		confirmInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
-		confirmInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
-		confirmInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
-		confirmInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));
-		multiMessages.add(new TextMessage(confirmInfo.toString()));
+		StringBuilder currentInfo = new StringBuilder();
+		currentInfo.append("Please confirm you have input the correct info.\n");
+		currentInfo.append("ID: " + customer.getId() + "\n");
+		currentInfo.append("Name: " + customer.getName() + "\n");
+		currentInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
+		currentInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
+		currentInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
+		currentInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));
+		multiMessages.add(new TextMessage(currentInfo.toString()));
 		createConfirm("Is the info correct?", multiMessages);
 		return multiMessages;
 	}
