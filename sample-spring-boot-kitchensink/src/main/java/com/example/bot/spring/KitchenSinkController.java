@@ -271,6 +271,7 @@ public class KitchenSinkController {
     				customer.stageRestore();    	
     				break;
         		}
+        		outputFee(replyToken);
         	}
         	
 		}
@@ -387,7 +388,7 @@ public class KitchenSinkController {
 		return new TextMessage("Please input " + option + ".");
 	}
 	
-	private void inputReceive (String replyToken, String text) {
+	private void inputReceive(String replyToken, String text) {
 		int inputOption = customer.getInputOption();
 		switch (inputOption) {
 			case 0: { customer.setId(text); break;}
@@ -402,7 +403,7 @@ public class KitchenSinkController {
 			this.reply(replyToken, confirmInfo());		
 	}
 	
-	private List<Message> confirmInfo () {
+	private List<Message> confirmInfo() {
 		List<Message> multiMessages = new ArrayList<Message>();
 		StringBuilder currentInfo = new StringBuilder();
 		currentInfo.append("Please confirm you have input the correct info.\n");
@@ -415,6 +416,16 @@ public class KitchenSinkController {
 		multiMessages.add(new TextMessage(currentInfo.toString()));
 		createConfirm("Is the info correct?", multiMessages);
 		return multiMessages;
+	}
+	
+	private void outputFee(String replyToken) {
+		customer.calculateFee();
+		StringBuilder feeInfo = new StringBuilder();
+		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getTotalFee()) + "\n");
+		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getTotalFee()) + "\n");
+		feeInfo.append("No fee charged for toodlers\n");
+		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()) + "\n");
+		this.reply(replyToken, new TextMessage(feeInfo.toString()));
 	}
 	
 	static String createUri(String path) {
@@ -461,7 +472,7 @@ public class KitchenSinkController {
 
 	public KitchenSinkController() {
 		database = new SQLDatabaseEngine();
-		customer = new Customer(null, null, -1, null, null, -1);
+		customer = new Customer(null, null, -1, null, -1);
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 

@@ -16,14 +16,13 @@ public class Customer {
 			String name,
 			int age,
 			Tour tour,
-			Fee fee,						// Ryan Tang
 			double paid_amount) {			// Ryan Tang
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.tour = tour;
 		this.customerNo = new CustomerNo(-1, -1, -1);
-		this.fee = fee;						// Ryan Tang
+		this.fee = new Fee(-1, -1, -1);		// Ryan Tang
 		this.paid_amount = paid_amount;		// Ryan Tang
 		this.stage = 0;
 		this.inputOption = -1;
@@ -118,7 +117,7 @@ public class Customer {
 	
 	public boolean inputFinished() {
 		if (id != null && name != null && age != -1 && tour != null && 
-				customerNo.customerNoFinished())
+				customerNo.inputDone())
 			return true;
 		return false;
 	}
@@ -147,7 +146,7 @@ class CustomerNo{
 	public void setToodlerNo(int toodlerNo) { this.toodlerNo = toodlerNo;}
 	public int getToodlerNo() { return this.toodlerNo;}
 	
-	public boolean customerNoFinished() {
+	public boolean inputDone() {
 		if (adultNo != -1 && childrenNo != -1 && toodlerNo != -1)
 			return true;
 		return false;
