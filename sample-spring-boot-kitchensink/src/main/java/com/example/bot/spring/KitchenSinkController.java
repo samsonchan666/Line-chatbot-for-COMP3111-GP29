@@ -358,7 +358,7 @@ public class KitchenSinkController {
 	private void askInputReply(String replyToken, String text) {
 		switch (text) {
 			case "ID": {
-				this.reply(replyToken, askInput("ID"));
+				this.replyText(replyToken, askInput("ID"));
 				customer.setInputOption(0);
 				break;
 			}
