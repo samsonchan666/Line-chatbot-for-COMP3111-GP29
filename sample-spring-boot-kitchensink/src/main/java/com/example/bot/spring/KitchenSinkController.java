@@ -218,6 +218,7 @@ public class KitchenSinkController {
 		String text = content.getText();
 
 		log.info("Got text message from {}: {}", replyToken, text);
+		//0 for searching, 1 for confirm tour, 2 for ask input
         int stage = customer.getStage();
         switch (stage) {            
         	case 0: {
@@ -270,21 +271,21 @@ public class KitchenSinkController {
 	private List<Message> createMessages(String reply, String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
-		createConfirm(text, multiMessages);
+		if (text.matches("I want to enroll in(.)*")) {
+			createConfirm("Do you want to book this one?", multiMessages);
+		}		
 		createFilterMenu(text, multiMessages);
 		return multiMessages;
 	}
 	
-	private void createConfirm(String text, List<Message> multiMessages) {
-		if (text.matches("I want to enroll in(.)*")) {
-			customer.stageProceed();
-    		ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-                    "Do you want to book this one?",
-                    new MessageAction("Yes", "Yes"),
-                    new MessageAction("No", "No")
-            );
-    		multiMessages.add(new TemplateMessage("Confirm alt text", confirmTemplate));
-		}
+	private void createConfirm(String question, List<Message> multiMessages) {
+		customer.stageProceed();
+    	ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+    			question, 
+    			new MessageAction("Yes", "Yes"), 
+    			new MessageAction("No", "No")
+        );
+    	multiMessages.add(new TemplateMessage("Confirm alt text", confirmTemplate));		
 	}
 	
 	private void createFilterMenu(String text, List<Message> multiMessages) {
@@ -390,20 +391,21 @@ public class KitchenSinkController {
 		}
 		if (customer.inputFinished())
 			this.reply(replyToken, confirmInfo());
-		
 		customer.resetInputOption();
 	}
 	
-	private TextMessage confirmInfo () {
-		StringBuilder confirmInfo = new StringBuilder();
-		confirmInfo.append("Please check you have input the correct info.\n");
+	private List<Message> confirmInfo () {
+		List<Message> multiMessages = new ArrayList<Message>();
+		confirmInfo.append("Please confirm you have input the correct info.\n");
 		confirmInfo.append("ID: " + customer.getId() + "\n");
 		confirmInfo.append("Name: " + customer.getName() + "\n");
 		confirmInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
 		confirmInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
 		confirmInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
-		confirmInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()) + "\n");
-		return new TextMessage(confirmInfo.toString());
+		confirmInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));
+		multiMessages.add(new TextMessage(confirmInfo.toString()));
+		createConfirm("Is the info correct?", multiMessages);
+		return multiMessages;
 	}
 	
 	static String createUri(String path) {
