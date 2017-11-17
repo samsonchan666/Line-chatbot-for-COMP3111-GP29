@@ -22,7 +22,7 @@ public class Customer {
 		this.age = age;
 		this.tour = tour;
 		this.customerNo = new CustomerNo(-1, -1, -1);
-		this.fee = new Fee(-1, -1, -1);		// Ryan Tang
+		this.fee = new Fee(0, 0, 0);		// Ryan Tang
 		this.paid_amount = paid_amount;		// Ryan Tang
 		this.stage = 0;
 		this.inputOption = -1;
@@ -174,7 +174,7 @@ class Fee{
 	public void setAdultFee(double fee) { this.adult_fee += fee;} // adult has no discount
 	public double getAdultFee() { return adult_fee;}
 	
-	public void setChildrenFee(double fee) { this.children_fee += fee*0.2;} // children has 20% discount, toodler is free
+	public void setChildrenFee(double fee) { this.children_fee += fee*0.8;} // children has 20% discount, toodler is free
 	public double getChildrenFee() { return children_fee;}
 } 
 // here (by Ryan Tang)

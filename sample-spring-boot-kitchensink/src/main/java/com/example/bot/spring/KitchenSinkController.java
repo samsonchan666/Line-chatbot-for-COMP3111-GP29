@@ -341,8 +341,8 @@ public class KitchenSinkController {
 						)),
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
 								new MessageAction("No. of Adults", "No. of Adults"),
-								new MessageAction("No. of Children", "No. of Children"), 
-								new MessageAction("No. of Toodlers", "No. of Toodlers")
+								new MessageAction("No. of Children (Age: 4-11)", "No. of Children"), 
+								new MessageAction("No. of Toodlers (Age: <= 3)", "No. of Toodlers")
 						))
 				));
 		return new TemplateMessage("Carousel alt text", carouselTemplate);
@@ -425,7 +425,7 @@ public class KitchenSinkController {
 		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
 		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
 		feeInfo.append("No fee charged for toodlers\n");
-		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()) + "\n");
+		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		this.reply(replyToken, new TextMessage(feeInfo.toString()));
 	}
 	
