@@ -271,8 +271,6 @@ public class KitchenSinkController {
         			List<Message> multiMessages = new ArrayList<Message>();
         			multiMessages.add(new TextMessage("Okay. You may input your info again."));
         			multiMessages.add(createInputMenu());
-        			//this.replyText(replyToken, "Okay. You may input your info again.");
-        			//this.reply(replyToken, createInputMenu());
         			this.reply(replyToken, multiMessages);
     				customer.stageRestore();    	
     				break;
