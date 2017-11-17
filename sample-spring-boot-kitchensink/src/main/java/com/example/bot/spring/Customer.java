@@ -41,7 +41,7 @@ public class Customer {
 	public void setTour(Tour tour) { this.tour = tour;}
 	public Tour getTour() { return tour;}
 	
-	public void setCustomerNo(CustomerNo customerNo) { this.customerNo = customerNo;}
+	public void setCustomerNo(CustomerNo customerNo) { this.customerNo = new CustomerNo(-1,-1,-1);}
 	public CustomerNo getCustomerNo() { return this.customerNo;}
 	
 	// Working from here to ...
