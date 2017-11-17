@@ -407,12 +407,12 @@ public class KitchenSinkController {
 			}
 		}
 		if (customer.inputFinished())
-			this.reply(replyToken, confirmInfo);
+			this.reply(replyToken, addConfirmInfo);
 		
 		customer.resetInputOption();
 	}
 	
-	private TextMessage confirmInfo (List<Message> multiMessages) {
+	private TextMessage addConfirmInfo (List<Message> multiMessages) {
 		StringBuilder confirmInfo = new StringBuilder();
 		confirmInfo.append("Please check you have input the correct info.\n");
 		confirmInfo.append("ID: " + customer.getId() + "\n");
