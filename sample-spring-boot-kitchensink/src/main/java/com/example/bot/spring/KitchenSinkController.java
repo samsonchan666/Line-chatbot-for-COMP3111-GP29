@@ -407,6 +407,7 @@ public class KitchenSinkController {
 		List<Message> multiMessages = new ArrayList<Message>();
 		StringBuilder currentInfo = new StringBuilder();
 		currentInfo.append("Please confirm you have input the correct info.\n");
+		cuurentInfo.append("Tour chosen: " + customer.getTour().getID() + customer.getTour().getName() + "\n");
 		currentInfo.append("ID: " + customer.getId() + "\n");
 		currentInfo.append("Name: " + customer.getName() + "\n");
 		currentInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
@@ -421,8 +422,8 @@ public class KitchenSinkController {
 	private void outputFee(String replyToken) {
 		customer.calculateFee();
 		StringBuilder feeInfo = new StringBuilder();
-		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getTotalFee()) + "\n");
-		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getTotalFee()) + "\n");
+		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
+		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
 		feeInfo.append("No fee charged for toodlers\n");
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()) + "\n");
 		this.reply(replyToken, new TextMessage(feeInfo.toString()));
