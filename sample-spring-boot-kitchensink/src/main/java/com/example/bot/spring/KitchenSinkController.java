@@ -272,11 +272,8 @@ public class KitchenSinkController {
     				break;
         		}
         		outputFee(replyToken);
-        		if ((text.toLowerCase().matches("restore"))) {  //For testing
-        			this.replyText(replyToken, "restore");
-    				customer.stageRestore();    	
-    				break;
-        		}
+    			customer.stageZero();    	
+    			break;        		
         	}        	
 		}
 	}

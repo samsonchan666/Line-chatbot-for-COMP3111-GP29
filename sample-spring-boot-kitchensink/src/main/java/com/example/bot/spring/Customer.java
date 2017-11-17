@@ -110,6 +110,7 @@ public class Customer {
 	public int getStage() { return this.stage;}
 	public void stageProceed() { this.stage++;}
 	public void stageRestore() { this.stage--;}
+	public void stageZero() {this.stage = 0; }
 	
 	public int getInputOption() { return this.inputOption;}
 	public void setInputOption(int inputOption) { this.inputOption = inputOption;}
