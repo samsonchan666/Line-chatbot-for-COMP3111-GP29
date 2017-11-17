@@ -405,7 +405,7 @@ public class KitchenSinkController {
 				break;
 			}
 		}
-		this.reply(replyToken, new TextMessage("Your Input is " + text + "."));
+		this.reply(replyToken, new TextMessage("Your Input is " + customer.getCustomerNo().getAdultNo + "."));
 		customer.resetInputOption();
 	}
 	
