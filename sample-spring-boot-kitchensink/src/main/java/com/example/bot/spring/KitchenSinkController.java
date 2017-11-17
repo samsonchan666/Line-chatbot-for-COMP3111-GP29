@@ -393,7 +393,7 @@ public class KitchenSinkController {
 			}
 			case 2: {
 				customer.setAge(Integer.parseInt(text));
-				confirm = customer.getAge();
+				confirm = Integer.toString(customer.getAge());
 				break;
 			}
 			/*case 3: {
