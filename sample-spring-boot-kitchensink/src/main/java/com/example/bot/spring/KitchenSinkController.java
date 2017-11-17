@@ -422,7 +422,7 @@ public class KitchenSinkController {
 		confirmInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
 		confirmInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
 		confirmInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
-		confirmInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo) + "\n");
+		confirmInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()) + "\n");
 		multiMessages.add(new TextMessage(confirmInfo.toString()));
 	}
 	
