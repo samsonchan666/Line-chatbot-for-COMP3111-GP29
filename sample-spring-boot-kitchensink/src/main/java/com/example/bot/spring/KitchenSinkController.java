@@ -268,7 +268,12 @@ public class KitchenSinkController {
         	
         	case 3: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
-        			this.replyText(replyToken, "Okay. You may input your info again.");
+        			List<Message> multiMessages = new ArrayList<Message>();
+        			multiMessages.add(new TextMessage("Okay. You may input your info again."));
+        			multiMessages.add(createInputMenu());
+        			//this.replyText(replyToken, "Okay. You may input your info again.");
+        			//this.reply(replyToken, createInputMenu());
+        			this.reply(replyToken, multiMessages);
     				customer.stageRestore();    	
     				break;
         		}
@@ -358,35 +363,35 @@ public class KitchenSinkController {
 				break;
 			}
 			case "Name": {
-				this.reply(replyToken, askInput("Name"));
+				this.replyText(replyToken, askInput("Name"));
 				customer.setInputOption(1);
 				break;
 			}
 			case "Age": {
-				this.reply(replyToken, askInput("Age"));
+				this.replyText(replyToken, askInput("Age"));
 				customer.setInputOption(2);
 				break;
 			}
 			case "No. of Adults": {
-				this.reply(replyToken, askInput("No. of Adults"));
+				this.replyText(replyToken, askInput("No. of Adults"));
 				customer.setInputOption(3);
 				break;
 			}
 			case "No. of Children": {
-				this.reply(replyToken, askInput("No. of Children"));
+				this.replyText(replyToken, askInput("No. of Children"));
 				customer.setInputOption(4);
 				break;
 			}
 			case "No. of Toodlers": {
-				this.reply(replyToken, askInput("No. of Toodlers"));
+				this.replyText(replyToken, askInput("No. of Toodlers"));
 				customer.setInputOption(5);
 				break;
 			}
 		}
 	}
 	
-	private TextMessage askInput(String option) {
-		return new TextMessage("Please input " + option + ".");
+	private String askInput(String option) {
+		return "Please input " + option + ".";
 	}
 	
 	private void inputReceive(String replyToken, String text) {
