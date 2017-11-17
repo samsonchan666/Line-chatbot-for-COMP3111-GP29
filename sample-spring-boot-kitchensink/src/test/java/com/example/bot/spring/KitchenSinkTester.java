@@ -67,48 +67,6 @@ public class KitchenSinkTester {
 	}
 
 	@Test
-	public void testFound() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("abc");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		System.out.println(result);
-
-		assertThat(!thrown);
-		assertThat(result.equals("def"));
-	}
-
-
-	@Test
-	public void anothertestFound() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("I am fine");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(!thrown);
-		assertThat(result.equals("Great!"));
-	}
-
-	@Test
-	public void anothertestFound2() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("Abc");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(!thrown);
-		assertThat(result.equals("def"));
-	}
-
-	@Test
 	public void tourTest() throws Exception {
 		boolean thrown = false;
 		String result = null;
@@ -155,6 +113,19 @@ public class KitchenSinkTester {
 		} catch (Exception e) {
 			thrown = true;
 		}
+		System.out.println(result);
+	}
+
+	@Test
+	public void faqTest() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("any additional charge");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert result!= null;
 		System.out.println(result);
 	}
 

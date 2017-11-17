@@ -37,6 +37,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             return result;
         }
 
+        result = searchFAQ(); // Search FAQ
+        if (result != null) {
+            connection.close();
+            return result;
+        }
         result = searchTourByAttraction();
         if (result != null){
             connection.close();
@@ -164,6 +169,27 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
 
+    private String searchFAQ() throws Exception{
+        String result = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM faq "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String keywords = rs.getString("keywords").toLowerCase();
+                if (!(matchByKeywords(keywords))) continue;
+                result = rs.getString("respond");
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTour()" + e);
+        }
+        return result;
+    }
+
     private String searchTourByAttraction() throws Exception{
         String result = null;
         StringBuilder str = new StringBuilder();
@@ -206,9 +232,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
     private boolean matchByAttraction(String attraction){
-        Pattern p = Pattern.compile("\\w+");
+        Pattern p = Pattern.compile("\\w{3,}");
         Matcher m = p.matcher(attraction);
         while (m.find()){
+
             if (text.toLowerCase().matches("(.)*" + m.group() + "(.)*")) return true;
         }
         return false;
@@ -231,6 +258,22 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             if (text.toLowerCase().matches("(.)*" + m.group() + "(.)*|(.)*" + m.group() + "(.)*day")) return true;
         }
         return false;
+    }
+
+    public boolean matchByKeywords(String keywords){
+        Pattern p = Pattern.compile("\\w+");
+        Matcher m_keywords = p.matcher(keywords.toLowerCase());
+        Matcher m_text = p.matcher(text.toLowerCase());
+        List<String> keyword_list = new ArrayList<String>();
+        List<String> text_list = new ArrayList<String>();
+        while (m_keywords.find()) keyword_list.add(m_keywords.group());
+        while (m_text.find()) text_list.add(m_text.group());
+        boolean match = false;
+        for (String keyword : keyword_list){
+            if (text_list.contains(keyword)) continue;
+            return false;
+        }
+        return true;
     }
 
     private boolean matchBySort(){
