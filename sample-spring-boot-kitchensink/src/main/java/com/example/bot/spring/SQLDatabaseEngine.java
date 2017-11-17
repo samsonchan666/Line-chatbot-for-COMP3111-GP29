@@ -51,7 +51,29 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
         throw new Exception("NOT FOUND");
     }
-
+    
+    List<String> listBookingDate(String text) throws Exception{
+    	this.connection = this.getConnection();
+    	List<String> result = new ArrayList<String>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM booking "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String tourid = rs.getString("tourId").toLowerCase();
+                if (!(text.equals(tourid))) continue;
+                result.add(rs.getString("dates"));
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTour()" + e);
+        }
+        connection.close();
+        return result;
+    }
 
     private Connection getConnection() throws URISyntaxException, SQLException {
         Connection connection;
@@ -298,27 +320,4 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
     
     void resetTourList() { tourList = null;}
-    
-    List<String> listBookingDate(String text) throws Exception{
-    	this.connection = this.getConnection();
-    	List<String> result = new ArrayList<String>();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT *  FROM booking "
-            );
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String tourid = rs.getString("tourid").toLowerCase();
-                if (!(text.equals(tourid))) continue;
-                result.add(rs.getString("dates"));
-            }
-            rs.close();
-            stmt.close();
-        }
-        catch (Exception e){
-            System.out.println("searchTour()" + e);
-        }
-        connection.close();
-        return result;
-    }
 }
