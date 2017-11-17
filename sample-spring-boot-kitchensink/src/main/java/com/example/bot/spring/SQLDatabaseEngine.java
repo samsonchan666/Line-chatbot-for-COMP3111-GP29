@@ -17,6 +17,7 @@ import java.util.regex.*;
 public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;
     String text = null;
+    private Tour selectedTour = null;
     private List<Tour> tourList = null;
     @Override
     String search(String text) throws Exception {
@@ -99,7 +100,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 String name = rs.getString("name").toLowerCase();
                 String id = rs.getString("id").toLowerCase();
                 if ( !(matchByName(name) || matchByID(id)) ) continue;
-                Tour tour = new Tour(rs.getString("id"),
+                selectedTour = new Tour(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("attraction"),
                         rs.getInt("duration"),
@@ -108,7 +109,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getString("dates")
                 );
 
-                StringBuilder str = tour.getDetailTourInfo();
+                StringBuilder str = selectedTour.getDetailTourInfo();
 
                 result = str.toString();
             }
@@ -241,6 +242,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
+    Tour getSelectedTour() { 
+    	if (selectedTour == null) return null;
+    	return selectedTour;
+    }
+    
     List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;

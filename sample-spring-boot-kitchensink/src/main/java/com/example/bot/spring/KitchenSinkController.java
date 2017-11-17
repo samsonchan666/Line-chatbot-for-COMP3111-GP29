@@ -250,15 +250,17 @@ public class KitchenSinkController {
     				customer.stageRestore();    	
     				break;
         		}
+        		customer.setTour(database.getSelectedTour);
         		this.reply(replyToken, createInputMenu());
                 break;
         	}
         	
         	case 2: {
         		String reply = null;
-        		if (customer.getInputOption() == -1) {
-        			inputReply(replyToken, text);
-        		}
+        		if (customer.getInputOption() == -1)
+        			askInputReply(replyToken, text);
+        		else
+        			inputReceive(replyToken, text);        		
         	}
         	
 		}
@@ -336,43 +338,75 @@ public class KitchenSinkController {
 		
 	}
 	
-	private void inputReply(String replyToken, String text) {
+	private void askInputReply(String replyToken, String text) {
 		switch (text) {
 			case "ID": {
-				this.reply(replyToken, inputReplyString("ID"));
+				this.reply(replyToken, askInput("ID"));
 				customer.setInputOption(0);
 				break;
 			}
 			case "Name": {
-				this.reply(replyToken, inputReplyString("Name"));
+				this.reply(replyToken, askInput("Name"));
 				customer.setInputOption(1);
 				break;
 			}
 			case "Age": {
-				this.reply(replyToken, inputReplyString("Age"));
+				this.reply(replyToken, askInput("Age"));
 				customer.setInputOption(2);
 				break;
 			}
 			case "No. of Adults": {
-				this.reply(replyToken, inputReplyString("No. of Adults"));
+				this.reply(replyToken, askInput("No. of Adults"));
 				customer.setInputOption(3);
 				break;
 			}
 			case "No. of Children": {
-				this.reply(replyToken, inputReplyString("No. of Children"));
+				this.reply(replyToken, askInput("No. of Children"));
 				customer.setInputOption(4);
 				break;
 			}
 			case "No. of Toodlers": {
-				this.reply(replyToken, inputReplyString("No. of Toodlers"));
+				this.reply(replyToken, askInput("No. of Toodlers"));
 				customer.setInputOption(5);
 				break;
 			}
 		}
 	}
 	
-	private TextMessage inputReplyString(String option) {
+	private TextMessage askInput(String option) {
 		return new TextMessage("Please input " + option + ".");
+	}
+	
+	private void inputReceive (String replyToken, String text) {
+		int inputOption = customer.getInputOption();
+		switch (inputOption) {
+			case 0: {
+				customer.setId(text);
+				break;
+			}
+			case 1: {
+				customer.setName(text);
+				break;
+			}
+			case 2: {
+				customer.setAge(Integer.parseInt(text));
+				break;
+			}
+			case 3: {
+				customerNo.setAdultNo(Integer.parseInt(text));
+				break;
+			}
+			case 4: {
+				customer.setChildrenNo(Integer.parseInt(text));
+				break;
+			}
+			case 5: {
+				customer.setToodlerNo(Integer.parseInt(text));
+				break;
+			}
+		}
+		this.reply(replyToken, "Your Input is " + text + ".");
+		customer.resetInputOption();
 	}
 	
 	static String createUri(String path) {
@@ -418,13 +452,15 @@ public class KitchenSinkController {
 
 
 	public KitchenSinkController() {
-		database = new SQLDatabaseEngine();
-		customer = new Customer(null, null, 0, null, null, null, 0);
+		database = new SQLDatabaseEngine();		
+		customerNo = new CustomerNo(-1, -1, -1);
+		customer = new Customer(null, null, -1, null, customerNo, null, -1);
 		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 
 	private SQLDatabaseEngine database;
-	private Customer customer;
+	private CustomerNo customerNo;
+	private Customer customer;	
 	private String itscLOGIN;
 
 
