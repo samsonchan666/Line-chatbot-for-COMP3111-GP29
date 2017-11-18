@@ -289,6 +289,7 @@ public class KitchenSinkController {
     				break;
         		}
 				attachCustomerToBooking();
+        		database.saveCustomerToDb(customer);
         		outputFee(multiMessages);
         		this.reply(replyToken, multiMessages);    			   	
     			break;        		

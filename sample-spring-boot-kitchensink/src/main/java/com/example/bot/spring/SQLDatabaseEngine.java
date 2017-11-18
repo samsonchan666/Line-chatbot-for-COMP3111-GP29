@@ -378,7 +378,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
         preparedStatement.setString(1, customer.getName());
         preparedStatement.setString(2, customer.getId());
-//        preparedStatement.setInt(3, customer.getP);
+        preparedStatement.setInt(3, Integer.parseInt(customer.getPhoneNum()));
         preparedStatement.setInt(4, customer.getAge());
         preparedStatement.setString(5, selectedBooking.getID());
         preparedStatement.setInt(6, customer.getCustomerNo().getAdultNo());
