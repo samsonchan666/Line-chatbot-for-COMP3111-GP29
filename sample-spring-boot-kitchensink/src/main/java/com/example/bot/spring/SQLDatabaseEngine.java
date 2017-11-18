@@ -119,7 +119,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 		rs.getInt("miniCustomer"), 
                 		rs.getInt("currentCustomer")                		
                 );
-                booking.setDateString(rs.getString("dates"));
+                //booking.setDateString(rs.getString("dates"));
                 booking.getTourGuide().setName(rs.getString("tourGuide"));
                 booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
                 bookingList.add(booking);
@@ -143,9 +143,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     	this.selectedBookingText = text;
     }
     
-    void searchSelectedBooking() {
+    void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
-    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).getID() + "(.)*"))
+    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).getID().toLowerCase() + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
     

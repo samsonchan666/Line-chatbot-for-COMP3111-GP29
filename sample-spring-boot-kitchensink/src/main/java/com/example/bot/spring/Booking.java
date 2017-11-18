@@ -38,16 +38,16 @@ public class Booking {
 
 	public void setDate(Calendar date) { this.date = date;}
 	public void setDateString(String dateString) { this.date = StringToDate(dateString);}
+	public Calendar getDate() {return this.date;}
+	public int dateToDay(String dateString){
+		Calendar date = StringToDate(dateString);
+		return date.get(Calendar.DAY_OF_WEEK);
+	}
 	public Calendar StringToDate(String dateString) {
 		String[] dateArr = dateString.split("/");
 		Calendar date = Calendar.getInstance();
 		date.set(Integer.parseInt(dateArr[2]),Integer.parseInt(dateArr[1])-1,Integer.parseInt(dateArr[0]));
 		return date;
-	}
-	public Calendar getDate() {return this.date;}
-	public int dateToDay(String dateString){
-		Calendar date = StringToDate(dateString);
-		return date.get(Calendar.DAY_OF_WEEK);
 	}
 
 	public void setTourGuide(TourGuide tourGuide) { this.tourGuide = tourGuide;}
