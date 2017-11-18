@@ -246,14 +246,19 @@ public class KitchenSinkController {
 			}
         	//Create Confirm
         	case 1: {
+        		if ((text.toLowerCase().matches("choose others"))) {
+        			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
+        			customer.stageRestore();    	
+    				break;
+        		}        			
 				this.reply(replyToken, stage1Messages(text));
 				break;	
         	}
         	
         	case 2: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
-        			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
-    				customer.stageZero();    	
+        			this.replyText(replyToken, "Okay. You may pick another date.");
+    				customer.stageRestore();    	
     				break;
         		}
         		customer.setTour(database.getSelectedTour());
@@ -329,8 +334,10 @@ public class KitchenSinkController {
 		} catch (Exception e) {
 			return;
 		}
-		if (bookingDateList != null)
+		if (bookingDateList != null) {
+			bookingDateList.add("Choose Others");
 			createMenu(bookingDateList, "I pick ", title, multiMessages);
+		}
 	}
 	
 	private void createMenu(List<String> list, String message, String title, List<Message> multiMessages) {
@@ -346,8 +353,10 @@ public class KitchenSinkController {
 				action = new ArrayList<Action>();            			
 				for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
 					String element = list.get(count);
-					action.add(new MessageAction(
-							element, message + element + "."));
+					if (element.matches("Choose Others"))
+						action.add(new MessageAction(element, element));
+					else
+						action.add(new MessageAction(element, message + element + "."));
 					count++;
 					if (columnCount != 0 && actionCount+1 < 3 && count == numTour) {
 						for (int temp = actionCount+1; temp < 3; temp++) {
