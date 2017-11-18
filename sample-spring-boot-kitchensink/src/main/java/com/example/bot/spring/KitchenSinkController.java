@@ -295,9 +295,9 @@ public class KitchenSinkController {
 		return multiMessages;
 	}
 	
-	private void createDaySelect(String text, List<Message> multiMessages) {
+	private void createDaySelect(String text, List<Message> multiMessages) throws Exception {
 		String selectedTour = database.getSelectedTour().getID().toLowerCase();
-		List<String> tourDateList = database.getListBookingDate(selectedTour);
+		List<String> tourDateList = database.listBookingDate(selectedTour);
 		List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 		List<CarouselColumn> carouselColumn;
 		List<Action> tourEnroll;
