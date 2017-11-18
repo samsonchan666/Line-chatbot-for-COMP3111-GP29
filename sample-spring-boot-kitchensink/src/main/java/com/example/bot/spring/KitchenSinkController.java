@@ -341,11 +341,11 @@ public class KitchenSinkController {
 		}
 		if (bookingDateList != null) {
 			bookingDateList.add("Choose Other Tours");
-			createMenu(bookingDateList, "I pick ", title, multiMessages);
+			createMenu(bookingDateList, title, "I pick ", multiMessages);
 		}
 	}
 	
-	private void createMenu(List<String> list, String message, String title, List<Message> multiMessages) {
+	private void createMenu(List<String> list, String title, String message, List<Message> multiMessages) {
 		List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 		List<CarouselColumn> carouselColumn;
 		List<Action> action;
