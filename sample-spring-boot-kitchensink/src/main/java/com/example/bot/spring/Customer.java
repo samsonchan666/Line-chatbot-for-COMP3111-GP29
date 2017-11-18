@@ -113,7 +113,7 @@ public class Customer implements Observer{
 	public void resetNumInput() { this.numInput = 0;}
 	
 	public boolean inputFinished() {
-		if (id != null && name != null && age >= 0 && tour != null && 
+		if (id != null && name != null && age >= 0 && phoneNum != null && tour != null && 
 				customerNo.inputDone())
 			return true;
 		return false;
