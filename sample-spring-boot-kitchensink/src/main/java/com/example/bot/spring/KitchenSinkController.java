@@ -246,7 +246,7 @@ public class KitchenSinkController {
 			}
         	//Create Confirm
         	case 1: {
-        		if ((text.toLowerCase().matches("choose others"))) {
+        		if ((text.toLowerCase().matches("choose other tours"))) {
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
         			customer.stageRestore();    	
     				break;
@@ -335,7 +335,7 @@ public class KitchenSinkController {
 			return;
 		}
 		if (bookingDateList != null) {
-			bookingDateList.add("Choose Others");
+			bookingDateList.add("Choose Other Tours");
 			createMenu(bookingDateList, "I pick ", title, multiMessages);
 		}
 	}
@@ -353,7 +353,7 @@ public class KitchenSinkController {
 				action = new ArrayList<Action>();            			
 				for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
 					String element = list.get(count);
-					if (element.matches("Choose Others"))
+					if (element.matches("Choose Other Tours"))
 						action.add(new MessageAction(element, element));
 					else
 						action.add(new MessageAction(element, message + element + "."));
