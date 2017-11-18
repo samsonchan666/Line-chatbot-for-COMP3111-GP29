@@ -242,11 +242,6 @@ public class KitchenSinkController {
 
 				//Creating Filter Result & Template Messages if filtering is done
 				this.reply(replyToken, createMessages(reply, text));
-
-				if ((text.toLowerCase().matches("(.)*gathering(.)*|(.)*assemble(.)*|(.)*dismiss(.)*"))){
-					String imageUrl = createUri("/static/gather.jpg");
-					this.reply(replyToken, new ImageMessage(imageUrl, imageUrl));
-				}
 				break;
 			}
         	
@@ -290,6 +285,10 @@ public class KitchenSinkController {
 	private List<Message> createMessages(String reply, String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
+		if ((text.toLowerCase().matches("(.)*gathering(.)*|(.)*assemble(.)*|(.)*dismiss(.)*"))){
+			String imageUrl = createUri("/static/gather.jpg");
+			multiMessages.add(new ImageMessage(imageUrl, imageUrl));
+		}
 		if (text.matches("I want to enroll in(.)*")) {
 			createConfirm("Do you want to book this one?", multiMessages);
 		}		
