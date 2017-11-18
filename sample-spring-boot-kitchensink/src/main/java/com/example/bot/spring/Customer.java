@@ -122,7 +122,7 @@ public class Customer {
 	public void resetNumInput() { this.numInput = 0;}
 	
 	public boolean inputFinished() {
-		if (id != null && name != null && age != -1 && tour != null && 
+		if (id != null && name != null && age >= 0 && tour != null && 
 				customerNo.inputDone())
 			return true;
 		return false;
@@ -153,7 +153,7 @@ class CustomerNo{
 	public int getToodlerNo() { return this.toodlerNo;}
 	
 	public boolean inputDone() {
-		if (adultNo != -1 && childrenNo != -1 && toodlerNo != -1)
+		if (adultNo >= 0 && childrenNo >= 0 && toodlerNo >= 0)
 			return true;
 		return false;
 	}
