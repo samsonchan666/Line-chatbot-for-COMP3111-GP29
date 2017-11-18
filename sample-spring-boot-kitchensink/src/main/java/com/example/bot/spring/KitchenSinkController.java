@@ -288,8 +288,6 @@ public class KitchenSinkController {
     				customer.stageRestore();    	
     				break;
         		}
-				attachCustomerToBooking();
-        		database.saveCustomerToDb(customer);
         		outputFee(multiMessages);
         		this.reply(replyToken, multiMessages);    			   	
     			break;        		
@@ -305,6 +303,8 @@ public class KitchenSinkController {
     				customer.stageRestore();   //back to stage 3 for receiving input
     				break;
         		}
+				attachCustomerToBooking();
+				database.saveCustomerToDb(customer);
         		this.reply(replyToken, new TextMessage(
         				"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
         				+ "of ABC Bank or by cash in our store. When you complete "

@@ -386,5 +386,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         preparedStatement.setInt(8, customer.getCustomerNo().getToodlerNo());
         preparedStatement.setDouble(9, customer.getFee().getTotalFee());
         preparedStatement.setDouble(10, 0);
+
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
     }
 }
