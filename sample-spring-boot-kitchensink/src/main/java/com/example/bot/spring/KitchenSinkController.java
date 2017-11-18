@@ -218,6 +218,9 @@ public class KitchenSinkController {
 		String text = content.getText();
 
 		log.info("Got text message from {}: {}", replyToken, text);
+
+		database.saveReplyToken(replyToken);
+
 		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
 		//4 for confirm input, 5 for confirm fee
         int stage = customer.getStage();

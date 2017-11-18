@@ -385,4 +385,23 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         preparedStatement.executeUpdate();
         preparedStatement.close();
     }
+
+    public void saveReplyToken(String token) throws Exception{
+        this.connection = this.getConnection();
+
+        String strSelect = "select * from token";
+        Statement stmt = connection.createStatement();
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            if (rset.getString("token").equals(token)) return;
+        }
+        rset.close();
+
+        String sqlInsert = "insert into token values (?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+        preparedStatement.setString(1, token);
+
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+    }
 }
