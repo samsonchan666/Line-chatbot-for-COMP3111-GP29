@@ -262,7 +262,7 @@ public class KitchenSinkController {
     				break;
         		}        		
         		customer.setTour(database.getSelectedTour());
-        		database.setSelectedBooking(text);
+        		database.setSelectedBooking();
         		customer.getTour().setID(database.getSelectedBooking().getID());
         		this.reply(replyToken, createInputMenu());
         		customer.stageProceed();
