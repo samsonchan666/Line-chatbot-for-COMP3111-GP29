@@ -456,7 +456,8 @@ public class KitchenSinkController {
 		List<Message> multiMessages = new ArrayList<Message>();
 		StringBuilder currentInfo = new StringBuilder();
 		currentInfo.append("Please confirm you have input the correct info.\n");
-		currentInfo.append("Tour chosen: " + customer.getTour().getID() + customer.getTour().getName() + "\n");
+		currentInfo.append("Tour chosen: " + customer.getTour().getName() + "\n");
+		currentInfo.append("Tour ID: " + customer.getTour().getID() + "\n");
 		currentInfo.append("Date: " + database.getSelectedBooking().dateToString() + "\n");
 		currentInfo.append("ID: " + customer.getId() + "\n");
 		currentInfo.append("Name: " + customer.getName() + "\n");
