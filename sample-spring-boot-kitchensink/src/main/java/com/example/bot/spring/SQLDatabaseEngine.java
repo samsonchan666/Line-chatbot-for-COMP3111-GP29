@@ -20,6 +20,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     String text = null;
     private Tour selectedTour = null;
     private List<Tour> tourList = null;
+    private List<String> tourIDList = null;
+    
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -50,12 +52,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         connection.close();
         throw new Exception("NOT FOUND");
-    }
+    }        
     
-    List<String> listBookingDate() throws Exception{
+    List<String> createBookingDateList() throws Exception{
     	String text = selectedTour.getID().toLowerCase();
     	this.connection = this.getConnection();
-    	List<String> result = new ArrayList<String>();
+    	List<String> bookingDateList = new ArrayList<String>();
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM booking "
@@ -64,7 +66,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             while (rs.next()) {
                 String tourid = rs.getString("tourId").toLowerCase();
                 if (!(text.equals(tourid))) continue;
-                result.add(rs.getString("dates"));
+                bookingDateList.add(rs.getString("dates"));
             }
             rs.close();
             stmt.close();
@@ -73,7 +75,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             System.out.println("searchTour()" + e);
         }
         connection.close();
-        return result;
+        if (bookingDateList.isEmpty()) return null;
+        return bookingDateList;
     }
 
     private Connection getConnection() throws URISyntaxException, SQLException {
@@ -159,7 +162,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                     "SELECT *  FROM tour "
             );
             ResultSet rs = stmt.executeQuery();
-            tourList = new ArrayList<Tour>() ;
+            tourList = new ArrayList<Tour>();
+            tourIDList = new ArrayList<String>();
             boolean hasResult = false;
             while(rs.next()) {
                 String dates = rs.getString("dates").toLowerCase();
@@ -173,6 +177,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getString("dates")
                 );
                 tourList.add(tour);
+                tourIDList.add(tour.getID());
                 hasResult = true;
             }
             if (hasResult) {
@@ -222,7 +227,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                     "SELECT *  FROM tour "
             );
             ResultSet rs = stmt.executeQuery();
-            tourList = new ArrayList<Tour>() ;
+            tourList = new ArrayList<Tour>();
+            tourIDList = new ArrayList<String>();
             boolean hasResult = false;
             while(rs.next()) {
                 String attraction = rs.getString("attraction").toLowerCase();
@@ -236,6 +242,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getString("dates")
                 );
                 tourList.add(tour);
+                tourIDList.add(tour.getID());
                 hasResult = true;
             }
             if (hasResult) {
@@ -318,7 +325,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
-    }
-    
+    }    
     void resetTourList() { tourList = null;}
+    
+    List<String> getTourIDList() {
+    	if (tourIDList == null) return null;
+    	return tourIDList;
+    }    
+    void resetTourIDList() { tourIDList = null;}
 }
