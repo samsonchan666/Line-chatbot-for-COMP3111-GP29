@@ -96,62 +96,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
     
-    void createBookingDateList() throws Exception{
-    	if (selectedTour == null) return;
-    	String text = selectedTour.getID().toLowerCase();
-    	this.connection = this.getConnection();
-    	bookingList = new ArrayList<Booking>();
-    	bookingDateList = new ArrayList<String>();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT *  FROM booking "
-            );
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String tourid = rs.getString("tourId").toLowerCase();
-                if (!(text.equals(tourid))) continue;
-                Booking booking = new Booking(
-                		rs.getString("id"), 
-                		selectedTour, 
-                		null, 
-                		rs.getString("hotel"), 
-                		rs.getInt("capacity"), 
-                		rs.getInt("miniCustomer"), 
-                		rs.getInt("currentCustomer")                		
-                );
-                booking.setDateString(rs.getString("dates"));
-                booking.getTourGuide().setName(rs.getString("tourGuide"));
-                booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
-                bookingList.add(booking);
-                bookingDateList.add(rs.getString("dates"));
-            }
-            rs.close();
-            stmt.close();
-        }
-        catch (Exception e){
-            System.out.println("searchTour()" + e);
-        }
-        connection.close();
-    }    
-    
-    List<String> getBookingDateList() {
-        if (bookingDateList == null || bookingDateList.isEmpty()) return null;
-        return bookingDateList;
-    }
-    
-    void setSelectedBookingText(String text) {
-    	this.selectedBookingText = text;
-    }
-    
-    void setSelectedBooking() {
-    	for (int i = 0; i < bookingList.size(); i++)
-    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
-    			selectedBooking = bookingList.get(i);
-    }
-    
-    Booking getSelectedBooking() {
-    	return this.selectedBooking;
-    }
     
     private String searchTour() throws Exception{
         String result = null;
@@ -370,4 +314,61 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     	return tourIDList;
     }    
     void resetTourIDList() { tourIDList = null;}
+    
+    void createBookingDateList() throws Exception{
+    	if (selectedTour == null) return;
+    	String text = selectedTour.getID().toLowerCase();
+    	this.connection = this.getConnection();
+    	bookingList = new ArrayList<Booking>();
+    	bookingDateList = new ArrayList<String>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM booking "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String tourid = rs.getString("tourId").toLowerCase();
+                if (!(text.equals(tourid))) continue;
+                Booking booking = new Booking(
+                		rs.getString("id"), 
+                		selectedTour, 
+                		null, 
+                		rs.getString("hotel"), 
+                		rs.getInt("capacity"), 
+                		rs.getInt("miniCustomer"), 
+                		rs.getInt("currentCustomer")                		
+                );
+                booking.setDateString(rs.getString("dates"));
+                booking.getTourGuide().setName(rs.getString("tourGuide"));
+                booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
+                bookingList.add(booking);
+                bookingDateList.add(rs.getString("dates"));
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTour()" + e);
+        }
+        connection.close();
+    }    
+    
+    List<String> getBookingDateList() {
+        if (bookingDateList == null || bookingDateList.isEmpty()) return null;
+        return bookingDateList;
+    }
+    
+    void setSelectedBookingText(String text) {
+    	this.selectedBookingText = text;
+    }
+    
+    void setSelectedBooking() {
+    	for (int i = 0; i < bookingList.size(); i++)
+    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
+    			selectedBooking = bookingList.get(i);
+    }
+    
+    Booking getSelectedBooking() {
+    	return this.selectedBooking;
+    }
 }
