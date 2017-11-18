@@ -306,8 +306,10 @@ public class KitchenSinkController {
 	
 	private List<Message> stage1Messages(String text){
 		List<Message> multiMessages = new ArrayList<Message>();
-		if (text.matches("I pick (.)*"))
+		if (text.matches("I pick (.)*")) {
+			database.setDateText(text);
 			createConfirm("Do you want to book this one?", multiMessages);
+		}
 		return multiMessages;
 	}
 

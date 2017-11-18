@@ -22,6 +22,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private List<Tour> tourList = null;
     private List<String> tourIDList = null;
     
+    private String dateText = null;
     private Booking selectedBooking = null;
     private List<Booking> bookingList = null;
     private List<String> bookingDateList = null;
@@ -134,9 +135,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }    
     
-    void setSelectedBooking(String dateString) {
+    void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
-    		if (bookingList.get(i).getDate().toString().matches("(.)*" + dateString + "(.)*"))
+    		if (bookingList.get(i).getDate().toString().matches("(.)*" + dateText + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
     
@@ -148,6 +149,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         if (bookingDateList == null || bookingDateList.isEmpty()) return null;
         return bookingDateList;
     }
+    
+    void setDateText(String dateText) { this.dateText = dateText;}
     
     private String searchTour() throws Exception{
         String result = null;
