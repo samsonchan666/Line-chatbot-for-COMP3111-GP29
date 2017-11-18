@@ -20,6 +20,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     String text = null;
     private Tour selectedTour = null;
     private List<Tour> tourList = null;
+    private List<String> bookingDate = null;
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -52,11 +53,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         throw new Exception("NOT FOUND");
     }
     
-    List<String> listBookingDate() throws Exception{
-    	if (this.getSelectedTour() == null) return null;
-    	String text = this.getSelectedTour().getID().toLowerCase();
-    	this.connection = this.getConnection();    	
-    	List<String> result = new ArrayList<String>();
+    List<String> listBookingDate(String text) throws Exception{
+    	this.connection = this.getConnection();
+    	bookingDate = new ArrayList<String>();
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM booking "
@@ -65,17 +64,16 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             while (rs.next()) {
                 String tourid = rs.getString("tourId").toLowerCase();
                 if (!(text.equals(tourid))) continue;
-                result.add(rs.getString("dates"));
+                bookingDate.add(rs.getString("dates"));
             }
             rs.close();
             stmt.close();
         }
         catch (Exception e){
-        	System.out.println("searchTour()" + e);
+            System.out.println("searchTour()" + e);
         }
         connection.close();
-        return result;
-        throw new Exception("NOT FOUND");
+        return bookingDate;
     }
 
     private Connection getConnection() throws URISyntaxException, SQLException {
