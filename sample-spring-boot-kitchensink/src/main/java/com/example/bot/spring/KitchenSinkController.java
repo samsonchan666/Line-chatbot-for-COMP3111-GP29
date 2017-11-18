@@ -232,11 +232,6 @@ public class KitchenSinkController {
 					}
 					break;
 				}
-				else if ((text.toLowerCase().matches("(.)*gathering(.)*|(.)*assemble(.)*|(.)*dismiss(.)*"))){
-					String imageUrl = createUri("/static/gather.jpg");
-					this.reply(replyToken, new ImageMessage(imageUrl, imageUrl));
-					break;
-				}
 				String reply = null;
 				try {
 					reply = database.search(text);
@@ -247,6 +242,11 @@ public class KitchenSinkController {
 
 				//Creating Filter Result & Template Messages if filtering is done
 				this.reply(replyToken, createMessages(reply, text));
+
+				if ((text.toLowerCase().matches("(.)*gathering(.)*|(.)*assemble(.)*|(.)*dismiss(.)*"))){
+					String imageUrl = createUri("/static/gather.jpg");
+					this.reply(replyToken, new ImageMessage(imageUrl, imageUrl));
+				}
 				break;
 			}
         	
