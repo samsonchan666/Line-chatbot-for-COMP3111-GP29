@@ -454,7 +454,7 @@ public class KitchenSinkController {
 			case 0: { customer.setId(text); break;}
 			case 1: { customer.setName(text); break;}
 			case 2: { customer.setAge(Integer.parseInt(text)); break;}
-			case 2: { customer.setPhoneNum(text); break;}
+			case 3: { customer.setPhoneNum(text); break;}
 			case 4: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
 			case 5: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
 			case 6: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
@@ -487,7 +487,7 @@ public class KitchenSinkController {
 	}
 	
 	private void outputFee(String replyToken) {
-		customer.calculateFee();
+		customer.calculateFee(database.getSelectedBooking());
 		StringBuilder feeInfo = new StringBuilder();
 		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
 		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");

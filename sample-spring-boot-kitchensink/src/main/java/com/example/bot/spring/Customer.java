@@ -41,7 +41,7 @@ public class Customer implements Observer{
 	public int getAge() { return this.age;}
 	
 	public void setPhoneNum(String phoneNum) { this.phoneNum = phoneNum;}
-	public int getPhoneNum() { return this.phoneNum;}
+	public String getPhoneNum() { return this.phoneNum;}
 	
 	public void setTour(Tour tour) { this.tour = tour;}
 	public Tour getTour() { return this.tour;}
@@ -53,7 +53,7 @@ public class Customer implements Observer{
 	public void setFee(Fee fee) { this.fee = fee;}
 	public Fee getFee() { return this.fee;}
 	
-	public void calculateFee() {
+	public void calculateFee(Booking selectedBooking) {
 		String dates = this.tour.getDates();
 		int price;
 		int adult_num = this.customerNo.getAdultNo();
@@ -113,7 +113,7 @@ public class Customer implements Observer{
 	public void resetNumInput() { this.numInput = 0;}
 	
 	public boolean inputFinished() {
-		if (id != null && name != null && age != -1 && tour != null && 
+		if (id != null && name != null && age >= 0 && tour != null && 
 				customerNo.inputDone())
 			return true;
 		return false;
@@ -148,7 +148,7 @@ class CustomerNo{
 	public int getToodlerNo() { return this.toodlerNo;}
 	
 	public boolean inputDone() {
-		if (adultNo != -1 && childrenNo != -1 && toodlerNo != -1)
+		if (adultNo >= 0 && childrenNo >= 0 && toodlerNo >= 0)
 			return true;
 		return false;
 	}
