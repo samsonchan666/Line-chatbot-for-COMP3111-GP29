@@ -295,7 +295,7 @@ public class KitchenSinkController {
 	private List<Message> stage0Messages(String reply, String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
-		if (text.matches("I want to enroll in(.)*")) {
+		if (text.toLowerCase().matches("(.)*enroll in(.)*")) {
 			createDaySelectMenu("Which Day do you want to pick?", multiMessages);
 		}
 		createFilterMenu("Tour Selection", multiMessages);
