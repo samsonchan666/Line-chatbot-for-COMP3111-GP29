@@ -55,7 +55,7 @@ public class Customer implements Observer{
 	
 	public void calculateFee(Booking selectedBooking) {
 		String dates = this.tour.getDates();
-		int price;
+		int price = 0;
 		int adult_num = this.customerNo.getAdultNo();
 		int children_num = this.customerNo.getChildrenNo();
 
