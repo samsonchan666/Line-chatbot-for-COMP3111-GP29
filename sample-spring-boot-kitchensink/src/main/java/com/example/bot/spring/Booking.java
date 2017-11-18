@@ -63,8 +63,8 @@ public class Booking implements Subject {
 		return this.date;
 	}
 
-	public int dateToDay(String dateString) {
-		Calendar date = StringToDate(dateString);
+	public int dateToDay() {
+		//Calendar date = StringToDate(dateString);
 		return date.get(Calendar.DAY_OF_WEEK);
 	}
 

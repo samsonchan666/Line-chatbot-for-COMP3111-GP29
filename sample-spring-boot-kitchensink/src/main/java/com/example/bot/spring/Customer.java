@@ -4,6 +4,7 @@ public class Customer implements Observer{
 	private String id;
 	private String name;
 	private int age;
+	private String phoneNum;
 	private Tour tour;
 	private CustomerNo customerNo;
 	private Fee fee;						// Ryan Tang
@@ -21,6 +22,7 @@ public class Customer implements Observer{
 		this.id = id;
 		this.name = name;
 		this.age = age;
+		this.phoneNum = null;
 		this.tour = tour;
 		this.customerNo = new CustomerNo(-1, -1, -1);
 		this.fee = new Fee(0, 0, 0);		// Ryan Tang
@@ -38,8 +40,11 @@ public class Customer implements Observer{
 	public void setAge(int age) { this.age = age;}
 	public int getAge() { return this.age;}
 	
+	public void setPhoneNum(String phoneNum) { this.phoneNum = phoneNum;}
+	public String getPhoneNum() { return this.phoneNum;}
+	
 	public void setTour(Tour tour) { this.tour = tour;}
-	public Tour getTour() { return tour;}
+	public Tour getTour() { return this.tour;}
 	
 	public void setCustomerNo(CustomerNo customerNo) { this.customerNo = customerNo;}
 	public CustomerNo getCustomerNo() { return this.customerNo;}
@@ -48,45 +53,22 @@ public class Customer implements Observer{
 	public void setFee(Fee fee) { this.fee = fee;}
 	public Fee getFee() { return this.fee;}
 	
-	public void calculateFee() {
+	public void calculateFee(Booking selectedBooking) {
 		String dates = this.tour.getDates();
-		int weekdayPrice = this.tour.getweekDayPrice();
-		int weekendPrice = this.tour.getweekEndPrice();
-		
+		int price = 0;
 		int adult_num = this.customerNo.getAdultNo();
 		int children_num = this.customerNo.getChildrenNo();
-		
-		int weekday_num = 0;
-		int weekend_num = 0;
-		
-		// weekdays
-		if(dates.toLowerCase().contains("mon")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("tue")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("wed")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("thu")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("fri")) {
-			weekday_num += 1;
-		}
-		// weekends
-		if (dates.toLowerCase().contains("sat")) {
-			weekend_num += 1;
-		}
-		if (dates.toLowerCase().contains("sun")) {
-			weekend_num += 1;
+
+		int day = selectedBooking.dateToDay();
+		switch (day) {
+			case 2: case 3: case 4: case 5: case 6: { price = this.tour.getweekDayPrice(); break;}
+			case 1: case 7: { price = this.tour.getweekEndPrice(); break;}
 		}
 		
-		double adultPrice = adult_num * (weekdayPrice * weekday_num + weekendPrice * weekend_num);
+		double adultPrice = adult_num * price;
 		this.fee.setAdultFee(adultPrice);
 		
-		double childrenPrice = children_num * (weekdayPrice * weekday_num + weekendPrice * weekend_num);
+		double childrenPrice = children_num * price * 0.8;
 		this.fee.setChildrenFee(childrenPrice);
 		
 		this.fee.setTotalFee();
@@ -116,8 +98,8 @@ public class Customer implements Observer{
 	private void resetAll() {
 		this.tour = null;
 		this.customerNo = new CustomerNo(-1, -1, -1);
-		this.fee = new Fee(0, 0, 0);		// Ryan Tang
-		this.paid_amount = -1;		// Ryan Tang
+		this.fee = new Fee(0, 0, 0);
+		this.paid_amount = -1;
 		this.stage = 0;
 		this.inputOption = -1;
 		this.numInput = 0;
@@ -131,7 +113,7 @@ public class Customer implements Observer{
 	public void resetNumInput() { this.numInput = 0;}
 	
 	public boolean inputFinished() {
-		if (id != null && name != null && age != -1 && tour != null && 
+		if (id != null && name != null && age >= 0 && phoneNum != null && tour != null && 
 				customerNo.inputDone())
 			return true;
 		return false;
@@ -166,7 +148,7 @@ class CustomerNo{
 	public int getToodlerNo() { return this.toodlerNo;}
 	
 	public boolean inputDone() {
-		if (adultNo != -1 && childrenNo != -1 && toodlerNo != -1)
+		if (adultNo >= 0 && childrenNo >= 0 && toodlerNo >= 0)
 			return true;
 		return false;
 	}
@@ -190,10 +172,10 @@ class Fee{
 	public void setTotalFee() { this.total_fee = getAdultFee()+getChildrenFee();}
 	public double getTotalFee()  {return total_fee;}
 	
-	public void setAdultFee(double fee) { this.adult_fee += fee;} // adult has no discount
+	public void setAdultFee(double fee) { this.adult_fee = fee;} // adult has no discount
 	public double getAdultFee() { return adult_fee;}
 	
-	public void setChildrenFee(double fee) { this.children_fee += fee*0.8;} // children has 20% discount, toodler is free
+	public void setChildrenFee(double fee) { this.children_fee = fee;} // children has 20% discount, toodler is free
 	public double getChildrenFee() { return children_fee;}
 } 
 // here (by Ryan Tang)

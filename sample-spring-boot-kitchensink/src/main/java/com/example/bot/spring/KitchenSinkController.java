@@ -218,7 +218,8 @@ public class KitchenSinkController {
 		String text = content.getText();
 
 		log.info("Got text message from {}: {}", replyToken, text);
-		//0 for searching, 1 for confirm tour, 2 for ask input
+		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
+		//4 for confirm input, 5 for confirm fee
         int stage = customer.getStage();
         switch (stage) {            
         	case 0: {
@@ -279,8 +280,8 @@ public class KitchenSinkController {
         	}
         	
         	case 4: {
-        		if ((text.toLowerCase().matches("no(.)*"))) {
-        			List<Message> multiMessages = new ArrayList<Message>();
+        		List<Message> multiMessages = new ArrayList<Message>();
+        		if ((text.toLowerCase().matches("no(.)*"))) {        			
         			multiMessages.add(new TextMessage("Okay. You may input your info again."));
         			multiMessages.add(createInputMenu());
         			this.reply(replyToken, multiMessages);
@@ -288,10 +289,28 @@ public class KitchenSinkController {
     				break;
         		}
 				attachCustomerToBooking();
-        		outputFee(replyToken);
-    			customer.stageZero();//reset all    	
+        		outputFee(multiMessages);
+        		this.reply(replyToken, multiMessages);    			   	
     			break;        		
-        	}        	
+        	}
+        	
+        	case 5: {
+        		if ((text.toLowerCase().matches("no(.)*"))) {
+        			List<Message> multiMessages = new ArrayList<Message>();
+        			multiMessages.add(new TextMessage("Okay. You may input your info again."));
+        			multiMessages.add(createInputMenu());
+        			this.reply(replyToken, multiMessages);
+    				customer.stageRestore();
+    				customer.stageRestore();   //back to stage 3 for receiving input
+    				break;
+        		}
+        		this.reply(replyToken, new TextMessage(
+        				"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
+        				+ "of ABC Bank or by cash in our store. When you complete "
+        				+ "the ATM payment, please send the bank in slip to us. "
+        				+ "Our staff will validate it."));
+        		customer.stageZero();//reset all
+        	}
 		}
 	}
 
@@ -392,9 +411,14 @@ public class KitchenSinkController {
 								new MessageAction("Age", "Age")
 						)),
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
+								new MessageAction("Phone Number", "Phone Number"),
 								new MessageAction("No. of Adults", "No. of Adults"),
-								new MessageAction("No. of Children", "No. of Children"), 
-								new MessageAction("No. of Toodlers", "No. of Toodlers")
+								new MessageAction("No. of Children", "No. of Children")
+						)),
+						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
+								new MessageAction("No. of Toodlers", "No. of Toodlers"),
+								new MessageAction(" ", " "),
+								new MessageAction(" ", " ")
 						))
 				));
 		return new TemplateMessage("Carousel alt text", carouselTemplate);
@@ -418,19 +442,24 @@ public class KitchenSinkController {
 				customer.setInputOption(2);
 				break;
 			}
+			case "Phone Number": {
+				this.replyText(replyToken, askInput("Phone Number"));
+				customer.setInputOption(3);
+				break;
+			}
 			case "No. of Adults": {
 				this.replyText(replyToken, askInput("No. of Adults"));
-				customer.setInputOption(3);
+				customer.setInputOption(4);
 				break;
 			}
 			case "No. of Children": {
 				this.replyText(replyToken, askInput("No. of Children"));
-				customer.setInputOption(4);
+				customer.setInputOption(5);
 				break;
 			}
 			case "No. of Toodlers": {
 				this.replyText(replyToken, askInput("No. of Toodlers"));
-				customer.setInputOption(5);
+				customer.setInputOption(6);
 				break;
 			}
 		}
@@ -446,9 +475,10 @@ public class KitchenSinkController {
 			case 0: { customer.setId(text); break;}
 			case 1: { customer.setName(text); break;}
 			case 2: { customer.setAge(Integer.parseInt(text)); break;}
-			case 3: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
-			case 4: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
-			case 5: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
+			case 3: { customer.setPhoneNum(text); break;}
+			case 4: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
+			case 5: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
+			case 6: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
 		}
 		customer.resetInputOption();
 		if (customer.inputFinished())
@@ -469,6 +499,7 @@ public class KitchenSinkController {
 		currentInfo.append("ID: " + customer.getId() + "\n");
 		currentInfo.append("Name: " + customer.getName() + "\n");
 		currentInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
+		currentInfo.append("Phone: " + customer.getPhoneNum() + "\n");
 		currentInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
 		currentInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
 		currentInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));
@@ -477,14 +508,15 @@ public class KitchenSinkController {
 		return multiMessages;
 	}
 	
-	private void outputFee(String replyToken) {
-		customer.calculateFee();
+	private void outputFee(List<Message> multiMessages) {
+		customer.calculateFee(database.getSelectedBooking());
 		StringBuilder feeInfo = new StringBuilder();
 		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
 		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
 		feeInfo.append("No fee charged for toodlers\n");
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
-		this.reply(replyToken, new TextMessage(feeInfo.toString()));
+		multiMessages.add(new TextMessage(feeInfo.toString()));
+		createConfirm("Confirm?", multiMessages);		
 	}
 
 	private void attachCustomerToBooking(){
