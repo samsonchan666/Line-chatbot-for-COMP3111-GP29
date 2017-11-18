@@ -123,7 +123,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 booking.getTourGuide().setName(rs.getString("tourGuide"));
                 booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
                 bookingList.add(booking);
-                bookingIDList.add("id");
+                bookingIDList.add(rs.getString("id"));
             }
             rs.close();
             stmt.close();
