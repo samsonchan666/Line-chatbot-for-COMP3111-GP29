@@ -314,6 +314,25 @@ public class KitchenSinkController {
     	multiMessages.add(new TemplateMessage("Confirm alt text", confirmTemplate));		
 	}
 	
+	private void createFilterMenu(String title, List<Message> multiMessages) {
+		List<String> tourIDList = database.getTourIDList();    
+		if (tourIDList != null)
+			createMenu(tourIDList, "I want to enroll in ", title, multiMessages);
+		database.resetTourIDList();
+	}
+	
+	private void createDaySelectMenu(String title, List<Message> multiMessages) {
+		List<String> bookingDateList = null;
+		customer.stageProceed();
+		try {
+			bookingDateList = database.createBookingDateList();
+		} catch (Exception e) {
+			return;
+		}
+		if (bookingDateList != null)
+			createMenu(bookingDateList, "I pick ", title, multiMessages);
+	}
+	
 	private void createMenu(List<String> list, String message, String title, List<Message> multiMessages) {
 		List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 		List<CarouselColumn> carouselColumn;
@@ -341,78 +360,6 @@ public class KitchenSinkController {
 			carouselTemplate.add(new CarouselTemplate(carouselColumn));
 			multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
 		}
-	}
-	
-	private void createFilterMenu(String title, List<Message> multiMessages) {
-		List<String> tourIDList = database.getTourIDList();    
-		if (tourIDList != null) {
-			createMenu(tourIDList, "I want to enroll in ", title, multiMessages);
-			/*List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
-			List<CarouselColumn> carouselColumn;
-			List<Action> tourEnroll;
-			int count = 0;
-			int numTour = tourIDList.size();
-			int templateCount = 0;        	
-			while (count < numTour) {
-				carouselColumn = new ArrayList<CarouselColumn>();
-				for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
-					tourEnroll = new ArrayList<Action>();            			
-					for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
-						String tourID = tourIDList.get(count);
-						tourEnroll.add(new MessageAction(
-								tourID, "I want to enroll in " + tourID + "."));
-						count++;
-						if (columnCount != 0 && actionCount+1 < 3 && count == numTour) {
-							for (int temp = actionCount+1; temp < 3; temp++) {
-								tourEnroll.add(new MessageAction(" ", " "));
-							}
-						}
-					}
-					carouselColumn.add(new CarouselColumn(null, null, text, tourEnroll));
-				}
-				carouselTemplate.add(new CarouselTemplate(carouselColumn));
-				multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
-			}*/
-		}
-		database.resetTourIDList();
-	}
-	
-	private void createDaySelectMenu(String title, List<Message> multiMessages) {
-		List<String> bookingDateList = null;
-		customer.stageProceed();
-		try {
-			bookingDateList = database.createBookingDateList();
-		} catch (Exception e) {
-			return;
-		}
-		if (bookingDateList != null)
-			createMenu(bookingDateList, "I pick ", title, multiMessages);
-		/*List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
-		List<CarouselColumn> carouselColumn;
-		List<Action> tourEnroll;
-		int count = 0;
-		int numTour = bookDateList.size();
-		int templateCount = 0;
-		while (count < numTour) {
-			carouselColumn = new ArrayList<CarouselColumn>();
-			for (int columnCount = 0; columnCount < 5 && count < numTour; columnCount++) {            		
-				tourEnroll = new ArrayList<Action>();            			
-				for (int actionCount = 0; actionCount < 3 && count < numTour; actionCount++) {            			
-					String tourDate = bookDateList.get(count);
-					tourEnroll.add(new MessageAction(
-							tourDate, "I pick " + tourDate + "."));
-					count++;
-					if (columnCount != 0 && actionCount+1 < 3 && count == numTour) {
-						for (int temp = actionCount+1; temp < 3; temp++) {
-							tourEnroll.add(new MessageAction(" ", " "));
-						}
-					}
-				}
-				carouselColumn.add(new CarouselColumn(null, null, text, tourEnroll));
-			}
-			carouselTemplate.add(new CarouselTemplate(carouselColumn));
-			multiMessages.add(new TemplateMessage("Carousel alt text", carouselTemplate.get(templateCount++)));
-		}*/
 	}
 	
 	private TemplateMessage createInputMenu() {
