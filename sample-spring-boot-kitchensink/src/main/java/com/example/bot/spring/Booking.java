@@ -1,5 +1,6 @@
 package com.example.bot.spring;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Booking {
@@ -48,6 +49,11 @@ public class Booking {
 		Calendar date = Calendar.getInstance();
 		date.set(Integer.parseInt(dateArr[2]),Integer.parseInt(dateArr[1])-1,Integer.parseInt(dateArr[0]));
 		return date;
+	}
+	public String DateToString() {
+		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+		String dateString = format1.format(date.getTime());
+		return dateString;
 	}
 
 	public void setTourGuide(TourGuide tourGuide) { this.tourGuide = tourGuide;}

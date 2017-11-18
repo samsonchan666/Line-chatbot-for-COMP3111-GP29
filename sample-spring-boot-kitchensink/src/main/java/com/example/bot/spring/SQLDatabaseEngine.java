@@ -25,7 +25,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private String selectedBookingText = null;
     private Booking selectedBooking = null;
     private List<Booking> bookingList = null;
-    private List<String> bookingIDList = null;
+    private List<String> bookingDateList = null;
     
     @Override
     String search(String text) throws Exception {
@@ -96,12 +96,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
     
-    void createBookingIDList() throws Exception{
+    void createBookingDateList() throws Exception{
     	if (selectedTour == null) return;
     	String text = selectedTour.getID().toLowerCase();
     	this.connection = this.getConnection();
     	bookingList = new ArrayList<Booking>();
-    	bookingIDList = new ArrayList<String>();
+    	bookingDateList = new ArrayList<String>();
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM booking "
@@ -119,11 +119,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 		rs.getInt("miniCustomer"), 
                 		rs.getInt("currentCustomer")                		
                 );
-                //booking.setDateString(rs.getString("dates"));
+                booking.setDateString(rs.getString("dates"));
                 booking.getTourGuide().setName(rs.getString("tourGuide"));
                 booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
                 bookingList.add(booking);
-                bookingIDList.add(rs.getString("id"));
+                bookingDateList.add(rs.getString("dates"));
             }
             rs.close();
             stmt.close();
@@ -134,9 +134,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }    
     
-    List<String> getBookingIDList() {
-        if (bookingIDList == null || bookingIDList.isEmpty()) return null;
-        return bookingIDList;
+    List<String> getBookingDateList() {
+        if (bookingDateList == null || bookingDateList.isEmpty()) return null;
+        return bookingDateList;
     }
     
     void setSelectedBookingText(String text) {
@@ -145,7 +145,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     
     void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
-    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).getID().toLowerCase() + "(.)*"))
+    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
     

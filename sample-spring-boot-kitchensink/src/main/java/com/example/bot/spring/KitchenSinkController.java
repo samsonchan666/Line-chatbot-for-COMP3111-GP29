@@ -334,8 +334,8 @@ public class KitchenSinkController {
 		List<String> bookingDateList = null;
 		customer.stageProceed();
 		try {
-			database.createBookingIDList();
-			bookingDateList = database.getBookingIDList();
+			database.createBookingDateList();
+			bookingDateList = database.getBookingDateList();
 		} catch (Exception e) {
 			return;
 		}
