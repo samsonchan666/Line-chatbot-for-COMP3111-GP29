@@ -22,10 +22,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private List<Tour> tourList = null;
     private List<String> tourIDList = null;
     
-    private String dateText = null;
     private Booking selectedBooking = null;
     private List<Booking> bookingList = null;
-    private List<String> bookingDateList = null;
+    private List<String> bookingIDList = null;
     
     @Override
     String search(String text) throws Exception {
@@ -96,12 +95,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
     
-    void createBookingDateList() throws Exception{
+    void createBookingIDList() throws Exception{
     	if (selectedTour == null) return;
     	String text = selectedTour.getID().toLowerCase();
     	this.connection = this.getConnection();
     	bookingList = new ArrayList<Booking>();
-    	bookingDateList = new ArrayList<String>();
+    	bookingIDList = new ArrayList<String>();
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM booking "
@@ -110,7 +109,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             while (rs.next()) {
                 String tourid = rs.getString("tourId").toLowerCase();
                 if (!(text.equals(tourid))) continue;
-                String dateString = rs.getString("dates");
                 Booking booking = new Booking(
                 		rs.getString("id"), 
                 		selectedTour, 
@@ -120,11 +118,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 		rs.getInt("miniCustomer"), 
                 		rs.getInt("currentCustomer")                		
                 );
-                booking.setDateString(dateString);
+                booking.setDateString(rs.getString("dates"));
                 booking.getTourGuide().setName(rs.getString("tourGuide"));
                 booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
                 bookingList.add(booking);
-                bookingDateList.add(dateString);
+                bookingIDList.add("id");
             }
             rs.close();
             stmt.close();
@@ -135,22 +133,20 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }    
     
-    void setSelectedBooking() {
+    List<String> getBookingIDList() {
+        if (bookingIDList == null || bookingIDList.isEmpty()) return null;
+        return bookingIDList;
+    }
+    
+    void searchSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
-    		if (bookingList.get(i).getDate().toString().matches("(.)*" + dateText + "(.)*"))
+    		if (text.toLowerCase(text.toLowerCase().matches("(.)*" + bookingList.get(i).getID() + "(.)*")))
     			selectedBooking = bookingList.get(i);
     }
     
     Booking getSelectedBooking() {
     	return this.selectedBooking;
     }
-    
-    List<String> getBookingDateList() {
-        if (bookingDateList == null || bookingDateList.isEmpty()) return null;
-        return bookingDateList;
-    }
-    
-    void setDateText(String dateText) { this.dateText = dateText;}
     
     private String searchTour() throws Exception{
         String result = null;

@@ -262,8 +262,8 @@ public class KitchenSinkController {
     				break;
         		}        		
         		customer.setTour(database.getSelectedTour());
-        		database.setSelectedBooking();
-        		//customer.getTour().setID(database.getSelectedBooking().getID());
+        		database.searchSelectedBooking();
+        		customer.getTour().setID(database.getSelectedBooking().getID());
         		this.reply(replyToken, createInputMenu());
         		customer.stageProceed();
                 break;
@@ -334,8 +334,8 @@ public class KitchenSinkController {
 		List<String> bookingDateList = null;
 		customer.stageProceed();
 		try {
-			database.createBookingDateList();
-			bookingDateList = database.getBookingDateList();
+			database.createBookingIDList();
+			bookingDateList = database.getBookingIDList();
 		} catch (Exception e) {
 			return;
 		}
