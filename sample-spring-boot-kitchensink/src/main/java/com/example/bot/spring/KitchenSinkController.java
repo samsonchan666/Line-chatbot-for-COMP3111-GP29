@@ -480,6 +480,7 @@ public class KitchenSinkController {
 		currentInfo.append("ID: " + customer.getId() + "\n");
 		currentInfo.append("Name: " + customer.getName() + "\n");
 		currentInfo.append("Age: " + Integer.toString(customer.getAge()) + "\n");
+		currentInfo.append("Phone: " + customer.getPhoneNum() + "\n");
 		currentInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
 		currentInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
 		currentInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));

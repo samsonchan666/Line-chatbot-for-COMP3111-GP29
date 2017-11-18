@@ -98,8 +98,8 @@ public class Customer implements Observer{
 	private void resetAll() {
 		this.tour = null;
 		this.customerNo = new CustomerNo(-1, -1, -1);
-		this.fee = new Fee(0, 0, 0);		// Ryan Tang
-		this.paid_amount = -1;		// Ryan Tang
+		this.fee = new Fee(0, 0, 0);
+		this.paid_amount = -1;
 		this.stage = 0;
 		this.inputOption = -1;
 		this.numInput = 0;
