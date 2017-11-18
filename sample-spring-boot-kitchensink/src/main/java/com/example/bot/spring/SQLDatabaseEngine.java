@@ -53,7 +53,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         throw new Exception("NOT FOUND");
     }
     
-    List<String> listBookingDate(String text) throws Exception{
+    public List<String> getListBookingDate(String text) throws Exception {
+    	return listBookingDate(text);
+    }
+    
+    private List<String> listBookingDate(String text) throws Exception{
     	this.connection = this.getConnection();
     	bookingDate = new ArrayList<String>();
         try {
