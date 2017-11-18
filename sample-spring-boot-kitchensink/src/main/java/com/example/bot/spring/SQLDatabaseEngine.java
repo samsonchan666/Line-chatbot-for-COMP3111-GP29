@@ -22,6 +22,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private List<Tour> tourList = null;
     private List<String> tourIDList = null;
     
+    private String selectedBookingText = null;
     private Booking selectedBooking = null;
     private List<Booking> bookingList = null;
     private List<String> bookingIDList = null;
@@ -138,9 +139,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return bookingIDList;
     }
     
+    void setSelectedBookingText(String text) {
+    	this.selectedBookingText = text;
+    }
+    
     void searchSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
-    		if (text.toLowerCase(text.toLowerCase().matches("(.)*" + bookingList.get(i).getID() + "(.)*")))
+    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).getID() + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
     
