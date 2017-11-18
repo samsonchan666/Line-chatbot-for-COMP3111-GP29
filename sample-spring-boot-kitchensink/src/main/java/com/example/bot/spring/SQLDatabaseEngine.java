@@ -370,4 +370,21 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     Booking getSelectedBooking() {
     	return this.selectedBooking;
     }
+
+    public void saveCustomerToDb(Customer customer) throws Exception{
+        this.connection = this.getConnection();
+        String sqlInsert = "insert into customer values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+        preparedStatement.setString(1, customer.getName());
+        preparedStatement.setString(2, customer.getId());
+//        preparedStatement.setInt(3, customer.getP);
+        preparedStatement.setInt(4, customer.getAge());
+        preparedStatement.setString(5, selectedBooking.getID());
+        preparedStatement.setInt(6, customer.getCustomerNo().getAdultNo());
+        preparedStatement.setInt(7, customer.getCustomerNo().getChildrenNo());
+        preparedStatement.setInt(8, customer.getCustomerNo().getToodlerNo());
+        preparedStatement.setDouble(9, customer.getFee().getTotalFee());
+        preparedStatement.setDouble(10, 0);
+    }
 }
