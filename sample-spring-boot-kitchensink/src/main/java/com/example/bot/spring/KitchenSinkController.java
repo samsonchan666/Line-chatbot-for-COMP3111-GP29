@@ -218,7 +218,8 @@ public class KitchenSinkController {
 		String text = content.getText();
 
 		log.info("Got text message from {}: {}", replyToken, text);
-		//0 for searching, 1 for confirm tour, 2 for ask input
+		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
+		//4 for confirm input, 5 for confirm fee
         int stage = customer.getStage();
         switch (stage) {            
         	case 0: {
@@ -279,8 +280,8 @@ public class KitchenSinkController {
         	}
         	
         	case 4: {
-        		if ((text.toLowerCase().matches("no(.)*"))) {
-        			List<Message> multiMessages = new ArrayList<Message>();
+        		List<Message> multiMessages = new ArrayList<Message>();
+        		if ((text.toLowerCase().matches("no(.)*"))) {        			
         			multiMessages.add(new TextMessage("Okay. You may input your info again."));
         			multiMessages.add(createInputMenu());
         			this.reply(replyToken, multiMessages);
@@ -288,10 +289,28 @@ public class KitchenSinkController {
     				break;
         		}
 				attachCustomerToBooking();
-        		outputFee(replyToken);
-    			customer.stageZero();//reset all    	
+        		outputFee(multiMessages);
+        		this.reply(replyToken, multiMessages);    			   	
     			break;        		
-        	}        	
+        	}
+        	
+        	case 5: {
+        		if ((text.toLowerCase().matches("no(.)*"))) {
+        			List<Message> multiMessages = new ArrayList<Message>();
+        			multiMessages.add(new TextMessage("Okay. You may input your info again."));
+        			multiMessages.add(createInputMenu());
+        			this.reply(replyToken, multiMessages);
+    				customer.stageRestore();
+    				customer.stageRestore();   //back to stage 3 for receiving input
+    				break;
+        		}
+        		this.reply(replyToken, new TextMessage(
+        				"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
+        				+ "of ABC Bank or by cash in our store. When you complete "
+        				+ "the ATM payment, please send the bank in slip to us. "
+        				+ "Our staff will validate it."));
+        		customer.stageZero();//reset all
+        	}
 		}
 	}
 
@@ -489,14 +508,15 @@ public class KitchenSinkController {
 		return multiMessages;
 	}
 	
-	private void outputFee(String replyToken) {
+	private void outputFee(List<Message> multiMessages) {
 		customer.calculateFee(database.getSelectedBooking());
 		StringBuilder feeInfo = new StringBuilder();
 		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
 		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
 		feeInfo.append("No fee charged for toodlers\n");
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
-		this.reply(replyToken, new TextMessage(feeInfo.toString()));
+		multiMessages.add(new TextMessage(feeInfo.toString()));
+		createConfirm("Confirm?", multiMessages);		
 	}
 
 	private void attachCustomerToBooking(){
