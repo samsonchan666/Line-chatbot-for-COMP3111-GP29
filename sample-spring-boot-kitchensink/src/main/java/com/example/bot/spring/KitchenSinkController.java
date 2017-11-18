@@ -288,7 +288,7 @@ public class KitchenSinkController {
     				break;
         		}
         		outputFee(replyToken);
-    			customer.stageZero();    	
+    			customer.stageZero();//reset all    	
     			break;        		
         	}        	
 		}
