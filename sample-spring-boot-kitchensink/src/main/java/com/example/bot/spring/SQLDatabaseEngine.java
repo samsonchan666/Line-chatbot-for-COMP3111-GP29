@@ -96,7 +96,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
     
     void createBookingDateList() throws Exception{
-    	if (selectedTour == null) return null;
+    	if (selectedTour == null) return;
     	String text = selectedTour.getID().toLowerCase();
     	this.connection = this.getConnection();
     	bookingList = new ArrayList<Booking>();
