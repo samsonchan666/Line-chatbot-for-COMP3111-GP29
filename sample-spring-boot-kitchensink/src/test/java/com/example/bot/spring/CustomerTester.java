@@ -405,4 +405,260 @@ public class CustomerTester {
 		assertThat(returns).isEqualTo(400);
 		assertThat(thrown).isFalse();
 	}
+	
+	@Test
+	public void CustomerStageTestZero() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.stageZero();
+			c.getStage();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getStage()).isEqualTo(0);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerStageTestProceed() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.stageZero();
+			c.stageProceed();
+			c.getStage();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getStage()).isEqualTo(1);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerStageTestRestore() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.stageZero();
+			c.stageRestore();
+			c.getStage();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getStage()).isEqualTo(-1);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputOptionTest() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.resetInputOption();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getInputOption()).isEqualTo(-1);
+		assertThat(c.getNumInput()).isEqualTo(0);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputOptionTestwithSet() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.resetInputOption();
+			c.setInputOption(0);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getInputOption()).isEqualTo(0);
+		assertThat(c.getNumInput()).isEqualTo(1);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputOptionTestwithSet_ResetNumInput() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.resetInputOption();
+			c.setInputOption(0);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getInputOption()).isEqualTo(0);
+		assertThat(c.getNumInput()).isEqualTo(1);
+		c.resetNumInput();
+		assertThat(c.getNumInput()).isEqualTo(0);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFail() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1); 
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithID() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithID_Name() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithID_Name_Age() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			c.setAge(0);
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithID_Name_Age_Tour() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			c.setAge(0);
+			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
+			c.setTour(tour);
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithFailonCustomerNo1() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			c.setAge(0);
+			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
+			c.setTour(tour);
+			CustomerNo customerNo = new CustomerNo(-1, -1, -1);
+			c.setCustomerNo(customerNo);
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithFailonCustomerNo2() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			c.setAge(0);
+			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
+			c.setTour(tour);
+			CustomerNo customerNo = new CustomerNo(0, -1, -1);
+			c.setCustomerNo(customerNo);
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithFailonCustomerNo3() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			c.setAge(0);
+			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
+			c.setTour(tour);
+			CustomerNo customerNo = new CustomerNo(0, 0, -1);
+			c.setCustomerNo(customerNo);
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestSuccess() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			c.setAge(0);
+			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
+			c.setTour(tour);
+			CustomerNo customerNo = new CustomerNo(0, 0, 0);
+			c.setCustomerNo(customerNo);
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isTrue();
+		assertThat(thrown).isFalse();
+	}
+	
 }
