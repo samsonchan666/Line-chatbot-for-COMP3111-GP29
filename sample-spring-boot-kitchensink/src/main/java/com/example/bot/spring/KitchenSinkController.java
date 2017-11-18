@@ -232,6 +232,11 @@ public class KitchenSinkController {
 					}
 					break;
 				}
+				else if ((text.toLowerCase().matches("gathering"))){
+					String imageUrl = createUri("/static/gather.jpg");
+					this.reply(replyToken, new ImageMessage(imageUrl, imageUrl));
+					break;
+				}
 				String reply = null;
 				try {
 					reply = database.search(text);
