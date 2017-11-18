@@ -384,6 +384,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
+
+        connection.close();
     }
 
     public void saveReplyToken(String token) throws Exception{
@@ -403,5 +405,46 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 
         preparedStatement.executeUpdate();
         preparedStatement.close();
+
+        connection.close();
     }
+
+    public String searchDiscountTour() throws Exception{
+        String reply = null;
+
+        Calendar current = Calendar.getInstance();
+        this.connection = this.getConnection();
+
+        String strSelect = "select * from discount";
+        Statement stmt = connection.createStatement();
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            Calendar discountDate = Calendar.getInstance();
+            //No more discount
+            if(rset.getInt("number") <=0) return;
+            String date = rset.getString("discountDate");
+            String time = rset.getString("discountTime");
+            String[] splitedDate = date.split("/");
+            if (time.length() < 4) continue;
+
+            //year, month, day, hour, min
+            discountDate.set(Integer.parseInt(splitedDate[2]),
+                    Integer.parseInt(splitedDate[1]) - 1,
+                    Integer.parseInt(splitedDate[0]),
+                    Integer.parseInt(time.substring(0,2))-1,
+                    Integer.parseInt(time.substring(2,4))
+            );
+            if (discountDate.compareTo(current)<0 ){
+
+            }
+        }
+        rset.close();
+        connection.close();
+
+        return reply;
+    }
+
+//    public Tour searchTourByID() {
+//
+//    }
 }
