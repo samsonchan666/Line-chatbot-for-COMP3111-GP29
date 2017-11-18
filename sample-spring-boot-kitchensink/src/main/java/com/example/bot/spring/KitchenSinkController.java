@@ -326,7 +326,7 @@ public class KitchenSinkController {
 	private void createFilterMenu(String title, List<Message> multiMessages) {
 		List<String> tourIDList = database.getTourIDList();    
 		if (tourIDList != null)
-			createMenu(tourIDList, "I want to enroll in ", title, multiMessages);
+			createMenu(tourIDList, title, "I want to enroll in ", multiMessages);
 		database.resetTourIDList();
 	}
 	

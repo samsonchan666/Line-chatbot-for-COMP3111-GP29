@@ -51,7 +51,7 @@ public class Booking {
 		return date;
 	}
 	public String dateToString() {
-		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat format1 = new SimpleDateFormat("d/MM/yyyy");
 		String dateString = format1.format(date.getTime());
 		return dateString;
 	}
