@@ -1,5 +1,6 @@
 package com.example.bot.spring;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Booking {
@@ -10,22 +11,24 @@ public class Booking {
 	private String hotel;
 	private int capacity;
 	private int miniCustomer;
-
+	private int currentCustomer;
+	
 	public Booking(
 			String ID,
 			Tour tour,
 			Calendar date,
-			TourGuide tourGuide,
 			String hotel,
 			int capacity,
-			int miniCustomer) {
+			int miniCustomer, 
+			int currentCustomer) {
 		this.ID = ID;
 		this.tour = tour;
 		this.date = date;
-		this.tourGuide = tourGuide;
+		this.tourGuide = new TourGuide("-1", "-1");
 		this.hotel = hotel;
 		this.capacity = capacity;
 		this.miniCustomer = miniCustomer;
+		this.currentCustomer = currentCustomer;
 	}
 	
 	public void setID(String ID) { this.ID = ID;}
@@ -35,12 +38,22 @@ public class Booking {
 	public Tour getTour() { return this.tour;}
 
 	public void setDate(Calendar date) { this.date = date;}
+	public void setDateString(String dateString) { this.date = StringToDate(dateString);}
 	public Calendar getDate() {return this.date;}
-	public static int dateToDay(String dateString){
+	public int dateToDay(String dateString){
+		Calendar date = StringToDate(dateString);
+		return date.get(Calendar.DAY_OF_WEEK);
+	}
+	public Calendar StringToDate(String dateString) {
 		String[] dateArr = dateString.split("/");
 		Calendar date = Calendar.getInstance();
 		date.set(Integer.parseInt(dateArr[2]),Integer.parseInt(dateArr[1])-1,Integer.parseInt(dateArr[0]));
-		return date.get(Calendar.DAY_OF_WEEK);
+		return date;
+	}
+	public String dateToString() {
+		SimpleDateFormat format1 = new SimpleDateFormat("d/MM/yyyy");
+		String dateString = format1.format(date.getTime());
+		return dateString;
 	}
 
 	public void setTourGuide(TourGuide tourGuide) { this.tourGuide = tourGuide;}
@@ -54,6 +67,9 @@ public class Booking {
 	
 	public void setMiniCustomer(int miniCustomer) { this.miniCustomer = miniCustomer;}
 	public int getMiniCustomer() { return this.miniCustomer;}
+	
+	public void setCurrentCustomer(int currentCustomer) { this.currentCustomer = currentCustomer;}
+	public int getCurrentCustomer() { return this.currentCustomer;}
 } 
 
 
