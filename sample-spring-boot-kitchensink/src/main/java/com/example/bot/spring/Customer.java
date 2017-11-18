@@ -106,7 +106,7 @@ public class Customer {
 			return amount;
 	}
 	public double getPayAmount() { return paid_amount;}
-	public boolean haveRemainPayment()  { return (paid_amount >= fee.getTotalFee());}
+	public boolean haveRemainPayment()  { return (paid_amount < fee.getTotalFee());}
 	// here (by Ryan Tang)
 	
 	public int getStage() { return this.stage;}
