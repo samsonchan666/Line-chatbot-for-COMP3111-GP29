@@ -61,8 +61,8 @@ public class Customer implements Observer{
 
 		int day = selectedBooking.dateToDay();
 		switch (day) {
-			case 1: case 2: case 3: case 4: case 5: { price = this.tour.getweekDayPrice(); break;}
-			case 6: case 7: { price = this.tour.getweekEndPrice(); break;}
+			case 2: case 3: case 4: case 5: case 6: { price = this.tour.getweekDayPrice(); break;}
+			case 1: case 7: { price = this.tour.getweekEndPrice(); break;}
 		}
 		
 		double adultPrice = adult_num * price;

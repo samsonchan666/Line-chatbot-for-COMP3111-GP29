@@ -363,7 +363,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     
     void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
-    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
+    		if (selectedBookingText.toLowerCase().matches("I pick " + bookingList.get(i).dateToString().toLowerCase()))
     			selectedBooking = bookingList.get(i);
     }
     
