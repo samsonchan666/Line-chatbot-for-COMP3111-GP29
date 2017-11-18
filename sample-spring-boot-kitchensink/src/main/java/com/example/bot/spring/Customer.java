@@ -112,7 +112,16 @@ public class Customer {
 	public int getStage() { return this.stage;}
 	public void stageProceed() { this.stage++;}
 	public void stageRestore() { this.stage--;}
-	public void stageZero() {this.stage = 0; }
+	public void stageZero() {this.stage = 0; resetAll();}
+	private void resetAll() {
+		this.tour = null;
+		this.customerNo = new CustomerNo(-1, -1, -1);
+		this.fee = new Fee(0, 0, 0);		// Ryan Tang
+		this.paid_amount = -1;		// Ryan Tang
+		this.stage = 0;
+		this.inputOption = -1;
+		this.numInput = 0;
+	}
 	
 	public int getInputOption() { return this.inputOption;}
 	public void setInputOption(int inputOption) { this.inputOption = inputOption; numInput++;}

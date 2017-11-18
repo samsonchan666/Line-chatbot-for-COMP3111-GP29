@@ -11,11 +11,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 public class DatabaseEngine {
     private Connection connection;
 
     public DatabaseEngine() throws URISyntaxException, SQLException {
-        String url = "postgres://kntfvvdzhkanyz:69f7ad5e8e5021c8f38d2419efbb6504dbdad4aa93f423a971ddad9245724e37@ec2-23-21-235-142.compute-1.amazonaws.com:5432/dft5f6k5thrk4u";
+        String url = "postgres://agztmngmcxsmtw:53c37a0e5fc1b17138f39cedb6447395069d3e91c10fea104207c4b779a61b7d@ec2-54-221-244-196.compute-1.amazonaws.com:5432/ddgig904mq3sj6";
         URI dbUri = new URI(url);
 
         String username = dbUri.getUserInfo().split(":")[0];
@@ -25,6 +28,7 @@ public class DatabaseEngine {
         this.connection = DriverManager.getConnection(dbUrl, username, password);
     }
 
+    // For csv or txt input
     public void addTour() throws URISyntaxException, SQLException {
         Statement stmt = connection.createStatement();
 
@@ -112,8 +116,8 @@ public class DatabaseEngine {
 
                 // use comma as separator
                 String[] attribute = line.split(cvsSplitBy);
-
                 if (attribute.length < 10) continue;
+
                 preparedStatement.setString(1, attribute[0]);
                 preparedStatement.setString(2, attribute[1]);
                 preparedStatement.setInt(3, 81777778);
@@ -148,6 +152,8 @@ public class DatabaseEngine {
                     + rset.getDouble("tourFee") + ", "
                     + rset.getDouble("paid"));
         }
+        preparedStatement.close();
+        rset.close();
     }
 
     public void addFAQData()  throws URISyntaxException, SQLException{
@@ -187,8 +193,82 @@ public class DatabaseEngine {
             System.out.println(rset.getString("keywords"));
             System.out.println(rset.getString("respond"));
         }
+        preparedStatement.close();
+        rset.close();
     }
 
+    public void addBooking() throws URISyntaxException, SQLException{
+        Statement stmt = connection.createStatement();
+
+        String sqlDelete = "delete from booking";
+        stmt.executeUpdate(sqlDelete);
+
+        String sqlInsert = "insert into booking values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+
+        String csvFile = "./booking.csv";
+        String line = null;
+        String cvsSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String bookingID = null;
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+
+                String[] attribute = line.split(cvsSplitBy);
+                if (attribute.length < 2) {
+                    bookingID = attribute[0];
+                    continue;
+                }
+                preparedStatement.setString(1, attribute[0]);
+                preparedStatement.setString(2, bookingID);
+                preparedStatement.setString(3, attribute[1]);
+                preparedStatement.setString(4, attribute[2]);
+                preparedStatement.setString(5, attribute[3]);
+                preparedStatement.setString(6, attribute[4]);
+                preparedStatement.setInt(7, Integer.parseInt(attribute[5]));
+                preparedStatement.setInt(8, Integer.parseInt(attribute[6]));
+                preparedStatement.setInt(9, 0);
+
+                preparedStatement .executeUpdate();
+//                System.out.println(bookingID + " " + attribute[0] + " " + attribute[1] + " " + attribute[2]
+//                        + " " + attribute[3] + " " + attribute[4] + " " + attribute[5]);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String strSelect = "select * from booking";
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            System.out.println(rset.getString("id") + ", "
+                    + rset.getString("tourId") + ", "
+                    + rset.getString("dates") + ", "
+                    + rset.getString("tourGuide") + ", "
+                    + rset.getString("lineAcc") + ", "
+                    + rset.getString("hotel") + ", "
+                    + rset.getInt("capacity") + ", "
+                    + rset.getInt("miniCustomer") + ", "
+                    + rset.getDouble("currentCustomer"));
+        }
+        preparedStatement.close();
+        rset.close();
+    }
+
+    public void addImage() throws URISyntaxException, SQLException, IOException{
+        File file = new File("./gather.jpg");
+        FileInputStream fis = new FileInputStream(file);
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO images VALUES (?, ?)");
+        ps.setString(1, file.getName());
+        ps.setBinaryStream(2, fis, file.length());
+        ps.executeUpdate();
+        ps.close();
+        fis.close();
+    }
+
+    // For GUI input
     public void addTour(String id, String name, String descrip, String dura, String days, String dayCost, String endCost)
             throws URISyntaxException, SQLException {
         String sqlInsert = "insert into tour select ?, ?, ?, ?, ?, ?, ? where not exists (select id from tour where id = ?)";

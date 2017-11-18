@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URI;
 import java.lang.*;
 import java.util.regex.*;
+import java.util.Calendar;
 
 
 @Slf4j
@@ -19,6 +20,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     String text = null;
     private Tour selectedTour = null;
     private List<Tour> tourList = null;
+    private List<String> tourIDList = null;
+    
+    private String selectedBookingText = null;
+    private Booking selectedBooking = null;
+    private List<Booking> bookingList = null;
+    private List<String> bookingDateList = null;
+    
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -37,6 +45,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             return result;
         }
 
+        result = searchFAQ(); // Search FAQ
+        if (result != null) {
+            connection.close();
+            return result;
+        }
         result = searchTourByAttraction();
         if (result != null){
             connection.close();
@@ -57,8 +70,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         
         connection.close();
         throw new Exception("NOT FOUND");
-    }
-
+    }       
 
     private Connection getConnection() throws URISyntaxException, SQLException {
         Connection connection;
@@ -95,8 +107,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             System.out.println("searchRes()" + e);
         }
         return result;
-    }
-
+    }    
+    
     private String searchTour() throws Exception{
         String result = null;
         try {
@@ -144,7 +156,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                     "SELECT *  FROM tour "
             );
             ResultSet rs = stmt.executeQuery();
-            tourList = new ArrayList<Tour>() ;
+            tourList = new ArrayList<Tour>();
+            tourIDList = new ArrayList<String>();
             boolean hasResult = false;
             while(rs.next()) {
                 String dates = rs.getString("dates").toLowerCase();
@@ -159,6 +172,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getString("dates")
                 );
                 tourList.add(tour);
+                tourIDList.add(tour.getID());
                 hasResult = true;
             }
             if (hasResult) {
@@ -179,6 +193,27 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
 
+    private String searchFAQ() throws Exception{
+        String result = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM faq "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String keywords = rs.getString("keywords").toLowerCase();
+                if (!(matchByKeywords(keywords))) continue;
+                result = rs.getString("respond");
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTour()" + e);
+        }
+        return result;
+    }
+
     private String searchTourByAttraction() throws Exception{
         String result = null;
         StringBuilder str = new StringBuilder();
@@ -187,7 +222,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                     "SELECT *  FROM tour "
             );
             ResultSet rs = stmt.executeQuery();
-            tourList = new ArrayList<Tour>() ;
+            tourList = new ArrayList<Tour>();
+            tourIDList = new ArrayList<String>();
             boolean hasResult = false;
             while(rs.next()) {
                 String attraction = rs.getString("attraction").toLowerCase();
@@ -202,6 +238,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                         rs.getString("dates")
                 );
                 tourList.add(tour);
+                tourIDList.add(tour.getID());
                 hasResult = true;
             }
             if (hasResult) {
@@ -222,6 +259,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
     
+/*<<<<<<< HEAD
     private String searchTourByRegion() throws Exception{
         String result = null;
         StringBuilder str = new StringBuilder();
@@ -322,10 +360,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
     
+=======
+>>>>>>> cf14236ff16a8e194377486e40639983b704aa0c*/
     private boolean matchByAttraction(String attraction){
-        Pattern p = Pattern.compile("\\w+");
+        Pattern p = Pattern.compile("\\w{3,}");
         Matcher m = p.matcher(attraction);
         while (m.find()){
+
             if (text.toLowerCase().matches("(.)*" + m.group() + "(.)*")) return true;
         }
         return false;
@@ -350,6 +391,22 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
+    public boolean matchByKeywords(String keywords){
+        Pattern p = Pattern.compile("\\w+");
+        Matcher m_keywords = p.matcher(keywords.toLowerCase());
+        Matcher m_text = p.matcher(text.toLowerCase());
+        List<String> keyword_list = new ArrayList<String>();
+        List<String> text_list = new ArrayList<String>();
+        while (m_keywords.find()) keyword_list.add(m_keywords.group());
+        while (m_text.find()) text_list.add(m_text.group());
+        boolean match = false;
+        for (String keyword : keyword_list){
+            if (text_list.contains(keyword)) continue;
+            return false;
+        }
+        return true;
+    }
+
     private boolean matchBySort(){
         if (text.toLowerCase().matches("(.)*sort(.)*")) return true;
         return false;
@@ -367,7 +424,69 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
+    }    
+    void resetTourList() { tourList = null;}
+    
+    List<String> getTourIDList() {
+    	if (tourIDList == null) return null;
+    	return tourIDList;
+    }    
+    void resetTourIDList() { tourIDList = null;}
+    
+    void createBookingDateList() throws Exception{
+    	if (selectedTour == null) return;
+    	String text = selectedTour.getID().toLowerCase();
+    	this.connection = this.getConnection();
+    	bookingList = new ArrayList<Booking>();
+    	bookingDateList = new ArrayList<String>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM booking "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String tourid = rs.getString("tourId").toLowerCase();
+                if (!(text.equals(tourid))) continue;
+                Booking booking = new Booking(
+                		rs.getString("id"), 
+                		selectedTour, 
+                		null, 
+                		rs.getString("hotel"), 
+                		rs.getInt("capacity"), 
+                		rs.getInt("miniCustomer"), 
+                		rs.getInt("currentCustomer")                		
+                );
+                booking.setDateString(rs.getString("dates"));
+                booking.getTourGuide().setName(rs.getString("tourGuide"));
+                booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
+                bookingList.add(booking);
+                bookingDateList.add(rs.getString("dates"));
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTour()" + e);
+        }
+        connection.close();
+    }    
+    
+    List<String> getBookingDateList() {
+        if (bookingDateList == null || bookingDateList.isEmpty()) return null;
+        return bookingDateList;
     }
     
-    void resetTourList() { tourList = null;}
+    void setSelectedBookingText(String text) {
+    	this.selectedBookingText = text;
+    }
+    
+    void setSelectedBooking() {
+    	for (int i = 0; i < bookingList.size(); i++)
+    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
+    			selectedBooking = bookingList.get(i);
+    }
+    
+    Booking getSelectedBooking() {
+    	return this.selectedBooking;
+    }
 }

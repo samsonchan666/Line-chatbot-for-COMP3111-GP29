@@ -67,48 +67,6 @@ public class KitchenSinkTester {
 	}
 
 	@Test
-	public void testFound() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("abc");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		System.out.println(result);
-
-		assertThat(!thrown);
-		assertThat(result.equals("def"));
-	}
-
-
-	@Test
-	public void anothertestFound() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("I am fine");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(!thrown);
-		assertThat(result.equals("Great!"));
-	}
-
-	@Test
-	public void anothertestFound2() throws Exception {
-		boolean thrown = false;
-		String result = null;
-		try {
-			result = this.databaseEngine.search("Abc");
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(!thrown);
-		assertThat(result.equals("def"));
-	}
-
-	@Test
 	public void tourTest() throws Exception {
 		boolean thrown = false;
 		String result = null;
@@ -156,6 +114,19 @@ public class KitchenSinkTester {
 			thrown = true;
 		}
 		System.out.println(result);
+	}
+
+	@Test
+	public void faqTest() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("any additional charge");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert (result!= null);
+		assert (result.equals("Each customer need to pay an additional service charge at the rate $60/day/person on top of the tour fee. It is collected by the tour guide at the end of the tour."));
 	}
 
 }

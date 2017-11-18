@@ -25,22 +25,24 @@ public class Main {
     }
 
     public static void main(String[] args)  {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    createAndShowGUI();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
+//        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    createAndShowGUI();
+//                }
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         try{
             DatabaseEngine databaseEngine = new DatabaseEngine();
+            databaseEngine.addBooking();
             databaseEngine.addTour();
             databaseEngine.addCustomer();
             databaseEngine.addFAQData();
+//            databaseEngine.addImage();
         }
         catch (Exception e){
             e.printStackTrace();
