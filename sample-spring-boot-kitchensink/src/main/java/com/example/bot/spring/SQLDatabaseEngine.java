@@ -52,7 +52,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         throw new Exception("NOT FOUND");
     }
     
-    List<String> listBookingDate(String text) throws Exception{
+    List<String> listBookingDate() throws Exception{
+    	if (this.getSelectedTour() == null) return null;
+    	String text = this.getSelectedTour().getID().toLowerCase();
     	this.connection = this.getConnection();    	
     	List<String> result = new ArrayList<String>();
         try {
