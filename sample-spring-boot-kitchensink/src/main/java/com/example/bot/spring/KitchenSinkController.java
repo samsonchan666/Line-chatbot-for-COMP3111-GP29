@@ -232,7 +232,7 @@ public class KitchenSinkController {
 					}
 					break;
 				}
-				else if ((text.toLowerCase().matches("gathering"))){
+				else if ((text.toLowerCase().matches("(.)*gathering(.)*|(.)*assemble(.)*|(.)*dismiss(.)*"))){
 					String imageUrl = createUri("/static/gather.jpg");
 					this.reply(replyToken, new ImageMessage(imageUrl, imageUrl));
 					break;
