@@ -71,10 +71,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             stmt.close();
         }
         catch (Exception e){
-            return null;
+        	System.out.println("searchTour()" + e);
         }
         connection.close();
         return result;
+        throw new Exception("NOT FOUND");
     }
 
     private Connection getConnection() throws URISyntaxException, SQLException {
