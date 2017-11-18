@@ -68,7 +68,7 @@ public class Customer implements Observer{
 		double adultPrice = adult_num * price;
 		this.fee.setAdultFee(adultPrice);
 		
-		double childrenPrice = children_num * price;
+		double childrenPrice = children_num * price * 0.8;
 		this.fee.setChildrenFee(childrenPrice);
 		
 		this.fee.setTotalFee();
@@ -172,10 +172,10 @@ class Fee{
 	public void setTotalFee() { this.total_fee = getAdultFee()+getChildrenFee();}
 	public double getTotalFee()  {return total_fee;}
 	
-	public void setAdultFee(double fee) { this.adult_fee += fee;} // adult has no discount
+	public void setAdultFee(double fee) { this.adult_fee = fee;} // adult has no discount
 	public double getAdultFee() { return adult_fee;}
 	
-	public void setChildrenFee(double fee) { this.children_fee += fee*0.8;} // children has 20% discount, toodler is free
+	public void setChildrenFee(double fee) { this.children_fee = fee;} // children has 20% discount, toodler is free
 	public double getChildrenFee() { return children_fee;}
 } 
 // here (by Ryan Tang)
