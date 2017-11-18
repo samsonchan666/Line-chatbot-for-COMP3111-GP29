@@ -53,8 +53,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
     
     List<String> listBookingDate(String text) throws Exception{
-    	this.connection = this.getConnection();
-    	
+    	this.connection = this.getConnection();    	
     	List<String> result = new ArrayList<String>();
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -70,7 +69,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             stmt.close();
         }
         catch (Exception e){
-            System.out.println("searchTour()" + e);
+            return null;
         }
         connection.close();
         return result;
