@@ -45,7 +45,7 @@ public class Booking {
 		return date;
 	}
 	public Calendar getDate() {return this.date;}
-	public static int dateToDay(String dateString){
+	public int dateToDay(String dateString){
 		Calendar date = StringToDate(dateString);
 		return date.get(Calendar.DAY_OF_WEEK);
 	}
