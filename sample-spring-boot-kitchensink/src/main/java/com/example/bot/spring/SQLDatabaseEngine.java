@@ -54,6 +54,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     
     List<String> listBookingDate(String text) throws Exception{
     	this.connection = this.getConnection();
+    	
     	List<String> result = new ArrayList<String>();
         try {
             PreparedStatement stmt = connection.prepareStatement(
