@@ -113,10 +113,7 @@ public class Customer {
 	public void stageProceed() { this.stage++;}
 	public void stageRestore() { this.stage--;}
 	public void stageZero() {this.stage = 0; resetAll();}
-	public void resetAll() {
-		this.id = null;
-		this.name = null;
-		this.age = -1;
+	private void resetAll() {
 		this.tour = null;
 		this.customerNo = new CustomerNo(-1, -1, -1);
 		this.fee = new Fee(0, 0, 0);		// Ryan Tang
