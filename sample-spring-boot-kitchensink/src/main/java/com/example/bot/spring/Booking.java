@@ -2,8 +2,10 @@ package com.example.bot.spring;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Booking {
+public class Booking implements Subject{
 	private String ID;
 	private Tour tour;
 	private Calendar date;
@@ -12,6 +14,8 @@ public class Booking {
 	private int capacity;
 	private int miniCustomer;
 	private int currentCustomer;
+	private List<Observer> observers = new ArrayList<Observer>();
+	private int state = 0;
 	
 	public Booking(
 			String ID,
@@ -70,6 +74,21 @@ public class Booking {
 	
 	public void setCurrentCustomer(int currentCustomer) { this.currentCustomer = currentCustomer;}
 	public int getCurrentCustomer() { return this.currentCustomer;}
+
+	public int getState(){
+		return this.state;
+	}
+	public void setState(int state) {
+		this.state = state;
+		notifyAllObservers();
+	}
+	public void attach(Observer observer){
+		observers.add(observer);
+	}
+	public void notifyAllObservers(){
+		for (Observer observer : observers) {
+			observer.update();
+	}
 } 
 
 

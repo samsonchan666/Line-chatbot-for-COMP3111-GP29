@@ -1,6 +1,6 @@
 package com.example.bot.spring;
 
-public class Customer {
+public class Customer implements Observer{
 	private String id;
 	private String name;
 	private int age;
@@ -135,6 +135,10 @@ public class Customer {
 				customerNo.inputDone())
 			return true;
 		return false;
+	}
+
+	public void update(){
+
 	}
 }
 

@@ -111,7 +111,7 @@ public class KitchenSinkController {
 	@EventMapping
 	public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
 		handleSticker(event.getReplyToken(), event.getMessage());
-	} 
+	}
 
 	@EventMapping
 	public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
@@ -287,6 +287,7 @@ public class KitchenSinkController {
     				customer.stageRestore();    	
     				break;
         		}
+				attachCustomerToBooking();
         		outputFee(replyToken);
     			customer.stageZero();//reset all    	
     			break;        		
@@ -484,6 +485,11 @@ public class KitchenSinkController {
 		feeInfo.append("No fee charged for toodlers\n");
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		this.reply(replyToken, new TextMessage(feeInfo.toString()));
+	}
+
+	private void attachCustomerToBooking(){
+		Booking booking = database.getSelectedBooking();
+		booking.attach(customer);
 	}
 	
 	static String createUri(String path) {
