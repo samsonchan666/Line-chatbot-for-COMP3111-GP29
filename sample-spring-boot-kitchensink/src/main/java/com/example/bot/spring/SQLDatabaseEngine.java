@@ -99,11 +99,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private String searchTour() throws Exception{
         String result = null;
         try {
-//            PreparedStatement stmt = connection.prepareStatement(
-//                    "SELECT *  FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
-//            );
-//            stmt.setString(1, text);
-//            stmt.setString(2, text);
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM tour "
             );

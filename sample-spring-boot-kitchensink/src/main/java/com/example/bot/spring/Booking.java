@@ -121,6 +121,8 @@ public class Booking implements Subject {
 		return this.currentCustomer;
 	}
 
+	public void addCurrentCustomer(int number) { this.currentCustomer+=number;}
+
 	public int getState() {
 		return this.state;
 	}

@@ -146,6 +146,8 @@ class CustomerNo{
 	
 	public void setToodlerNo(int toodlerNo) { this.toodlerNo = toodlerNo;}
 	public int getToodlerNo() { return this.toodlerNo;}
+
+	public int getTotalNo() { return this.adultNo + this.childrenNo + this.toodlerNo;}
 	
 	public boolean inputDone() {
 		if (adultNo >= 0 && childrenNo >= 0 && toodlerNo >= 0)
