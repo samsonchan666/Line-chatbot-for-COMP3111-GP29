@@ -22,6 +22,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private List<Tour> tourList = null;
     private List<String> tourIDList = null;
     
+    private Booking selectedBooking = null;
+    private List<Booking> bookingList = null;
+    private List<String> bookingDateList = null;
+    
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -52,33 +56,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         connection.close();
         throw new Exception("NOT FOUND");
-    }        
-    
-    List<String> createBookingDateList() throws Exception{
-    	if (selectedTour == null) return null;
-    	String text = selectedTour.getID().toLowerCase();
-    	this.connection = this.getConnection();
-    	List<String> bookingDateList = new ArrayList<String>();
-        try {
-            PreparedStatement stmt = connection.prepareStatement(
-                    "SELECT *  FROM booking "
-            );
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String tourid = rs.getString("tourId").toLowerCase();
-                if (!(text.equals(tourid))) continue;
-                bookingDateList.add(rs.getString("dates"));
-            }
-            rs.close();
-            stmt.close();
-        }
-        catch (Exception e){
-            System.out.println("searchTour()" + e);
-        }
-        connection.close();
-        if (bookingDateList.isEmpty()) return null;
-        return bookingDateList;
-    }
+    }       
 
     private Connection getConnection() throws URISyntaxException, SQLException {
         Connection connection;
@@ -116,7 +94,61 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return result;
     }
-
+    
+    void createBookingDateList() throws Exception{
+    	if (selectedTour == null) return null;
+    	String text = selectedTour.getID().toLowerCase();
+    	this.connection = this.getConnection();
+    	bookingList = new ArrayList<Booking>();
+    	bookingDateList = new ArrayList<String>();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM booking "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String tourid = rs.getString("tourId").toLowerCase();
+                if (!(text.equals(tourid))) continue;
+                String dateString = rs.getString("dates");
+                Booking booking = new Booking(
+                		rs.getString("id"), 
+                		selectedTour, 
+                		null, 
+                		rs.getString("hotel"), 
+                		rs.getInt("capacity"), 
+                		rs.getInt("miniCustomer"), 
+                		rs.getInt("currentCustomer")                		
+                );
+                booking.setDateString(dateString);
+                booking.getTourGuide().setName(rs.getString("tourGuide"));
+                booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
+                bookingList.add(booking);
+                bookingDateList.add(dateString);
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTour()" + e);
+        }
+        connection.close();
+    }    
+    
+    void setSelectedBooking(String dateString) {
+    	for (int i = 0; i < bookingList.size(); i++)
+    		if (bookingList.get(i).getDate().toString().matches("(.)*" + dateString + "(.)*"))
+    			selectedBooking = bookingList.get(i);
+    }
+    
+    Booking getSelectedBooking() {
+    	return this.selectedBooking;
+    }
+    
+    List<String> getBookingDateList() {
+        if (bookingDateList == null || bookingDateList.isEmpty()) return null;
+        return bookingDateList;
+    }
+    
     private String searchTour() throws Exception{
         String result = null;
         try {

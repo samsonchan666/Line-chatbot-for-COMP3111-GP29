@@ -260,8 +260,10 @@ public class KitchenSinkController {
         			this.replyText(replyToken, "Okay. You may pick another date.");
     				customer.stageRestore();    	
     				break;
-        		}
+        		}        		
         		customer.setTour(database.getSelectedTour());
+        		database.setSelectedBooking(text);
+        		customer.getTour.setID(database.getSelectedBooking().getID());
         		this.reply(replyToken, createInputMenu());
         		customer.stageProceed();
                 break;
@@ -330,7 +332,8 @@ public class KitchenSinkController {
 		List<String> bookingDateList = null;
 		customer.stageProceed();
 		try {
-			bookingDateList = database.createBookingDateList();
+			database.createBookingDateList();
+			bookingDateList = database.getBookingDateList();
 		} catch (Exception e) {
 			return;
 		}
