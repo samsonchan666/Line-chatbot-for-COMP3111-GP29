@@ -392,8 +392,11 @@ public class KitchenSinkController {
 								new MessageAction("Age", "Age")
 						)),
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
+								new MessageAction("Phone Number", "Phone Number"),
 								new MessageAction("No. of Adults", "No. of Adults"),
-								new MessageAction("No. of Children", "No. of Children"), 
+								new MessageAction("No. of Children", "No. of Children")
+						)),
+						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
 								new MessageAction("No. of Toodlers", "No. of Toodlers")
 						))
 				));
@@ -418,19 +421,24 @@ public class KitchenSinkController {
 				customer.setInputOption(2);
 				break;
 			}
+			case "Phone Number": {
+				this.replyText(replyToken, askInput("Phone Number"));
+				customer.setInputOption(3);
+				break;
+			}
 			case "No. of Adults": {
 				this.replyText(replyToken, askInput("No. of Adults"));
-				customer.setInputOption(3);
+				customer.setInputOption(4);
 				break;
 			}
 			case "No. of Children": {
 				this.replyText(replyToken, askInput("No. of Children"));
-				customer.setInputOption(4);
+				customer.setInputOption(5);
 				break;
 			}
 			case "No. of Toodlers": {
 				this.replyText(replyToken, askInput("No. of Toodlers"));
-				customer.setInputOption(5);
+				customer.setInputOption(6);
 				break;
 			}
 		}
@@ -446,9 +454,10 @@ public class KitchenSinkController {
 			case 0: { customer.setId(text); break;}
 			case 1: { customer.setName(text); break;}
 			case 2: { customer.setAge(Integer.parseInt(text)); break;}
-			case 3: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
-			case 4: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
-			case 5: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
+			case 2: { customer.setPhoneNum(text); break;}
+			case 4: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
+			case 5: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
+			case 6: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
 		}
 		customer.resetInputOption();
 		if (customer.inputFinished())

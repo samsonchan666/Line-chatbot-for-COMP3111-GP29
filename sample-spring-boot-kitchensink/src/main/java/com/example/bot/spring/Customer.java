@@ -4,6 +4,7 @@ public class Customer implements Observer{
 	private String id;
 	private String name;
 	private int age;
+	private String phoneNum;
 	private Tour tour;
 	private CustomerNo customerNo;
 	private Fee fee;						// Ryan Tang
@@ -21,6 +22,7 @@ public class Customer implements Observer{
 		this.id = id;
 		this.name = name;
 		this.age = age;
+		this.phoneNum = null;
 		this.tour = tour;
 		this.customerNo = new CustomerNo(-1, -1, -1);
 		this.fee = new Fee(0, 0, 0);		// Ryan Tang
@@ -38,8 +40,11 @@ public class Customer implements Observer{
 	public void setAge(int age) { this.age = age;}
 	public int getAge() { return this.age;}
 	
+	public void setPhoneNum(String phoneNum) { this.phoneNum = phoneNum;}
+	public int getPhoneNum() { return this.phoneNum;}
+	
 	public void setTour(Tour tour) { this.tour = tour;}
-	public Tour getTour() { return tour;}
+	public Tour getTour() { return this.tour;}
 	
 	public void setCustomerNo(CustomerNo customerNo) { this.customerNo = customerNo;}
 	public CustomerNo getCustomerNo() { return this.customerNo;}
@@ -50,43 +55,20 @@ public class Customer implements Observer{
 	
 	public void calculateFee() {
 		String dates = this.tour.getDates();
-		int weekdayPrice = this.tour.getweekDayPrice();
-		int weekendPrice = this.tour.getweekEndPrice();
-		
+		int price;
 		int adult_num = this.customerNo.getAdultNo();
 		int children_num = this.customerNo.getChildrenNo();
-		
-		int weekday_num = 0;
-		int weekend_num = 0;
-		
-		// weekdays
-		if(dates.toLowerCase().contains("mon")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("tue")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("wed")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("thu")) {
-			weekday_num += 1;
-		}
-		if(dates.toLowerCase().contains("fri")) {
-			weekday_num += 1;
-		}
-		// weekends
-		if (dates.toLowerCase().contains("sat")) {
-			weekend_num += 1;
-		}
-		if (dates.toLowerCase().contains("sun")) {
-			weekend_num += 1;
+
+		int day = selectedBooking.dateToDay();
+		switch (day) {
+			case 1: case 2: case 3: case 4: case 5: { price = this.tour.getweekDayPrice(); break;}
+			case 6: case 7: { price = this.tour.getweekEndPrice(); break;}
 		}
 		
-		double adultPrice = adult_num * (weekdayPrice * weekday_num + weekendPrice * weekend_num);
+		double adultPrice = adult_num * price;
 		this.fee.setAdultFee(adultPrice);
 		
-		double childrenPrice = children_num * (weekdayPrice * weekday_num + weekendPrice * weekend_num);
+		double childrenPrice = children_num * price;
 		this.fee.setChildrenFee(childrenPrice);
 		
 		this.fee.setTotalFee();
