@@ -49,7 +49,7 @@ import com.example.bot.spring.DatabaseEngine;
 
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
-@SpringBootTest(classes = { KitchenSinkTester.class, SQLDatabaseEngine.class })
+@SpringBootTest(classes = { KitchenSinkTester.class, SQLDatabaseEngine.class})
 public class KitchenSinkTester {
 
 	@Autowired
@@ -93,7 +93,31 @@ public class KitchenSinkTester {
 	}
 
 	@Test
-	public void tourTestByPrice() throws Exception {
+	public void tourTestByDateAndPrice() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("Monday show price");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		System.out.println(result);
+	}
+	
+	@Test
+	public void tourTestByDateAndSort() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("Monday sort by id");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		System.out.println(result);
+	}
+	
+	@Test
+	public void tourTestByDateAndSortByPrice() throws Exception {
 		boolean thrown = false;
 		String result = null;
 		try {
@@ -115,7 +139,55 @@ public class KitchenSinkTester {
 		}
 		System.out.println(result);
 	}
-
+	
+	@Test
+	public void tourTestByAttractionAndSort() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("spring sort by id");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		System.out.println(result);
+	}
+	
+	@Test
+	public void tourTestByAttractionAndPrice() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("spring show price");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		System.out.println(result);
+	}
+	
+	@Test
+	public void tourTestByAttractionAndSortByPrice() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("spring sort by price");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		System.out.println(result);
+	}
+	
+	@Test
+	public void tourTestByID() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("ID: 2D002");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		System.out.println(result);
+	}
+	
 	@Test
 	public void faqTest() throws Exception {
 		boolean thrown = false;
@@ -128,5 +200,6 @@ public class KitchenSinkTester {
 		assert (result!= null);
 		assert (result.equals("Each customer need to pay an additional service charge at the rate $60/day/person on top of the tour fee. It is collected by the tour guide at the end of the tour."));
 	}
+
 
 }
