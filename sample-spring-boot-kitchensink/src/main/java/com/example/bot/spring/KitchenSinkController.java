@@ -98,7 +98,7 @@ public class KitchenSinkController {
 	private LineMessagingClient lineMessagingClient;
 
 	@SuppressWarnings("LossyEncoding")
-/*
+
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
 		log.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -184,7 +184,7 @@ public class KitchenSinkController {
 	public void handleOtherEvent(Event event) {
 		log.info("Received message(Ignored): {}", event);
 	}
-*/
+
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
@@ -208,11 +208,11 @@ public class KitchenSinkController {
 		this.reply(replyToken, new TextMessage(message));
 	}
 
-/*
+
 	private void handleSticker(String replyToken, StickerMessageContent content) {
 		reply(replyToken, new StickerMessage(content.getPackageId(), content.getStickerId()));
 	}
-*/
+
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content)
 			throws Exception {
 		String text = content.getText();
@@ -436,7 +436,7 @@ public class KitchenSinkController {
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		this.reply(replyToken, new TextMessage(feeInfo.toString()));
 	}
-/*
+
 	static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
 	}
@@ -474,7 +474,7 @@ public class KitchenSinkController {
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
-*/
+
 
 
 
@@ -482,14 +482,14 @@ public class KitchenSinkController {
 	public KitchenSinkController() {
 		database = new SQLDatabaseEngine();
 		customer = new Customer(null, null, -1, null, -1);
-		//itscLOGIN = System.getenv("ITSC_LOGIN");
+		itscLOGIN = System.getenv("ITSC_LOGIN");
 	}
 
 	private SQLDatabaseEngine database;
 	private Customer customer;	
-	//private String itscLOGIN;
+	private String itscLOGIN;
 
-/*
+
 	//The annontation @Value is from the package lombok.Value
 	//Basically what it does is to generate constructor and getter for the class below
 	//See https://projectlombok.org/features/Value
@@ -498,7 +498,7 @@ public class KitchenSinkController {
 		Path path;
 		String uri;
 	}
-*/
+
 
 	//an inner class that gets the user profile and status message
 	class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {
