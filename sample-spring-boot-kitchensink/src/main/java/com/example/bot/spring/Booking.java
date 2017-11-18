@@ -50,7 +50,7 @@ public class Booking {
 		date.set(Integer.parseInt(dateArr[2]),Integer.parseInt(dateArr[1])-1,Integer.parseInt(dateArr[0]));
 		return date;
 	}
-	public String DateToString() {
+	public String dateToString() {
 		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
 		String dateString = format1.format(date.getTime());
 		return dateString;
