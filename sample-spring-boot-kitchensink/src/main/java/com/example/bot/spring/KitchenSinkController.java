@@ -240,15 +240,20 @@ public class KitchenSinkController {
 				}
 				log.info("Returns error message {}: {}", replyToken, reply);
 
-				//Creating Filter Result & Template Messages if filtering is done
-				this.reply(replyToken, createMessages(reply, text));
+				//Creating Filter Menu & Day Selection Menu if filtering is done
+				this.reply(replyToken, stage0Messages(reply, text));
 				break;
 			}
-        	
+        	//Create Confirm
         	case 1: {
+				this.reply(replyToken, stage1Messages(text));
+				break;	
+        	}
+        	
+        	case 2: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
-    				customer.stageRestore();    	
+    				customer.stageZero();    	
     				break;
         		}
         		customer.setTour(database.getSelectedTour());
@@ -257,7 +262,7 @@ public class KitchenSinkController {
                 break;
         	}
         	
-        	case 2: {
+        	case 3: {
         		String reply = null;        		    			
         		if (customer.getInputOption() == -1)
         			askInputReply(replyToken, text);
@@ -266,7 +271,7 @@ public class KitchenSinkController {
         		break;
         	}
         	
-        	case 3: {
+        	case 4: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
         			List<Message> multiMessages = new ArrayList<Message>();
         			multiMessages.add(new TextMessage("Okay. You may input your info again."));
@@ -282,21 +287,26 @@ public class KitchenSinkController {
 		}
 	}
 
-	private List<Message> createMessages(String reply, String text){
+	private List<Message> stage0Messages(String reply, String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
 		if (text.matches("I want to enroll in(.)*")) {
 			createDaySelect("Which Day do you want to pick?", multiMessages);
-		}		
-		if (text.matches("I pick (.)*")) {
-			createConfirm("Do you want to book this one?", multiMessages);
-		}		
+		}
 		createFilterMenu(text, multiMessages);
+		return multiMessages;
+	}
+	
+	private List<Message> stage1Messages(String text){
+		List<Message> multiMessages = new ArrayList<Message>();
+		if (text.matches("I pick (.)*"))
+			createConfirm("Do you want to book this one?", multiMessages);
 		return multiMessages;
 	}
 	
 	private void createDaySelect(String text, List<Message> multiMessages) {
 		List<String> tourDateList = null;
+		customer.stageProceed();
 		try {
 			tourDateList = database.listBookingDate();
 		} catch (Exception e) {
