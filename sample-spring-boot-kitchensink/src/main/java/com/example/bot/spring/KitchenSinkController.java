@@ -225,21 +225,7 @@ public class KitchenSinkController {
         switch (stage) {
         	case -1: {
         		int preferenceNum = customer.getPreferenceNum();
-        		if (preferenceNum >= 0)
-        			receivePreference(replyToken, text, preferenceNum);
-        		else {
-    				String reply = null;
-        			try {
-    					reply = database.filterPreference();
-    				} catch (Exception e) {
-    					reply = "Sorry, no tour is suitable for your preferences.";
-    				}    				
-    				this.reply(replyToken, stage0Messages(reply, text));
-        			database.resetPreferenceInput();
-        			customer.stageProceed();
-        			customer.stageProceed();
-        			break;
-        		}
+        		receivePreference(replyToken, text, preferenceNum);
         		break;
         	}
         
@@ -363,6 +349,16 @@ public class KitchenSinkController {
 		database.addPreferenceInput(text);
 		if (preferenceNum == 2) {
 			customer.resetPreferenceNum();
+			String reply = null;
+			try {
+				reply = database.filterPreference();
+			} catch (Exception e) {
+				reply = "Sorry, there is no tour suitable for your preferences.";
+			}    				
+			this.reply(replyToken, stage0Messages(reply, text));
+			database.resetPreferenceInput();
+			customer.stageProceed();
+			customer.stageProceed();
 			return;
 		}
 		customer.preferenceNumIncre();
