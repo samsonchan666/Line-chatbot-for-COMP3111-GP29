@@ -227,15 +227,16 @@ public class KitchenSinkController {
         		int preferenceNum = customer.getPreferenceNum();
         		if (!customer.isPreferenceFinished())
         			receivePreference(replyToken, text, preferenceNum);
-        		if (customer.isPreferenceFinished())
-        		String reply = null;
-        		try {
-        			reply = database.filterPreference();
-        		} catch (Exception e) {
-        			reply = "Sorry, there is no tour suitable for your preferences.";
-        		}    				
-        		this.reply(replyToken, stage0Messages(reply, text));
-        		database.resetPreferenceInput();
+        		if (customer.isPreferenceFinished()) {
+        			String reply = null;
+        			try {
+        				reply = database.filterPreference();
+        			} catch (Exception e) {
+        				reply = "Sorry, there is no tour suitable for your preferences.";
+        			}    				
+        			this.reply(replyToken, stage0Messages(reply, text));
+        			database.resetPreferenceInput();
+        		}
         		break;
         	}
         
