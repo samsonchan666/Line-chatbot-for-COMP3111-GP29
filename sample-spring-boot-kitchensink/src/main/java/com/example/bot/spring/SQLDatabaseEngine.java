@@ -275,7 +275,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
     
     private boolean matchByBudget(String tourID, int weekDayPrice, int weekEndPrice) {
-    	double budget = Double.parseDouble(preferenceInput.get(2));
+    	int budget = Integer.parseInt(preferenceInput.get(2));
     	if (weekEndPrice <= budget) 
     		return true;
     	else if (weekDayPrice <= budget) {

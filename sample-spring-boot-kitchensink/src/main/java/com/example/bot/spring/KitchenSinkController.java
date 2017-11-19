@@ -358,6 +358,8 @@ public class KitchenSinkController {
 	}
 	
 	private void receivePreference(String replyToken, String text, int preferenceNum) {
+		if (!numOnlyPreference(preferenceNum, replyToken, text))
+			return;
 		database.addPreferenceInput(text);
 		if (preferenceNum == 2) {
 			customer.resetPreferenceNum();
@@ -534,7 +536,7 @@ public class KitchenSinkController {
 	
 	private void inputReceive(String replyToken, String text) {
 		int inputOption = customer.getInputOption();
-		if (!numOnly(inputOption, replyToken, text))
+		if (!numOnlyInfo(inputOption, replyToken, text))
 			return;
 		switch (inputOption) {
 			case 0: { customer.setId(text); break;}
@@ -554,19 +556,34 @@ public class KitchenSinkController {
 		}
 	}
 	
-	private boolean numOnly(int inputOption, String replyToken, String text) {
-		boolean numOnly = true;
+	private boolean numOnlyInfo(int inputOption, String replyToken, String text) {
+		boolean numOnlyInfo = true;
 		switch (inputOption) {
 			case 2: case 3: case 4: case 5: case 6: {
 				if (!(text.matches("\\d*"))) {
 					this.reply(replyToken, 
 							new TextMessage("Please input numbers only for this option."));
-					numOnly = false;
+					numOnlyInfo = false;
 				}				
 				break;
 			}			
 		}
-		return numOnly;
+		return numOnlyInfo;
+	}
+	
+	private boolean numOnlyPreference(int inputOption, String replyToken, String text) {
+		boolean numOnlyPreference = true;
+		switch (inputOption) {
+			case 0: case 2: {
+				if (!(text.matches("\\d*"))) {
+					this.reply(replyToken, 
+							new TextMessage("Please input numbers only for this option."));
+					numOnlyInfo = false;
+				}				
+				break;
+			}			
+		}
+		return numOnlyPreference;
 	}
 	
 	private List<Message> confirmInfo() {
