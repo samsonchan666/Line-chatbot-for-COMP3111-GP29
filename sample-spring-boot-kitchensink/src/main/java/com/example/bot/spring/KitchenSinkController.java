@@ -559,7 +559,7 @@ public class KitchenSinkController {
 		//Increase the number of people in the booking
 		booking.addCurrentCustomer(customer.getCustomerNo().getTotalNo());
 	}
-	
+
 	static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
 	}
