@@ -390,6 +390,9 @@ public class KitchenSinkController {
 				else if ((text.toLowerCase().matches("yes(.)*"))) {
 					customer.setTour(database.getSelectedTour());
 					customer.getTour().setID(database.getSelectedBooking().getID());
+					if (!(database.searchDiscountTour(dis_tour,dis_booking))){
+						this.replyText(replyToken, "Sorry ticket sold out");
+					}
 					this.reply(replyToken, createInputMenu());
 					customer.stageProceed();
 				}
