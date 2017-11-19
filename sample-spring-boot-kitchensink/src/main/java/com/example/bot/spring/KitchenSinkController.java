@@ -219,14 +219,14 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 
-		Booking booking = new Booking(null,null,null,null,0,0,0);
-		Tour tour = new Tour(null,null,null,0,0,0,null);
-		if (database.searchDiscountTour(tour,booking)){
+		Booking dis_booking = new Booking(null,null,null,null,0,0,0);
+		Tour dis_tour = new Tour(null,null,null,0,0,0,null);
+		if (database.searchDiscountTour(dis_tour,dis_booking)){
 			List<Message> multiMessages = new ArrayList<Message>();
-			tour = database.searchTourByID(tour.getID());
-			booking = database.searchBookingByID(booking.getID());
-			database.setSelectedBooking(booking);
-			database.setSelectedTour(Tour);
+			dis_tour = database.searchTourByID(dis_tour.getID());
+			dis_booking = database.searchBookingByID(dis_booking.getID());
+			database.setSelectedBooking(dis_booking);
+			database.setSelectedTour(dis_tour);
 			multiMessages.add(new TextMessage("There is a special tour offering at a discount of 50%\n"));
 			createConfirm("Do you want to book this one?", multiMessages);
 			customer.setStage(2);
