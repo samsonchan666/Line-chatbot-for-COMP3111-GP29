@@ -125,6 +125,7 @@ public class Tour {
 
 	public static void sortTourListByPrice(List<Tour> tourList){
 		Tour temp;
+		if (tourList.size() == 1) return;
 		for (int x=0; x<tourList.size(); x++) // bubble sort outer loop
 		{
 			for (int i=0; i < tourList.size()-i; i++) {
