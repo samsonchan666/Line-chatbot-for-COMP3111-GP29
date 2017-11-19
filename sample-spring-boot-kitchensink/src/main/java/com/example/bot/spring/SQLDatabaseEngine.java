@@ -394,8 +394,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     public void addPreferenceInput(String input) { this.preferenceInput.add(input);}
     public List<String> getPreferenceInput() { return this.preferenceInput;}
     public void resetPreferenceInput() { this.preferenceInput = new ArrayList<String>();}
-    public String filterPreference() {
+    
+    public String filterPreference() throws Exception{
         String result = null;
+        this.connection = this.getConnection();
         StringBuilder str = new StringBuilder();
         try {
             PreparedStatement stmt = connection.prepareStatement(
@@ -435,7 +437,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         catch (Exception e){
             System.out.println("PreferenceList()" + e);
         }
-        return result;
+        if (result != null) {
+            connection.close();
+            return result;
+        }
+        connection.close();
+        throw new Exception("NOT FOUND");
     }
 
     public void saveCustomerToDb(Customer customer) throws Exception{

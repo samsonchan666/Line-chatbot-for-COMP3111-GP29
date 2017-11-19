@@ -357,17 +357,14 @@ public class KitchenSinkController {
 			askPreference(replyToken);
 			return;
 		}
-		List<String> strlist = database.getPreferenceInput();
-		String str = strlist.get(0) + strlist.get(1) + strlist.get(2);
-		this.replyText(replyToken, str);
-		/*String reply = null;
+		String reply = null;
 		try {
 			reply = database.filterPreference();
 		} catch (Exception e) {
 			reply = "Sorry, there is no tour suitable for your preferences.";
 		}    				
 		this.reply(replyToken, stage0Messages(reply, text));
-		database.resetPreferenceInput();*/
+		database.resetPreferenceInput();
 	}
 	
 	private void reinputInfo (String replyToken, List<Message> multiMessages) {

@@ -102,7 +102,7 @@ public class Tour {
 			case ATTRACTION:
 				return "There are " + tourList.size() + " tours related\n";
 			case PREFERENCE:
-				return "There are " + tourList.size() + " tours available for your preference\n";
+				return "There are " + tourList.size() + " tours available for your preferences\n";
 			default:
 				return null;
 		}
