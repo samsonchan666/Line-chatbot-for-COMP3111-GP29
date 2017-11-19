@@ -231,13 +231,12 @@ public class KitchenSinkController {
         			String reply = null;
         			try {
         				reply = database.filterPreference();
+        			} catch (Exception e1) {
         				try {
         					reply = database.search(text);
         				} catch (Exception e2) {
         					reply = "Sorry, I don't quite understand. Can you be more precise?";
         				}
-        			} catch (Exception e1) {
-        				reply = "Sorry, there is no tour suitable for your preferences.";
         			}    				
         			this.reply(replyToken, stage0Messages(reply, text));
         			database.resetPreferenceInput();
