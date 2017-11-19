@@ -248,6 +248,7 @@ public class KitchenSinkController {
         	}
         
         	case 0: {
+        		if (text.toLowerCase().matches("discount")) customer.setShowDiscount(true);
         		if (text.toLowerCase().matches("(.*)preference(.*)")) {
         			customer.preferenceNumIncre();
         			askPreference(replyToken);
