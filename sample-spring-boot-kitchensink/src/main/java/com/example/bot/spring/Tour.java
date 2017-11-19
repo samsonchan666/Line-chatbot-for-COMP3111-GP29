@@ -87,6 +87,15 @@ public class Tour {
 		return tourBuilder;
 	}
 
+	public StringBuilder getDiscountTourInfo(Boolean dayFlag, String date){	//flag is true for weekday, false weekend
+		StringBuilder tourBuilder = new StringBuilder();
+		tourBuilder.append("There is a special tour offering at a discount of 50%\n");
+		tourBuilder.append(this.getBasicTourInfo() + "on" + date + "\n");
+		if (dayFlag) tourBuilder.append(this.getweekDayPrice() + "->" + this.getweekDayPrice()/2);
+		else tourBuilder.append(this.getweekEndPrice() + "->" + this.getweekEndPrice()/2);
+		return tourBuilder;
+	}
+
 	public static StringBuilder getBasicTourListInfoWithPrice(List<Tour> tourList){
 		StringBuilder tourBuilder = new StringBuilder();
 		for (Tour tour : tourList){

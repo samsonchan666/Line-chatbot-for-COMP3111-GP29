@@ -367,11 +367,15 @@ public class KitchenSinkController {
 					dis_booking = database.searchBookingByID(dis_booking.getID());
 					database.setSelectedBooking(dis_booking);
 					database.setSelectedTour(dis_tour);
-					int oriPrice;
-					if (dis_booking.dateToDay() >=2 && dis_booking.dateToDay() <=6) oriPrice = dis_tour.getweekDayPrice();
-					else oriPrice = dis_tour.getweekEndPrice();
-					multiMessages.add(new TextMessage("There is a special tour offering at a discount of 50%\n"));
-					multiMessages.add(new TextMessage(dis_tour.getBasicTourInfo().toString() + "\n" + oriPrice + "->" +oriPrice/2 ));
+
+					String dis_msg;
+					if (dis_booking.dateToDay() >=2 && dis_booking.dateToDay() <=6) {
+						dis_msg = dis_tour.getDiscountTourInfo(true,dis_booking.dateToString()).toString();
+					}
+					else{
+						dis_msg = dis_tour.getDiscountTourInfo(false,dis_booking.dateToString()).toString();
+					}
+					multiMessages.add(new TextMessage(dis_msg));
 					createConfirm("Do you want to book this one?", multiMessages);
 					customer.setStage(2);
 					this.reply(replyToken, multiMessages);
