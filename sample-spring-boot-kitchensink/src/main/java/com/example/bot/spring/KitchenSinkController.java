@@ -488,6 +488,8 @@ public class KitchenSinkController {
 	
 	private void inputReceive(String replyToken, String text) {
 		int inputOption = customer.getInputOption();
+		if (!numOnly(inputOption, replyToken, text))
+			return;
 		switch (inputOption) {
 			case 0: { customer.setId(text); break;}
 			case 1: { customer.setName(text); break;}
@@ -504,6 +506,21 @@ public class KitchenSinkController {
 			this.reply(replyToken, createInputMenu());
 			customer.resetNumInput();
 		}
+	}
+	
+	private boolean numOnly(int inputOption, String replyToken, String text) {
+		boolean numOnly = true;
+		switch (inputOption) {
+			case 2: case 3: case 4: case 5: case 6: {
+				if (!(text.matches("\\d*"))) {
+					this.reply(replyToken, 
+							new TextMessage("Please input numbers only for this option."));
+					numOnly = false;
+				}				
+				break;
+			}			
+		}
+		return numOnly;
 	}
 	
 	private List<Message> confirmInfo() {
