@@ -661,8 +661,24 @@ public class KitchenSinkController {
 
 	private boolean checkExcessReserve(int inputOption, String replyToken, String text){
 		switch (inputOption) {
-			case 4: case 5: case 6: {
-				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() > 2) {
+			case 4:  {
+				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() + 3 - (customer.getCustomerNo().getAdultNo() + 1) > 2) {
+					this.reply(replyToken,
+							new TextMessage("Each client can reserve 2 seats at most."));
+					return true;
+				}
+				break;
+			}
+			case 5: {
+				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() + 3 - (customer.getCustomerNo().getChildrenNo() + 1) > 2) {
+					this.reply(replyToken,
+							new TextMessage("Each client can reserve 2 seats at most."));
+					return true;
+				}
+				break;
+			}
+			case 6: {
+				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() + 3 - (customer.getCustomerNo().getToodlerNo() + 1) > 2) {
 					this.reply(replyToken,
 							new TextMessage("Each client can reserve 2 seats at most."));
 					return true;
