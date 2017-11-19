@@ -402,7 +402,7 @@ public class KitchenSinkController {
 				if (customer.getInputOption() == -1)
 					askInputReply(replyToken, text);
 				else
-					inputReceive(replyToken, text);
+					discountInputReceive(replyToken, text);
 				break;
 			}
 			case 4: {
@@ -635,7 +635,44 @@ public class KitchenSinkController {
 	private String askInput(String option) {
 		return "Please input " + option + ".";
 	}
-	
+
+	private void discountInputReceive(String replyToken, String text) {
+		int inputOption = customer.getInputOption();
+		if (!numOnlyInfo(inputOption, replyToken, text))
+			return;
+		if (checkExcessReserve(inputOption, replyToken, text)) return;
+		switch (inputOption) {
+			case 0: { customer.setId(text); break;}
+			case 1: { customer.setName(text); break;}
+			case 2: { customer.setAge(Integer.parseInt(text)); break;}
+			case 3: { customer.setPhoneNum(text); break;}
+			case 4: { customer.getCustomerNo().setAdultNo(Integer.parseInt(text)); break;}
+			case 5: { customer.getCustomerNo().setChildrenNo(Integer.parseInt(text)); break;}
+			case 6: { customer.getCustomerNo().setToodlerNo(Integer.parseInt(text)); break;}
+		}
+		customer.resetInputOption();
+		if (customer.inputFinished())
+			this.reply(replyToken, confirmInfo());
+		else if (customer.getNumInput() > 2) {
+			this.reply(replyToken, createInputMenu());
+			customer.resetNumInput();
+		}
+	}
+
+	private boolean checkExcessReserve(int inputOption, String replyToken, String text){
+		switch (inputOption) {
+			case 4: case 5: case 6: {
+				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() > 2) {
+					this.reply(replyToken,
+							new TextMessage("Each client can reserve 2 seats at most."));
+					return true;
+				}
+				break;
+			}
+		}
+		return false;
+	}
+
 	private void inputReceive(String replyToken, String text) {
 		int inputOption = customer.getInputOption();
 		if (!numOnlyInfo(inputOption, replyToken, text))

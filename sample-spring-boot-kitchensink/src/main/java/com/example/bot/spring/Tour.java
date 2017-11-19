@@ -90,9 +90,11 @@ public class Tour {
 	public StringBuilder getDiscountTourInfo(Boolean dayFlag, String date){	//flag is true for weekday, false weekend
 		StringBuilder tourBuilder = new StringBuilder();
 		tourBuilder.append("There is a special tour offering at a discount of 50%\n");
-		tourBuilder.append(this.getBasicTourInfo() + "on" + date + "\n");
+		tourBuilder.append(this.getBasicTourInfo() + "on " + date + "\n");
 		if (dayFlag) tourBuilder.append(this.getweekDayPrice() + "->" + this.getweekDayPrice()/2);
 		else tourBuilder.append(this.getweekEndPrice() + "->" + this.getweekEndPrice()/2);
+		tourBuilder.append(" >.<\n");
+		tourBuilder.append("Each client can reserve 2 seats at most");
 		return tourBuilder;
 	}
 
