@@ -392,6 +392,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     public Booking getSelectedBooking() { return this.selectedBooking;}
     
     public void addPreferenceInput(String input) { this.preferenceInput.add(input);}
+    public List<String> getPreferenceInput() { return this.preferenceInput;}
     public void resetPreferenceInput() { this.preferenceInput = new ArrayList<String>();}
     public String filterPreference() {
         String result = null;
