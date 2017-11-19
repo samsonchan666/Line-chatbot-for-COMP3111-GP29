@@ -352,19 +352,19 @@ public class KitchenSinkController {
 		if (!numOnlyPreference(preferenceNum, replyToken, text))
 			return;
 		database.addPreferenceInput(text);
-		if (customer.isPreferenceFinished()) {
-			String reply = null;
-			try {
-				reply = database.filterPreference();
-			} catch (Exception e) {
-				reply = "Sorry, there is no tour suitable for your preferences.";
-			}    				
-			this.reply(replyToken, stage0Messages(reply, text));
-			database.resetPreferenceInput();
+		if (!customer.isPreferenceFinished()) {
+			customer.preferenceNumIncre();
+			askPreference(replyToken);
 			return;
 		}
-		customer.preferenceNumIncre();
-		askPreference(replyToken);
+		String reply = null;
+		try {
+			reply = database.filterPreference();
+		} catch (Exception e) {
+			reply = "Sorry, there is no tour suitable for your preferences.";
+		}    				
+		this.reply(replyToken, stage0Messages(reply, text));
+		database.resetPreferenceInput();
 	}
 	
 	private void reinputInfo (String replyToken, List<Message> multiMessages) {
