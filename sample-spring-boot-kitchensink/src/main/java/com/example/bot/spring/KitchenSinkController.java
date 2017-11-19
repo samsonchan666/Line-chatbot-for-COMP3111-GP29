@@ -231,6 +231,7 @@ public class KitchenSinkController {
         			String reply = null;
         			try {
         				reply = database.filterPreference();
+        				customer.stageProceed();
         			} catch (Exception e) {
         				reply = "Sorry, there is no tour suitable for you.";
         			}    				
