@@ -477,17 +477,18 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         preparedStatement.executeUpdate();
         preparedStatement.close();
 
-        connection.close();
+//        connection.close();
     }
 
     public void updateDiscountTour(String bookingId) throws Exception{
         this.connection = this.getConnection();
         PreparedStatement stmt = connection.prepareStatement(
-                "update discount set number = number - 1  "
+                "update discount set number = number - 1 where bookingId = (?) "
         );
         stmt.setString(1,bookingId);
         stmt.executeUpdate();
         stmt.close();
+        connection.close();
     }
 
     public boolean searchDiscountTour(Tour tour, Booking booking) throws Exception{
