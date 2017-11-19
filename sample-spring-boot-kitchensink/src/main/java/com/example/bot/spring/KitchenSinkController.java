@@ -220,7 +220,10 @@ public class KitchenSinkController {
 		log.info("Got text message from {}: {}", replyToken, text);
 
 
-		if (customer.getShowDiscount()) specialDiscountCase(replyToken,text);
+		if (customer.getShowDiscount()) {
+			specialDiscountCase(replyToken,text);
+			return;
+		}
 		//-1 for preference, 0 for searching, 1 for confirm tour, 2 for ask input
 		//3 for receive input, 4 for confirm input, 5 for confirm fee
 
@@ -419,7 +422,7 @@ public class KitchenSinkController {
 					//Attach customer to observe a booking
 					attachCustomerToBooking();
 					//Save the customer to the database
-//					database.saveCustomerToDb(customer);
+					database.saveCustomerToDb(customer);
 
 					this.reply(replyToken, new TextMessage(
 							"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
