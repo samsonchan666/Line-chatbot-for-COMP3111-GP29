@@ -313,7 +313,7 @@ public class KitchenSinkController {
         							+ "of ABC Bank or by cash in our store. When you complete "
         							+ "the ATM payment, please send the bank in slip to us. "
         							+ "Our staff will validate it."));
-        			customer.stageZero();//reset all
+        			customer.stageZero();//reset all except name, id, age, phoneNum
         		}
         		else errorConfirm(replyToken);
         		break;
