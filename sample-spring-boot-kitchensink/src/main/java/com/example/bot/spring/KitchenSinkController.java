@@ -231,16 +231,13 @@ public class KitchenSinkController {
         			String reply = null;
         			try {
         				reply = database.filterPreference();
-        				customer.stageProceed();
         			} catch (Exception e) {
         				reply = "Sorry, there is no tour suitable for you. "
         						+ "You may continue searching for other tours.";
-        				customer.stageProceed();
         			}    				
         			this.reply(replyToken, stage0Messages(reply, text));
         			database.resetPreferenceInput();
-        			customer.resetPreferenceNum();
-        			customer.resetPreferenceFinished();
+        			customer.stageProceed();
         		}
         		break;
         	}
@@ -427,6 +424,10 @@ public class KitchenSinkController {
 	private void createDaySelectMenu(String title, List<Message> multiMessages) {
 		List<String> bookingDateList = null;
 		customer.stageProceed();
+		if (customer.isPreferenceFinished()) {
+			customer.resetPreferenceNum();
+			customer.resetPreferenceFinished();
+		}
 		try {
 			database.createBookingDateList();
 			bookingDateList = database.getBookingDateList();
