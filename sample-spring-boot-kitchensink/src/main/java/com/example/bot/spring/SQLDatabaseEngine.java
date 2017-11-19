@@ -477,7 +477,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         preparedStatement.executeUpdate();
         preparedStatement.close();
 
-//        connection.close();
+        connection.close();
     }
 
     public void updateDiscountTour(String bookingId) throws Exception{

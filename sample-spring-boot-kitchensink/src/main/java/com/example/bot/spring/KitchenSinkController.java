@@ -219,7 +219,7 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 
-
+		database.updateDiscountTour("2D00120171106");
 		if (customer.getShowDiscount()) {
 			specialDiscountCase(replyToken,text);
 			return;
