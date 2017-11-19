@@ -225,7 +225,17 @@ public class KitchenSinkController {
         switch (stage) {
         	case -1: {
         		int preferenceNum = customer.getPreferenceNum();
-        		receivePreference(replyToken, text, preferenceNum);
+        		if (!customer.isPreferenceFinished())
+        			receivePreference(replyToken, text, preferenceNum);
+        		if (customer.isPreferenceFinished())
+        		String reply = null;
+        		try {
+        			reply = database.filterPreference();
+        		} catch (Exception e) {
+        			reply = "Sorry, there is no tour suitable for your preferences.";
+        		}    				
+        		this.reply(replyToken, stage0Messages(reply, text));
+        		database.resetPreferenceInput();
         		break;
         	}
         
@@ -352,19 +362,13 @@ public class KitchenSinkController {
 		if (!numOnlyPreference(preferenceNum, replyToken, text))
 			return;
 		database.addPreferenceInput(text);
+		if (customer.getPreferenceNum() == 2)
+			customer.setPreferenceFinished(true);
 		if (!customer.isPreferenceFinished()) {
 			customer.preferenceNumIncre();
 			askPreference(replyToken);
 			return;
-		}
-		String reply = null;
-		try {
-			reply = database.filterPreference();
-		} catch (Exception e) {
-			reply = "Sorry, there is no tour suitable for your preferences.";
-		}    				
-		this.reply(replyToken, stage0Messages(reply, text));
-		database.resetPreferenceInput();
+		}		
 	}
 	
 	private void reinputInfo (String replyToken, List<Message> multiMessages) {

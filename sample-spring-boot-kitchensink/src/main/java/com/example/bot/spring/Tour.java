@@ -83,7 +83,7 @@ public class Tour {
 
 	public StringBuilder getBasicTourInfoWithPrice(){
 		StringBuilder tourBuilder = new StringBuilder();
-		tourBuilder.append(this.id + "\t" + this.name + "\t" + this.weekDayPrice + "\n");
+		tourBuilder.append(this.id + "\t" + this.name + "\t$" + this.weekDayPrice + "\n");
 		return tourBuilder;
 	}
 

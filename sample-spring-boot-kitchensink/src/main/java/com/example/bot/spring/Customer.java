@@ -119,14 +119,11 @@ public class Customer implements Observer{
 	public void resetNumInput() { this.numInput = 0;}
 	
 	public int getPreferenceNum() { return this.preferenceNum;}
-	public void preferenceNumIncre() {
-		this.preferenceNum++;
-		if (preferenceNum == 2)
-			this.preferenceFinished = true;
-	}
+	public void preferenceNumIncre() { this.preferenceNum++;}
 	public void resetPreferenceNum() { this.preferenceNum = -1;}
 	
 	public boolean isPreferenceFinished() { return this.preferenceFinished;}
+	public void setPreferenceFinished(boolean state) { this.preferenceFinished = state;}
 	public void resetPreferenceFinished() { this.preferenceFinished = false;}
 	
 	public boolean inputFinished() {
