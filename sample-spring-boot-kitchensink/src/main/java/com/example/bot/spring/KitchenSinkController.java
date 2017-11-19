@@ -219,25 +219,12 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 
-		Booking dis_booking = new Booking(null,null,null,null,0,0,0);
-		Tour dis_tour = new Tour(null,null,null,0,0,0,null);
-		if (database.searchDiscountTour(dis_tour,dis_booking)){
-			List<Message> multiMessages = new ArrayList<Message>();
-			dis_tour = database.searchTourByID(dis_tour.getID());
-			dis_booking = database.searchBookingByID(dis_booking.getID());
-			database.setSelectedBooking(dis_booking);
-			database.setSelectedTour(dis_tour);
-			multiMessages.add(new TextMessage("There is a special tour offering at a discount of 50%\n"));
-			createConfirm("Do you want to book this one?", multiMessages);
-			customer.setStage(2);
-			this.reply(replyToken, multiMessages);
-		}
-
 		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
 		//4 for confirm input, 5 for confirm fee
         int stage = customer.getStage();
         switch (stage) {            
         	case 0: {
+				specialDiscountCase();
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
 					String userId = event.getSource().getUserId();
@@ -332,6 +319,22 @@ public class KitchenSinkController {
         		else errorConfirm(replyToken);
         		break;
         	}
+		}
+	}
+
+	private void specialDiscountCase() throws Exception{
+		Booking dis_booking = new Booking(null,null,null,null,0,0,0);
+		Tour dis_tour = new Tour(null,null,null,0,0,0,null);
+		if (database.searchDiscountTour(dis_tour,dis_booking)){
+			List<Message> multiMessages = new ArrayList<Message>();
+			dis_tour = database.searchTourByID(dis_tour.getID());
+			dis_booking = database.searchBookingByID(dis_booking.getID());
+			database.setSelectedBooking(dis_booking);
+			database.setSelectedTour(dis_tour);
+			multiMessages.add(new TextMessage("There is a special tour offering at a discount of 50%\n"));
+			createConfirm("Do you want to book this one?", multiMessages);
+			customer.setStage(2);
+			this.reply(replyToken, multiMessages);
 		}
 	}
 	
