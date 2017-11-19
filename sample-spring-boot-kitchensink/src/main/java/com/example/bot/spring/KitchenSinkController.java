@@ -230,15 +230,15 @@ public class KitchenSinkController {
         		else {
     				String reply = null;
         			try {
-    					reply = database.createPreferenceList();
+    					reply = database.filterPreference();
     				} catch (Exception e) {
     					reply = "Sorry, no tour is suitable for your preferences.";
     				}    				
     				this.reply(replyToken, stage0Messages(reply, text));
-    				break;
         			database.resetPreferenceInput();
         			customer.stageProceed();
         			customer.stageProceed();
+        			break;
         		}
         		break;
         	}
