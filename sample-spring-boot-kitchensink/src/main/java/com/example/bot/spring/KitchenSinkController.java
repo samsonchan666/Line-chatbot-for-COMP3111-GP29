@@ -357,7 +357,7 @@ public class KitchenSinkController {
 			askPreference(replyToken);
 			return;
 		}
-		List<String> strlist = customer.getPreferenceInput();
+		List<String> strlist = database.getPreferenceInput();
 		String str = strlist.get(0) + strlist.get(1) + strlist.get(2);
 		this.replyText(replyToken, str);
 		/*String reply = null;
