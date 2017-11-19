@@ -411,7 +411,7 @@ public class KitchenSinkController {
 					customer.stageRestore();
 				}
 				else if ((text.toLowerCase().matches("yes(.)*"))) {
-					outputFee(multiMessages);
+					outputDisCountFee(multiMessages);
 					this.reply(replyToken, multiMessages);
 				}
 				else errorConfirm(replyToken);
@@ -772,6 +772,17 @@ public class KitchenSinkController {
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		multiMessages.add(new TextMessage(feeInfo.toString()));
 		createConfirm("Confirm?", multiMessages);		
+	}
+
+	private void outputDisCountFee(List<Message> multiMessages) {
+		customer.calculateFee(database.getSelectedBooking());
+		StringBuilder feeInfo = new StringBuilder();
+		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
+		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
+		feeInfo.append("No fee charged for toodlers\n");
+		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()/2));
+		multiMessages.add(new TextMessage(feeInfo.toString()));
+		createConfirm("Confirm?", multiMessages);
 	}
 
 	private void attachCustomerToBooking(){
