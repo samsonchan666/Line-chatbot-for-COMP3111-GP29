@@ -384,7 +384,7 @@ public class KitchenSinkController {
 			}
 			case 2: {
 				if ((text.toLowerCase().matches("no(.)*"))) {
-					this.replyText(replyToken, "Okay. You may continue your search ^^.");
+					this.replyText(replyToken, "Okay. You may continue your search ^.^");
 					customer.stageZero();
 					customer.setShowDiscount(false);
 				}
