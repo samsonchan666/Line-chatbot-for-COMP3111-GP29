@@ -231,15 +231,16 @@ public class KitchenSinkController {
         			String reply = null;
         			try {
         				reply = database.filterPreference();
+        				customer.stageProceed();
         			} catch (Exception e) {
         				reply = "Sorry, there is no tour suitable for you. "
         						+ "You may continue searching for other tours.";
+        				customer.stageProceed();
         			}    				
         			this.reply(replyToken, stage0Messages(reply, text));
         			database.resetPreferenceInput();
         			customer.resetPreferenceNum();
         			customer.resetPreferenceFinished();
-        			customer.stageProceed();
         		}
         		break;
         	}
