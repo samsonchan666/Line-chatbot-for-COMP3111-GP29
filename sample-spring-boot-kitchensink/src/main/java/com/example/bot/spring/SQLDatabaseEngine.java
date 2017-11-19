@@ -112,11 +112,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private String searchTour() throws Exception{
         String result = null;
         try {
-//            PreparedStatement stmt = connection.prepareStatement(
-//                    "SELECT *  FROM tour where STRPOS( LOWER(?), LOWER(name))>0  or STRPOS( LOWER(?), LOWER(attraction))>0"
-//            );
-//            stmt.setString(1, text);
-//            stmt.setString(2, text);
             PreparedStatement stmt = connection.prepareStatement(
                     "SELECT *  FROM tour "
             );
@@ -482,11 +477,93 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     
     void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
-    		if (selectedBookingText.toLowerCase().matches("(.)*" + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
+    		if (selectedBookingText.toLowerCase().matches("(.)*pick " + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
     
     Booking getSelectedBooking() {
     	return this.selectedBooking;
     }
+
+    public void saveCustomerToDb(Customer customer) throws Exception{
+        this.connection = this.getConnection();
+        String sqlInsert = "insert into customer values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+        preparedStatement.setString(1, customer.getName());
+        preparedStatement.setString(2, customer.getId());
+        preparedStatement.setInt(3, Integer.parseInt(customer.getPhoneNum()));
+        preparedStatement.setInt(4, customer.getAge());
+        preparedStatement.setString(5, selectedBooking.getID());
+        preparedStatement.setInt(6, customer.getCustomerNo().getAdultNo());
+        preparedStatement.setInt(7, customer.getCustomerNo().getChildrenNo());
+        preparedStatement.setInt(8, customer.getCustomerNo().getToodlerNo());
+        preparedStatement.setDouble(9, customer.getFee().getTotalFee());
+        preparedStatement.setDouble(10, 0);
+
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        connection.close();
+    }
+
+    public void saveReplyToken(String token) throws Exception{
+        this.connection = this.getConnection();
+
+        String strSelect = "select * from token";
+        Statement stmt = connection.createStatement();
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            if (rset.getString("token").equals(token)) return;
+        }
+        rset.close();
+
+        String sqlInsert = "insert into token values (?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
+        preparedStatement.setString(1, token);
+
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+        connection.close();
+    }
+
+    public String searchDiscountTour() throws Exception{
+        String reply = null;
+
+        Calendar current = Calendar.getInstance();
+        this.connection = this.getConnection();
+
+        String strSelect = "select * from discount";
+        Statement stmt = connection.createStatement();
+        ResultSet rset = stmt.executeQuery(strSelect);
+        while(rset.next()) {   // Move the cursor to the next row
+            Calendar discountDate = Calendar.getInstance();
+            //No more discount
+            if(rset.getInt("number") <=0) return reply;
+            String date = rset.getString("discountDate");
+            String time = rset.getString("discountTime");
+            String[] splitedDate = date.split("/");
+            if (time.length() < 4) continue;
+
+            //year, month, day, hour, min
+            discountDate.set(Integer.parseInt(splitedDate[2]),
+                    Integer.parseInt(splitedDate[1]) - 1,
+                    Integer.parseInt(splitedDate[0]),
+                    Integer.parseInt(time.substring(0,2))-1,
+                    Integer.parseInt(time.substring(2,4))
+            );
+//            if (discountDate.compareTo(current)<0 ){
+//
+//            }
+        }
+        rset.close();
+        connection.close();
+
+        return reply;
+    }
+
+//    public Tour searchTourByID() {
+//
+//    }
 }
