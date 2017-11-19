@@ -577,8 +577,8 @@ public class KitchenSinkController {
 			case 0: case 2: {
 				if (!(text.matches("\\d*"))) {
 					this.reply(replyToken, 
-							new TextMessage("Please input numbers only for this option."));
-					numOnlyInfo = false;
+							new TextMessage("Please input numbers only for this preference."));
+					numOnlyPreference = false;
 				}				
 				break;
 			}			
