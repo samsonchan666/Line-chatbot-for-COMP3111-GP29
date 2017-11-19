@@ -287,6 +287,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         if (text.toLowerCase().matches("(.)*sort(.)*")) return true;
         return false;
     }
+
     private boolean matchByPrice(){
         if (text.toLowerCase().matches("(.)*price(.)*")) return true;
         return false;
@@ -409,8 +410,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }
 
-    public String searchDiscountTour() throws Exception{
-        String reply = null;
+    public boolean searchDiscountTour(Tour tour, Booking booking) throws Exception{
 
         Calendar current = Calendar.getInstance();
         this.connection = this.getConnection();
@@ -420,31 +420,85 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         ResultSet rset = stmt.executeQuery(strSelect);
         while(rset.next()) {   // Move the cursor to the next row
             Calendar discountDate = Calendar.getInstance();
-            //No more discount
-            if(rset.getInt("number") <=0) return reply;
+            //No more discount, continue
+            if(rset.getInt("number") <=0) continue;
             String date = rset.getString("discountDate");
             String time = rset.getString("discountTime");
-            String[] splitedDate = date.split("/");
+            String[] splitDate = date.split("/");
             if (time.length() < 4) continue;
 
             //year, month, day, hour, min
-            discountDate.set(Integer.parseInt(splitedDate[2]),
-                    Integer.parseInt(splitedDate[1]) - 1,
-                    Integer.parseInt(splitedDate[0]),
+            discountDate.set(Integer.parseInt(splitDate[2]),
+                    Integer.parseInt(splitDate[1]) - 1,
+                    Integer.parseInt(splitDate[0]),
                     Integer.parseInt(time.substring(0,2))-1,
                     Integer.parseInt(time.substring(2,4))
             );
-//            if (discountDate.compareTo(current)<0 ){
-//
-//            }
+//           Continue if the discount date and time not reach
+            if (discountDate.compareTo(current)>0) continue;
+            tour.setID(rset.getString("tourId"));
+            booking.setID(rset.getString("bookingId"));
+            return true;
         }
         rset.close();
-        connection.close();
-
-        return reply;
+        return false;
     }
 
-//    public Tour searchTourByID() {
-//
-//    }
+    public Tour searchTourByID(String tourId) throws Exception{
+        Connection con = this.getConnection();
+        Tour discount_tour = null;
+        try {
+            PreparedStatement stmt = con.prepareStatement(
+                    "SELECT *  FROM tour "
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                if (!(tourId.toLowerCase().equals(rs.getString("id").toLowerCase()))) continue;
+                discount_tour = new Tour(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("attraction"),
+                        rs.getInt("duration"),
+                        rs.getInt("weekDayPrice"),
+                        rs.getInt("weekEndPrice"),
+                        rs.getString("dates")
+                );
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchTourByID()" + e);
+        }
+        return discount_tour;
+    }
+
+    public Booking searchBookingByID(String bookingID) throws Exception{
+        Connection connection = this.getConnection();
+        Booking booking = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM booking where id = ?"
+            );
+            stmt.setString(1,bookingID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                booking = new Booking(
+                        rs.getString("id"),
+                        null,
+                        null,
+                        rs.getString("hotel"),
+                        rs.getInt("capacity"),
+                        rs.getInt("miniCustomer"),
+                        rs.getInt("currentCustomer")
+                );
+                booking.setDateString(rs.getString("dates"));
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("searchBookingByID()" + e);
+        }
+        return booking;
+    }
 }

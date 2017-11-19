@@ -219,6 +219,12 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 
+		Booking booking = new Booking(null,null,null,null,0,0,0);
+		Tour tour = new Tour(null,null,null,0,0,0,null);
+		if (database.searchDiscountTour(tour,booking)){
+			this.reply(replyToken, new TextMessage("discount tour found"));
+		}
+
 		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
 		//4 for confirm input, 5 for confirm fee
         int stage = customer.getStage();
