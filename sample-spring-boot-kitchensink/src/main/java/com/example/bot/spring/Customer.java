@@ -90,7 +90,8 @@ public class Customer implements Observer{
 	public double getPayAmount() { return paid_amount;}
 	public boolean haveRemainPayment()  { return (paid_amount < fee.getTotalFee());}
 	// here (by Ryan Tang)
-	
+
+	public void setStage(int stage) { this.stage = stage;}
 	public int getStage() { return this.stage;}
 	public void stageProceed() { this.stage++;}
 	public void stageRestore() { this.stage--;}

@@ -293,7 +293,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
-    Tour getSelectedTour() { 
+    public void setSelectedTour(Tour tour){
+        this.selectedTour = tour;
+    }
+
+    public Tour getSelectedTour() {
     	if (selectedTour == null) return null;
     	return selectedTour;
     }
@@ -362,6 +366,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     		if (selectedBookingText.toLowerCase().matches("(.)*pick " + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
+
+    public void setSelectedBooking(Booking booking){
+        this.selectedBooking = booking;
+    }
     
     Booking getSelectedBooking() {
     	return this.selectedBooking;
@@ -382,27 +390,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         preparedStatement.setInt(8, customer.getCustomerNo().getToodlerNo());
         preparedStatement.setDouble(9, customer.getFee().getTotalFee());
         preparedStatement.setDouble(10, 0);
-
-        preparedStatement.executeUpdate();
-        preparedStatement.close();
-
-        connection.close();
-    }
-
-    public void saveReplyToken(String token) throws Exception{
-        this.connection = this.getConnection();
-
-        String strSelect = "select * from token";
-        Statement stmt = connection.createStatement();
-        ResultSet rset = stmt.executeQuery(strSelect);
-        while(rset.next()) {   // Move the cursor to the next row
-            if (rset.getString("token").equals(token)) return;
-        }
-        rset.close();
-
-        String sqlInsert = "insert into token values (?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
-        preparedStatement.setString(1, token);
 
         preparedStatement.executeUpdate();
         preparedStatement.close();

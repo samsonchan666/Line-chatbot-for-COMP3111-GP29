@@ -222,7 +222,15 @@ public class KitchenSinkController {
 		Booking booking = new Booking(null,null,null,null,0,0,0);
 		Tour tour = new Tour(null,null,null,0,0,0,null);
 		if (database.searchDiscountTour(tour,booking)){
-			this.reply(replyToken, new TextMessage("discount tour found"));
+			List<Message> multiMessages = new ArrayList<Message>();
+			tour = database.searchTourByID(tour.getID());
+			booking = database.searchBookingByID(booking.getID());
+			database.setSelectedBooking(booking);
+			database.setSelectedTour(Tour);
+			multiMessages.add(new TextMessage("There is a special tour offering at a discount of 50%\n"));
+			createConfirm("Do you want to book this one?", multiMessages);
+			customer.setStage(2);
+			this.reply(replyToken, multiMessages);
 		}
 
 		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
