@@ -263,7 +263,7 @@ public class KitchenSinkController {
         		if ((text.toLowerCase().matches("choose other tours"))) {
         			customer.stageRestore();
         			if (customer.isPreferenceFinished()) {
-        				resetPreferenceFinished()
+        				resetPreferenceFinished();
         				customer.stageRestore();
         				askPreference(replyToken);
         			}
