@@ -391,7 +391,10 @@ public class KitchenSinkController {
 					customer.setTour(database.getSelectedTour());
 					customer.getTour().setID(database.getSelectedBooking().getID());
 					if (!(database.searchDiscountTour(dis_tour,dis_booking))){
+						customer.stageZero();//reset all except name, id, age, phoneNum
+						customer.setShowDiscount(false);
 						this.replyText(replyToken, "Sorry ticket sold out");
+						break;
 					}
 					this.reply(replyToken, createInputMenu());
 					customer.stageProceed();
