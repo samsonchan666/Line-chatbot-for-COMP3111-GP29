@@ -775,12 +775,12 @@ public class KitchenSinkController {
 	}
 
 	private void outputDisCountFee(List<Message> multiMessages) {
-		customer.calculateFee(database.getSelectedBooking());
+		customer.calculateDiscountFee(database.getSelectedBooking());
 		StringBuilder feeInfo = new StringBuilder();
 		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
 		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
 		feeInfo.append("No fee charged for toodlers\n");
-		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()/2));
+		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		multiMessages.add(new TextMessage(feeInfo.toString()));
 		createConfirm("Confirm?", multiMessages);
 	}
