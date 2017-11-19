@@ -280,6 +280,7 @@ public class KitchenSinkController {
         			if (customer.isPreferenceFinished()) {
         				customer.resetPreferenceFinished();
         				customer.stageRestore();
+        				customer.preferenceNumIncre();
         				askPreference(replyToken);
         			}
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
