@@ -231,12 +231,15 @@ public class KitchenSinkController {
         			String reply = null;
         			try {
         				reply = database.filterPreference();
-        				customer.stageProceed();
         			} catch (Exception e) {
-        				reply = "Sorry, there is no tour suitable for you.";
+        				reply = "Sorry, there is no tour suitable for you. "
+        						+ "You may continue searching for other tours.";
         			}    				
         			this.reply(replyToken, stage0Messages(reply, text));
         			database.resetPreferenceInput();
+        			customer.resetPreferenceNum();
+        			customer.resetPreferenceFinished();
+        			customer.stageProceed();
         		}
         		break;
         	}
@@ -274,11 +277,6 @@ public class KitchenSinkController {
         	case 1: {
         		if ((text.toLowerCase().matches("choose other tours"))) {
         			customer.stageRestore();
-        			//if (customer.isPreferenceFinished()) {
-        				//customer.resetPreferenceFinished();
-        				//customer.stageRestore();
-        				//askPreference(replyToken);
-        			//}
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
         		}        			
         		else this.reply(replyToken, stage1Messages(text));
@@ -428,10 +426,6 @@ public class KitchenSinkController {
 	private void createDaySelectMenu(String title, List<Message> multiMessages) {
 		List<String> bookingDateList = null;
 		customer.stageProceed();
-		if (customer.isPreferenceFinished()) {
-			customer.resetPreferenceNum();
-			customer.resetPreferenceFinished();
-		}
 		try {
 			database.createBookingDateList();
 			bookingDateList = database.getBookingDateList();
