@@ -224,7 +224,7 @@ public class KitchenSinkController {
         int stage = customer.getStage();
         switch (stage) {            
         	case 0: {
-				specialDiscountCase();
+				specialDiscountCase(replyToken);
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
 					String userId = event.getSource().getUserId();
@@ -322,7 +322,7 @@ public class KitchenSinkController {
 		}
 	}
 
-	private void specialDiscountCase() throws Exception{
+	private void specialDiscountCase(String replyToken) throws Exception{
 		Booking dis_booking = new Booking(null,null,null,null,0,0,0);
 		Tour dis_tour = new Tour(null,null,null,0,0,0,null);
 		if (database.searchDiscountTour(dis_tour,dis_booking)){
