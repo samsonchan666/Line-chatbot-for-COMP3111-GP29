@@ -257,17 +257,6 @@ public class DatabaseEngine {
         rset.close();
     }
 
-    public void addImage() throws URISyntaxException, SQLException, IOException{
-        File file = new File("./gather.jpg");
-        FileInputStream fis = new FileInputStream(file);
-        PreparedStatement ps = connection.prepareStatement("INSERT INTO images VALUES (?, ?)");
-        ps.setString(1, file.getName());
-        ps.setBinaryStream(2, fis, file.length());
-        ps.executeUpdate();
-        ps.close();
-        fis.close();
-    }
-
     // For GUI input
     public void addTour(String id, String name, String descrip, String dura, String days, String dayCost, String endCost)
             throws URISyntaxException, SQLException {

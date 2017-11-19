@@ -42,7 +42,6 @@ public class Main {
             databaseEngine.addTour();
             databaseEngine.addCustomer();
             databaseEngine.addFAQData();
-//            databaseEngine.addImage();
         }
         catch (Exception e){
             e.printStackTrace();
