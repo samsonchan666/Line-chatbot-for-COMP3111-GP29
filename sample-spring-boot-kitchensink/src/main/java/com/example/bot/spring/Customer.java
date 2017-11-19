@@ -13,6 +13,7 @@ public class Customer implements Observer{
 	private int inputOption;
 	private int numInput;
 	private int preferenceNum;
+	private boolean preferenceFinished;
 	
 	public Customer(
 			String id,
@@ -32,6 +33,7 @@ public class Customer implements Observer{
 		this.inputOption = -1;
 		this.numInput = 0;
 		this.preferenceNum = -1;
+		this.preferenceFinished = false;
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -105,6 +107,8 @@ public class Customer implements Observer{
 		this.stage = 0;
 		this.inputOption = -1;
 		this.numInput = 0;
+		this.preferenceNum = -1;
+		this.preferenceFinished = false;
 	}
 	
 	public int getInputOption() { return this.inputOption;}
@@ -115,8 +119,15 @@ public class Customer implements Observer{
 	public void resetNumInput() { this.numInput = 0;}
 	
 	public int getPreferenceNum() { return this.preferenceNum;}
-	public void preferenceNumIncre() { this.preferenceNum++;}
+	public void preferenceNumIncre() {
+		this.preferenceNum++;
+		if (preferenceNum == 2)
+			this.preferenceFinished = true;
+	}
 	public void resetPreferenceNum() { this.preferenceNum = -1;}
+	
+	public boolean isPreferenceFinished() { return this.preferenceFinished;}
+	public void resetPreferenceFinished() { this.preferenceFinished = false;}
 	
 	public boolean inputFinished() {
 		if (id != null && name != null && age >= 0 && phoneNum != null && tour != null && 
