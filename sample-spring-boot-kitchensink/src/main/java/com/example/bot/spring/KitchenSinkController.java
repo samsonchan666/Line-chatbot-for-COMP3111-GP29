@@ -302,7 +302,7 @@ public class KitchenSinkController {
     				customer.stageRestore();
     				customer.stageRestore();   //back to stage 3 for receiving input
         		}
-        		else if ((text.toLowerCase().matches("yes(.)*"))) {
+        		//else if ((text.toLowerCase().matches("yes(.)*"))) {
         			//Attach customer to observe a booking
         			attachCustomerToBooking();
         			//Save the customer to the database
@@ -314,8 +314,8 @@ public class KitchenSinkController {
         							+ "the ATM payment, please send the bank in slip to us. "
         							+ "Our staff will validate it."));
         			customer.stageZero();//reset all
-        		}
-        		else errorConfirm(replyToken);
+        		//}
+        		//else errorConfirm(replyToken);
         		break;
         	}
 		}
