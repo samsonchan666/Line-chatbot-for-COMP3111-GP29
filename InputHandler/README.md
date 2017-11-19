@@ -36,3 +36,16 @@ create table booking (
 	miniCustomer int,
 	currentCustomer int
 );
+
+create table discount (
+	bookingId varchar(100),
+	tourId varchar(20),
+	tourName varchar(50),
+	number int,
+	discountDate varchar(50),
+	discountTime varchar(15)
+);
+
+insert into discount values ('2D00120171106','2D001','Shimen National Forest Tour',4,'10/11/2017','1200');
+
+
