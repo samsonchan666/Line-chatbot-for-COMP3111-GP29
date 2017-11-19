@@ -21,11 +21,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private Tour selectedTour = null;
     private List<Tour> tourList = null;
     private List<String> tourIDList = null;
+    private List<String> weekDayOnlyTourIDList = new ArrayList<String>();
     
     private String selectedBookingText = null;
     private Booking selectedBooking = null;
     private List<Booking> bookingList = null;
     private List<String> bookingDateList = null;
+    private List<String> preferenceInput = new ArrayList<String>();
     
     @Override
     String search(String text) throws Exception {
@@ -266,7 +268,33 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return false;
     }
-
+    
+    private boolean matchByDuration(int duration) {
+    	if (duration <= Integer.parseInt(preferenceInput.get(0))) return true;
+    	return false;
+    }
+    
+    private boolean matchByBudget(String tourID, int weekDayPrice, int weekEndPrice) {
+    	int budget = Integer.parseInt(preferenceInput.get(2));
+    	if (weekEndPrice <= budget) 
+    		return true;
+    	else if (weekDayPrice <= budget) {
+    		weekDayOnlyTourIDList.add(tourID.toLowerCase());
+    		return true;
+    	}    		
+    	return false;
+    }
+    
+    private boolean matchByWeekDayOnly(String tourID, int day) {
+    	if (!weekDayOnlyTourIDList.isEmpty()) {
+    		for (int i = 0; i < weekDayOnlyTourIDList.size(); i++)
+    			if (tourID.equals(weekDayOnlyTourIDList.get(i)))
+    				if (day == 1 || day == 7) //equal weekEND
+    					return false;
+    	}
+    	return true;
+    }
+    
     public boolean matchByKeywords(String keywords){
         Pattern p = Pattern.compile("\\w+");
         Matcher m_keywords = p.matcher(keywords.toLowerCase());
@@ -293,6 +321,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
+
     public void setSelectedTour(Tour tour){
         this.selectedTour = tour;
     }
@@ -302,19 +331,21 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     	return selectedTour;
     }
     
-    List<Tour> getTourList() {
+    public List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
     }    
-    void resetTourList() { tourList = null;}
+    public void resetTourList() { tourList = null;}
     
-    List<String> getTourIDList() {
+    public List<String> getTourIDList() {
     	if (tourIDList == null) return null;
     	return tourIDList;
     }    
-    void resetTourIDList() { tourIDList = null;}
+    public void resetTourIDList() { tourIDList = null;}
     
-    void createBookingDateList() throws Exception{
+    public void resetWeekDayOnlyTourIDList() { this.weekDayOnlyTourIDList = new ArrayList<String>();}
+    
+    public void createBookingDateList() throws Exception{
     	if (selectedTour == null) return;
     	String text = selectedTour.getID().toLowerCase();
     	this.connection = this.getConnection();
@@ -326,8 +357,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             );
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String tourid = rs.getString("tourId").toLowerCase();
-                if (!(text.equals(tourid))) continue;
+                String tourID = rs.getString("tourId").toLowerCase();
+                if (!(text.equals(tourID))) continue;
                 Booking booking = new Booking(
                 		rs.getString("id"), 
                 		selectedTour, 
@@ -340,6 +371,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 booking.setDateString(rs.getString("dates"));
                 booking.getTourGuide().setName(rs.getString("tourGuide"));
                 booking.getTourGuide().setLineAcc(rs.getString("lineAcc"));
+                if (!matchByWeekDayOnly(tourID, booking.dateToDay())) continue;
                 bookingList.add(booking);
                 bookingDateList.add(rs.getString("dates"));
             }
@@ -352,27 +384,78 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }    
     
-    List<String> getBookingDateList() {
+    public List<String> getBookingDateList() {
         if (bookingDateList == null || bookingDateList.isEmpty()) return null;
         return bookingDateList;
     }
     
-    void setSelectedBookingText(String text) {
-    	this.selectedBookingText = text;
-    }
-    
-    void setSelectedBooking() {
+    public void setSelectedBookingText(String text) { this.selectedBookingText = text;}
+    public void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
     		if (selectedBookingText.toLowerCase().matches("(.)*pick " + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
 
+
     public void setSelectedBooking(Booking booking){
         this.selectedBooking = booking;
     }
+
+    public Booking getSelectedBooking() { return this.selectedBooking;}
+
     
-    Booking getSelectedBooking() {
-    	return this.selectedBooking;
+    public void addPreferenceInput(String input) { this.preferenceInput.add(input);}
+    public List<String> getPreferenceInput() { return this.preferenceInput;}
+    public void resetPreferenceInput() { this.preferenceInput = new ArrayList<String>();}
+    
+    public String filterPreference() throws Exception{
+        String result = null;
+        this.connection = this.getConnection();
+        StringBuilder str = new StringBuilder();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT *  FROM tour "
+            );
+            ResultSet rs = stmt.executeQuery();
+            tourList = new ArrayList<Tour>();
+            tourIDList = new ArrayList<String>();
+            boolean hasResult = false;
+            while(rs.next()) {
+                int duration = rs.getInt("duration");
+                this.text = preferenceInput.get(1);//interest                
+                String attraction = rs.getString("attraction").toLowerCase();
+                String tourID = rs.getString("id");
+                int weekDayPrice = rs.getInt("weekDayPrice");
+                int weekEndPrice = rs.getInt("weekEndPrice");
+                if (!(matchByDuration(duration) && 
+                		matchByAttraction(attraction) && 
+                			matchByBudget(tourID, weekDayPrice, weekEndPrice))) continue;
+                Tour tour = new Tour(tourID,
+                        rs.getString("name"),
+                        rs.getString("attraction"),
+                        rs.getInt("duration"),
+                        rs.getInt("weekDayPrice"),
+                        rs.getInt("weekEndPrice"),
+                        rs.getString("dates")
+                );
+                tourList.add(tour);
+                tourIDList.add(tour.getID());
+                hasResult = true;
+            }
+            if (hasResult)
+            	result = Tour.getBasicTourInfoSortByPrice(tourList, Tour.Keyword.PREFERENCE).toString();
+            rs.close();
+            stmt.close();
+        }
+        catch (Exception e){
+            System.out.println("PreferenceList()" + e);
+        }
+        if (result != null) {
+            connection.close();
+            return result;
+        }
+        connection.close();
+        throw new Exception("NOT FOUND");
     }
 
     public void saveCustomerToDb(Customer customer) throws Exception{

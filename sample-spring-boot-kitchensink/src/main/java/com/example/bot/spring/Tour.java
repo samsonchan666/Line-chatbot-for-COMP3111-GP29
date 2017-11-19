@@ -12,7 +12,7 @@ public class Tour {
 	private int weekDayPrice;
 	private int weekEndPrice;
 	private String dates;
-	public enum Keyword{ DATE, ATTRACTION}
+	public enum Keyword{ DATE, ATTRACTION, PREFERENCE}
 	
 	public Tour(
 			String id,
@@ -83,7 +83,7 @@ public class Tour {
 
 	public StringBuilder getBasicTourInfoWithPrice(){
 		StringBuilder tourBuilder = new StringBuilder();
-		tourBuilder.append(this.id + "\t" + this.name + "\t" + this.weekDayPrice + "\n");
+		tourBuilder.append(this.id + "\t" + this.name + "\t$" + this.weekDayPrice + "\n");
 		return tourBuilder;
 	}
 
@@ -101,6 +101,8 @@ public class Tour {
 				return "There are " + tourList.size() + " tours available on that day\n";
 			case ATTRACTION:
 				return "There are " + tourList.size() + " tours related\n";
+			case PREFERENCE:
+				return "There are " + tourList.size() + " tours available for your preferences\n";
 			default:
 				return null;
 		}
@@ -123,6 +125,7 @@ public class Tour {
 
 	public static void sortTourListByPrice(List<Tour> tourList){
 		Tour temp;
+		if (tourList.size() == 1) return;
 		for (int x=0; x<tourList.size(); x++) // bubble sort outer loop
 		{
 			for (int i=0; i < tourList.size()-i; i++) {

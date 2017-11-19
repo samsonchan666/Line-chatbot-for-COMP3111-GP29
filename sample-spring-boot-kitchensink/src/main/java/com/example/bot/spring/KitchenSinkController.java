@@ -219,13 +219,41 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 
-		if (customer.getShowDiscount()) specialDiscountCase(replyToken,text);
 
-		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
-		//4 for confirm input, 5 for confirm fee
+//		if (customer.getShowDiscount()) specialDiscountCase(replyToken,text);
+		//-1 for preference, 0 for searching, 1 for confirm tour, 2 for ask input
+		//3 for receive input, 4 for confirm input, 5 for confirm fee
+
         int stage = customer.getStage();
-        switch (stage) {            
+        switch (stage) {
+        	case -1: {
+        		int preferenceNum = customer.getPreferenceNum();
+        		if (!customer.isPreferenceFinished())
+        			receivePreference(replyToken, text, preferenceNum);
+        		if (customer.isPreferenceFinished()) {
+        			String reply = null;
+        			try {
+        				reply = database.filterPreference();
+        			} catch (Exception e) {
+        				reply = "Sorry, there is no tour suitable for you. "
+        						+ "You may continue searching for other tours.";
+        			}    				
+        			this.reply(replyToken, stage0Messages(reply, text));
+        			database.resetPreferenceInput();
+        			customer.resetPreferenceNum();
+        			customer.resetPreferenceFinished();
+        			customer.stageProceed();
+        		}
+        		break;
+        	}
+        
         	case 0: {
+        		if (text.toLowerCase().matches("(.*)preference(.*)")) {
+        			customer.preferenceNumIncre();
+        			askPreference(replyToken);
+        			customer.stageRestore();
+        			break;
+        		}        		
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
 					String userId = event.getSource().getUserId();
@@ -251,8 +279,8 @@ public class KitchenSinkController {
         	//Create Confirm
         	case 1: {
         		if ((text.toLowerCase().matches("choose other tours"))) {
-        			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
         			customer.stageRestore();
+        			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
         		}        			
         		else this.reply(replyToken, stage1Messages(text));
 				break;	
@@ -315,6 +343,7 @@ public class KitchenSinkController {
         							+ "of ABC Bank or by cash in our store. When you complete "
         							+ "the ATM payment, please send the bank in slip to us. "
         							+ "Our staff will validate it."));
+        			database.resetWeekDayOnlyTourIDList();
         			customer.stageZero();//reset all except name, id, age, phoneNum
         		}
         		else errorConfirm(replyToken);
@@ -359,6 +388,28 @@ public class KitchenSinkController {
 
 		}
 
+	}
+	
+	private void askPreference(String replyToken) {
+		int preferenceNum = customer.getPreferenceNum();
+		switch (preferenceNum) {
+			case 0: { this.replyText(replyToken, "Please input your desired duration."); break;}		
+			case 1: { this.replyText(replyToken, "Please input your interest."); break;}
+			case 2: { this.replyText(replyToken, "Please input your budget."); break;}		
+		}
+	}
+	
+	private void receivePreference(String replyToken, String text, int preferenceNum) {
+		if (!numOnlyPreference(preferenceNum, replyToken, text))
+			return;
+		database.addPreferenceInput(text);
+		if (customer.getPreferenceNum() == 2)
+			customer.setPreferenceFinished(true);
+		if (!customer.isPreferenceFinished()) {
+			customer.preferenceNumIncre();
+			askPreference(replyToken);
+			return;
+		}		
 	}
 	
 	private void reinputInfo (String replyToken, List<Message> multiMessages) {
@@ -528,7 +579,7 @@ public class KitchenSinkController {
 	
 	private void inputReceive(String replyToken, String text) {
 		int inputOption = customer.getInputOption();
-		if (!numOnly(inputOption, replyToken, text))
+		if (!numOnlyInfo(inputOption, replyToken, text))
 			return;
 		switch (inputOption) {
 			case 0: { customer.setId(text); break;}
@@ -548,19 +599,34 @@ public class KitchenSinkController {
 		}
 	}
 	
-	private boolean numOnly(int inputOption, String replyToken, String text) {
-		boolean numOnly = true;
+	private boolean numOnlyInfo(int inputOption, String replyToken, String text) {
+		boolean numOnlyInfo = true;
 		switch (inputOption) {
 			case 2: case 3: case 4: case 5: case 6: {
 				if (!(text.matches("\\d*"))) {
 					this.reply(replyToken, 
 							new TextMessage("Please input numbers only for this option."));
-					numOnly = false;
+					numOnlyInfo = false;
 				}				
 				break;
 			}			
 		}
-		return numOnly;
+		return numOnlyInfo;
+	}
+	
+	private boolean numOnlyPreference(int inputOption, String replyToken, String text) {
+		boolean numOnlyPreference = true;
+		switch (inputOption) {
+			case 0: case 2: {
+				if (!(text.matches("\\d*"))) {
+					this.reply(replyToken, 
+							new TextMessage("Please input numbers only for this preference."));
+					numOnlyPreference = false;
+				}				
+				break;
+			}			
+		}
+		return numOnlyPreference;
 	}
 	
 	private List<Message> confirmInfo() {
