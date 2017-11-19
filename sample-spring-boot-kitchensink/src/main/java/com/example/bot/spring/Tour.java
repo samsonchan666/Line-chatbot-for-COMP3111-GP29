@@ -12,7 +12,7 @@ public class Tour {
 	private int weekDayPrice;
 	private int weekEndPrice;
 	private String dates;
-	public enum Keyword{ DATE, ATTRACTION}
+	public enum Keyword{ DATE, ATTRACTION, PREFERENCE}
 	
 	public Tour(
 			String id,
@@ -101,6 +101,8 @@ public class Tour {
 				return "There are " + tourList.size() + " tours available on that day\n";
 			case ATTRACTION:
 				return "There are " + tourList.size() + " tours related\n";
+			case PREFERENCE:
+				return "There are " + tourList.size() + " tours available for your preference\n";
 			default:
 				return null;
 		}

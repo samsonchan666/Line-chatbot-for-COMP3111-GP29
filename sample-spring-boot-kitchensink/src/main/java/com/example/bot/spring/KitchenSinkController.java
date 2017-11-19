@@ -222,8 +222,34 @@ public class KitchenSinkController {
 		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
 		//4 for confirm input, 5 for confirm fee
         int stage = customer.getStage();
-        switch (stage) {            
+        switch (stage) {
+        	case -1: {
+        		int preferenceNum = customer.getPreferenceNum();
+        		if (preferenceNum >= 0)
+        			receivePreference(replyToken, text, preferenceNum);
+        		else {
+    				String reply = null;
+        			try {
+    					reply = database.createPreferenceList();
+    				} catch (Exception e) {
+    					reply = "Sorry, no tour is suitable for your preferences.";
+    				}    				
+    				this.reply(replyToken, stage0Messages(reply, text));
+    				break;
+        			database.resetPreferenceInput();
+        			customer.stageProceed();
+        			customer.stageProceed();
+        		}
+        		break;
+        	}
+        
         	case 0: {
+        		if (text.toLowerCase().matches("(.*)preference(.*)")) {
+        			customer.preferenceNumIncre();
+        			askPreference(replyToken);
+        			customer.stageRestore();
+        			break;
+        		}        		
 				if ((text.toLowerCase().matches("hi(.*)|hello(.*)")))
 				{
 					String userId = event.getSource().getUserId();
@@ -313,12 +339,32 @@ public class KitchenSinkController {
         							+ "of ABC Bank or by cash in our store. When you complete "
         							+ "the ATM payment, please send the bank in slip to us. "
         							+ "Our staff will validate it."));
+        			database.resetWeekDayOnlyTourIDList();
         			customer.stageZero();//reset all except name, id, age, phoneNum
         		}
         		else errorConfirm(replyToken);
         		break;
         	}
 		}
+	}
+	
+	private void askPreference(String replyToken) {
+		int preferenceNum = customer.getPreferenceNum();
+		switch (preferenceNum) {
+			case 0: { this.replyText(replyToken, "Please input your desired duration."); break;}		
+			case 1: { this.replyText(replyToken, "Please input your interest."); break;}
+			case 2: { this.replyText(replyToken, "Please input your budget."); break;}		
+		}
+	}
+	
+	private void receivePreference(String replyToken, String text, int preferenceNum) {
+		database.addPreferenceInput(text);
+		if (preferenceNum == 2) {
+			customer.resetPreferenceNum();
+			return;
+		}
+		customer.preferenceNumIncre();
+		askPreference(replyToken);
 	}
 	
 	private void reinputInfo (String replyToken, List<Message> multiMessages) {
