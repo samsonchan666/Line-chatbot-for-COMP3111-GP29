@@ -277,11 +277,11 @@ public class KitchenSinkController {
         	case 1: {
         		if ((text.toLowerCase().matches("choose other tours"))) {
         			customer.stageRestore();
-        			if (customer.isPreferenceFinished()) {
-        				customer.resetPreferenceFinished();
-        				customer.stageRestore();
-        				askPreference(replyToken);
-        			}
+        			//if (customer.isPreferenceFinished()) {
+        				//customer.resetPreferenceFinished();
+        				//customer.stageRestore();
+        				//askPreference(replyToken);
+        			//}
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
         		}        			
         		else this.reply(replyToken, stage1Messages(text));
@@ -434,6 +434,7 @@ public class KitchenSinkController {
 		if (customer.isPreferenceFinished()) {
 			customer.stageProceed();
 			customer.resetPreferenceNum();
+			customer.resetPreferenceFinished();
 		}
 		try {
 			database.createBookingDateList();
