@@ -220,7 +220,7 @@ public class KitchenSinkController {
 		log.info("Got text message from {}: {}", replyToken, text);
 
 
-//		if (customer.getShowDiscount()) specialDiscountCase(replyToken,text);
+		if (customer.getShowDiscount()) specialDiscountCase(replyToken,text);
 		//-1 for preference, 0 for searching, 1 for confirm tour, 2 for ask input
 		//3 for receive input, 4 for confirm input, 5 for confirm fee
 
@@ -373,7 +373,7 @@ public class KitchenSinkController {
 			case 2: {
 				if ((text.toLowerCase().matches("no(.)*"))) {
 					this.replyText(replyToken, "Okay. You may pick another date.");
-					customer.stageRestore();
+					customer.stageZero();
 					customer.setShowDiscount(false);
 				}
 				else if ((text.toLowerCase().matches("yes(.)*"))) {
@@ -381,6 +381,53 @@ public class KitchenSinkController {
 					customer.getTour().setID(database.getSelectedBooking().getID());
 					this.reply(replyToken, createInputMenu());
 					customer.stageProceed();
+				}
+				else errorConfirm(replyToken);
+				break;
+			}
+			case 3: {
+				String reply = null;
+				if (customer.getInputOption() == -1)
+					askInputReply(replyToken, text);
+				else
+					inputReceive(replyToken, text);
+				break;
+			}
+			case 4: {
+				List<Message> multiMessages = new ArrayList<Message>();
+				if ((text.toLowerCase().matches("no(.)*"))) {
+					reinputInfo(replyToken, multiMessages);
+					customer.stageRestore();
+				}
+				else if ((text.toLowerCase().matches("yes(.)*"))) {
+					outputFee(multiMessages);
+					this.reply(replyToken, multiMessages);
+				}
+				else errorConfirm(replyToken);
+				break;
+			}
+
+			case 5: {
+				List<Message> multiMessages = new ArrayList<Message>();
+				if ((text.toLowerCase().matches("no(.)*"))) {
+					reinputInfo(replyToken, multiMessages);
+					customer.stageRestore();
+					customer.stageRestore();   //back to stage 3 for receiving input
+				}
+				else if ((text.toLowerCase().matches("yes(.)*"))) {
+					//Attach customer to observe a booking
+					attachCustomerToBooking();
+					//Save the customer to the database
+					database.saveCustomerToDb(customer);
+
+					this.reply(replyToken, new TextMessage(
+							"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
+									+ "of ABC Bank or by cash in our store. When you complete "
+									+ "the ATM payment, please send the bank in slip to us. "
+									+ "Our staff will validate it."));
+					database.resetWeekDayOnlyTourIDList();
+					customer.stageZero();//reset all except name, id, age, phoneNum
+					customer.setShowDiscount(false);
 				}
 				else errorConfirm(replyToken);
 				break;
