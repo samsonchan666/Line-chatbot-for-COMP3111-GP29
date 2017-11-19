@@ -219,8 +219,8 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 
-		//0 for searching, 1 for confirm tour, 2 for ask input, 3 for receive input
-		//4 for confirm input, 5 for confirm fee
+		//-1 for preference, 0 for searching, 1 for confirm tour, 2 for ask input
+		//3 for receive input, 4 for confirm input, 5 for confirm fee
         int stage = customer.getStage();
         switch (stage) {
         	case -1: {
