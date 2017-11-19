@@ -250,25 +250,26 @@ public class KitchenSinkController {
         	case 1: {
         		if ((text.toLowerCase().matches("choose other tours"))) {
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
-        			customer.stageRestore();    	
-    				break;
+        			customer.stageRestore();
         		}        			
-				this.reply(replyToken, stage1Messages(text));
+        		else this.reply(replyToken, stage1Messages(text));
 				break;	
         	}
         	
         	case 2: {
         		if ((text.toLowerCase().matches("no(.)*"))) {
         			this.replyText(replyToken, "Okay. You may pick another date.");
-    				customer.stageRestore();    	
-    				break;
-        		}        		
-        		customer.setTour(database.getSelectedTour());
-        		database.setSelectedBooking();
-        		customer.getTour().setID(database.getSelectedBooking().getID());
-        		this.reply(replyToken, createInputMenu());
-        		customer.stageProceed();
-                break;
+    				customer.stageRestore();
+        		}
+        		else if ((text.toLowerCase().matches("yes(.)*"))) {
+        			customer.setTour(database.getSelectedTour());
+        			database.setSelectedBooking();
+        			customer.getTour().setID(database.getSelectedBooking().getID());
+        			this.reply(replyToken, createInputMenu());
+        			customer.stageProceed();
+        		}
+        		else errorConfirm(replyToken);
+        		break;
         	}
         	
         	case 3: {
@@ -283,42 +284,53 @@ public class KitchenSinkController {
         	case 4: {
         		List<Message> multiMessages = new ArrayList<Message>();
         		if ((text.toLowerCase().matches("no(.)*"))) {        			
-        			multiMessages.add(new TextMessage("Okay. You may input your info again."));
-        			multiMessages.add(createInputMenu());
-        			this.reply(replyToken, multiMessages);
-    				customer.stageRestore();    	
-    				break;
+        			reinputInfo(replyToken, multiMessages);
+    				customer.stageRestore();
         		}
-        		outputFee(multiMessages);
-        		this.reply(replyToken, multiMessages);    			   	
-    			break;        		
+        		else if ((text.toLowerCase().matches("yes(.)*"))) {
+        			outputFee(multiMessages);
+        			this.reply(replyToken, multiMessages);
+        		}
+        		else errorConfirm(replyToken);
+        		break;
         	}
         	
         	case 5: {
-        		if ((text.toLowerCase().matches("no(.)*"))) {
-        			List<Message> multiMessages = new ArrayList<Message>();
-        			multiMessages.add(new TextMessage("Okay. You may input your info again."));
-        			multiMessages.add(createInputMenu());
-        			this.reply(replyToken, multiMessages);
+        		List<Message> multiMessages = new ArrayList<Message>();
+        		if ((text.toLowerCase().matches("no(.)*"))) {        			
+        			reinputInfo(replyToken, multiMessages);
     				customer.stageRestore();
     				customer.stageRestore();   //back to stage 3 for receiving input
-    				break;
         		}
-        		//Attach customer to observe a booking
-				attachCustomerToBooking();
-        		//Save the customer to the database
-				database.saveCustomerToDb(customer);
+        		else if ((text.toLowerCase().matches("yes(.)*"))) {
+        			//Attach customer to observe a booking
+        			attachCustomerToBooking();
+        			//Save the customer to the database
+        			database.saveCustomerToDb(customer);
 
-        		this.reply(replyToken, new TextMessage(
-        				"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
-        				+ "of ABC Bank or by cash in our store. When you complete "
-        				+ "the ATM payment, please send the bank in slip to us. "
-        				+ "Our staff will validate it."));
-        		customer.stageZero();//reset all
+        			this.reply(replyToken, new TextMessage(
+        					"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
+        							+ "of ABC Bank or by cash in our store. When you complete "
+        							+ "the ATM payment, please send the bank in slip to us. "
+        							+ "Our staff will validate it."));
+        			customer.stageZero();//reset all
+        		}
+        		else errorConfirm(replyToken);
+        		break;
         	}
 		}
 	}
-
+	
+	private void reinputInfo (String replyToken, List<Message> multiMessages) {
+		multiMessages.add(new TextMessage("Okay. You may input your info again."));
+		multiMessages.add(createInputMenu());
+		this.reply(replyToken, multiMessages);
+	}
+	
+	private void errorConfirm(String replyToken) {
+		this.reply(replyToken, new TextMessage("Please only answer yes or no."));
+	}
+	
 	private List<Message> stage0Messages(String reply, String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
