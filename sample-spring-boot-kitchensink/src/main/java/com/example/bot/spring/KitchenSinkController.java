@@ -231,13 +231,12 @@ public class KitchenSinkController {
         			String reply = null;
         			try {
         				reply = database.filterPreference();
+        				customer.stageProceed();
         			} catch (Exception e) {
-        				reply = "Sorry, there is no tour suitable for you. "
-        						+ "You may continue searching for other tours.";
+        				reply = "Sorry, there is no tour suitable for you.";
         			}    				
         			this.reply(replyToken, stage0Messages(reply, text));
         			database.resetPreferenceInput();
-        			customer.stageProceed();
         		}
         		break;
         	}
@@ -275,6 +274,11 @@ public class KitchenSinkController {
         	case 1: {
         		if ((text.toLowerCase().matches("choose other tours"))) {
         			customer.stageRestore();
+        			//if (customer.isPreferenceFinished()) {
+        				//customer.resetPreferenceFinished();
+        				//customer.stageRestore();
+        				//askPreference(replyToken);
+        			//}
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
         		}        			
         		else this.reply(replyToken, stage1Messages(text));
