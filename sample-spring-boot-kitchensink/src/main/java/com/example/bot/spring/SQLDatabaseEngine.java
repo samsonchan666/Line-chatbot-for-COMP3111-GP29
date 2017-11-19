@@ -483,7 +483,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     public void updateDiscountTour(String bookingId) throws Exception{
         this.connection = this.getConnection();
         PreparedStatement stmt = connection.prepareStatement(
-                "update discount set number = number - 1 where bookingId = (?) "
+                "update discount set number = number - 1  "
         );
         stmt.setString(1,bookingId);
         stmt.executeUpdate();
