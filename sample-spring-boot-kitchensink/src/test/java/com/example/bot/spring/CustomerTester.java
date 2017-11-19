@@ -49,6 +49,8 @@ import com.example.bot.spring.DatabaseEngine;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(classes = { CustomerTester.class, Customer.class})
+
+// Ryan Tang
 public class CustomerTester {
 	
 	@Autowired
@@ -58,7 +60,7 @@ public class CustomerTester {
 	public void ConstructorTest() throws Exception {
 		boolean thrown = false;
 		try {
-			Tour t = new Tour("T0000", "Random Tour", "Random Attraction", 3, 100, 100, "Weekday1|Weekday2|Weekday3"); 
+			Tour t = new Tour("T0000", "Random Tour", "Random Attraction", 3, 100, 100, "19/11/2017"); 
 			c = new Customer("000", "Ryan", 20, t, 0.0);
 		} catch (Exception e) {
 			thrown = true;
@@ -106,9 +108,22 @@ public class CustomerTester {
 	}
 
 	@Test
+	public void setAndgetPhoneNumTest() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setPhoneNum("abc123!");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getPhoneNum()=="abc123!").isTrue();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
 	public void setAndgetTourTest() throws Exception {
 		boolean thrown = false;
-		Tour t = new Tour("T0000", "Random Tour", "Random Attraction", 3, 100, 100, "Weekday1|Weekday2|Weekday3");
+		Tour t = new Tour("T0000", "Random Tour", "Random Attraction", 3, 100, 100, "19/11/2017");
 		
 		try {
 			c = new Customer(null, null, 0, null, 0);
@@ -167,60 +182,45 @@ public class CustomerTester {
 		assertThat(c.getFee().getTotalFee()).isEqualTo(f_totalFee);
 		assertThat(thrown).isFalse();
 	}
-	
+
 	@Test
-	public void calculateFeeTestFail() throws Exception {
+	public void calculateFeeTestInvalidDate() throws Exception {
 		boolean thrown = false;
 		try {
 			c = new Customer(null, null, 0, null, 0);
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Weekday1|Weekday2|Weekday3"); 
+			Tour t = new Tour(null, null, null, 0, 100, 200, "dd/mm/yyyy"); 
 			c.setTour(t);
 			
 			CustomerNo cn = new CustomerNo(1, 1, 1);
 			c.setCustomerNo(cn);
 			
-			c.calculateFee();
+			Booking bk = new Booking(null, t, null, null, 100, 0, 0);
+			bk.setDateString(t.getDates());
+			
+			c.calculateFee(bk);
 		} catch (Exception e) {
 			thrown = true;
 		}
-		assertThat(c.getFee().getTotalFee()).isEqualTo(0);
-		assertThat(thrown).isFalse();
+		assertThat(thrown).isTrue();
 	}
-	
+
 	@Test
-	public void calculateFeeTestSuccessMon() throws Exception {
+	public void calculateFeeTestSuccessWeekday() throws Exception {
 		boolean thrown = false;
 		try {
-			c = new Customer(null, null, 0, null, 0);
+			c = new Customer("ID", "Name", 0, null, 0);
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Mon|Weekday2|Weekday3"); 
+			Tour t = new Tour("ID", "Name", "Attraction", 1, 100, 200, "20/11/2017"); 
 			c.setTour(t);
 			
 			CustomerNo cn = new CustomerNo(1, 1, 1);
 			c.setCustomerNo(cn);
 			
-			c.calculateFee();
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(c.getFee().getTotalFee()).isEqualTo(180);
-		assertThat(thrown).isFalse();
-	}
-	
-	@Test
-	public void calculateFeeTestSuccessTue() throws Exception {
-		boolean thrown = false;
-		try {
-			c = new Customer(null, null, 0, null, 0);
+			Booking bk = new Booking("ID", t, null, "Hotel", 100, 0, 0);
+			bk.setDateString(t.getDates());
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Tue|Weekday2|Weekday3"); 
-			c.setTour(t);
-			
-			CustomerNo cn = new CustomerNo(1, 1, 1);
-			c.setCustomerNo(cn);
-			
-			c.calculateFee();
+			c.calculateFee(bk);
 		} catch (Exception e) {
 			thrown = true;
 		}
@@ -229,120 +229,46 @@ public class CustomerTester {
 	}
 	
 	@Test
-	public void calculateFeeTestSuccessWed() throws Exception {
+	public void calculateFeeTestSuccessWeekend() throws Exception {
 		boolean thrown = false;
 		try {
-			c = new Customer(null, null, 0, null, 0);
+			c = new Customer("ID", "Name", 0, null, 0);
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Wed|Weekday2|Weekday3"); 
+			Tour t = new Tour("ID", "Name", "Attraction", 1, 100, 200, "19/11/2017"); 
 			c.setTour(t);
 			
 			CustomerNo cn = new CustomerNo(1, 1, 1);
 			c.setCustomerNo(cn);
 			
-			c.calculateFee();
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(c.getFee().getTotalFee()).isEqualTo(180);
-		assertThat(thrown).isFalse();
-	}
-	
-	@Test
-	public void calculateFeeTestSuccessThu() throws Exception {
-		boolean thrown = false;
-		try {
-			c = new Customer(null, null, 0, null, 0);
+			Booking bk = new Booking("ID", t, null, "Hotel", 100, 0, 0);
+			bk.setDateString(t.getDates());
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Thu|Weekday2|Weekday3"); 
-			c.setTour(t);
-			
-			CustomerNo cn = new CustomerNo(1, 1, 1);
-			c.setCustomerNo(cn);
-			
-			c.calculateFee();
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(c.getFee().getTotalFee()).isEqualTo(180);
-		assertThat(thrown).isFalse();
-	}
-	
-	@Test
-	public void calculateFeeTestSuccessFri() throws Exception {
-		boolean thrown = false;
-		try {
-			c = new Customer(null, null, 0, null, 0);
-			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Fri|Weekday2|Weekday3"); 
-			c.setTour(t);
-			
-			CustomerNo cn = new CustomerNo(1, 1, 1);
-			c.setCustomerNo(cn);
-			
-			c.calculateFee();
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(c.getFee().getTotalFee()).isEqualTo(180);
-		assertThat(thrown).isFalse();
-	}
-	
-	@Test
-	public void calculateFeeTestSuccessSat() throws Exception {
-		boolean thrown = false;
-		try {
-			c = new Customer(null, null, 0, null, 0);
-			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Sat|Weekday2|Weekday3"); 
-			c.setTour(t);
-			
-			CustomerNo cn = new CustomerNo(1, 1, 1);
-			c.setCustomerNo(cn);
-			
-			c.calculateFee();
+			c.calculateFee(bk);
 		} catch (Exception e) {
 			thrown = true;
 		}
 		assertThat(c.getFee().getTotalFee()).isEqualTo(360);
 		assertThat(thrown).isFalse();
 	}
-	
-	@Test
-	public void calculateFeeTestSuccessSun() throws Exception {
-		boolean thrown = false;
-		try {
-			c = new Customer(null, null, 0, null, 0);
-			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Sun|Weekday2|Weekday3"); 
-			c.setTour(t);
-			
-			CustomerNo cn = new CustomerNo(1, 1, 1);
-			c.setCustomerNo(cn);
-			
-			c.calculateFee();
-		} catch (Exception e) {
-			thrown = true;
-		}
-		assertThat(c.getFee().getTotalFee()).isEqualTo(360);
-		assertThat(thrown).isFalse();
-	}
-	
+
 	@Test
 	public void payAndPaidAmountTestSuccesswithNoReturns() throws Exception {
 		boolean thrown = false;
 		double returns = 0;
 		
 		try {
-			c = new Customer(null, null, 0, null, 0);
+			c = new Customer("ID", "Name", 0, null, 0);
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Sun|Weekday2|Weekday3"); 
+			Tour t = new Tour("ID", "Name", "Attraction", 1, 100, 200, "19/11/2017"); 
 			c.setTour(t);
 			
 			CustomerNo cn = new CustomerNo(1, 1, 1);
 			c.setCustomerNo(cn);
 			
-			c.calculateFee();
+			Booking bk = new Booking("ID", t, null, "Hotel", 100, 0, 0);
+			bk.setDateString(t.getDates());
+			
+			c.calculateFee(bk);
 			returns = c.pay(100);
 		} catch (Exception e) {
 			thrown = true;
@@ -353,22 +279,25 @@ public class CustomerTester {
 		assertThat(returns).isEqualTo(0);
 		assertThat(thrown).isFalse();
 	}
-	
+
 	@Test
 	public void payAndPaidAmountTestSuccesswithReturns() throws Exception {
 		boolean thrown = false;
 		double returns = 0;
 		
 		try {
-			c = new Customer(null, null, 0, null, 0);
+			c = new Customer("ID", "Name", 0, null, 0);
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Sun|Weekday2|Weekday3"); 
+			Tour t = new Tour("ID", "Name", "Attraction", 1, 100, 200, "19/11/2017"); 
 			c.setTour(t);
 			
 			CustomerNo cn = new CustomerNo(1, 1, 1);
 			c.setCustomerNo(cn);
 			
-			c.calculateFee();
+			Booking bk = new Booking("ID", t, null, "Hotel", 100, 0, 0);
+			bk.setDateString(t.getDates());
+			
+			c.calculateFee(bk);
 			returns = c.pay(400);
 		} catch (Exception e) {
 			thrown = true;
@@ -386,15 +315,18 @@ public class CustomerTester {
 		double returns = 0;
 		
 		try {
-			c = new Customer(null, null, 0, null, 360);
+			c = new Customer("ID", "Name", 0, null, 360);
 			
-			Tour t = new Tour(null, null, null, 0, 100, 200, "Sun|Weekday2|Weekday3"); 
+			Tour t = new Tour("ID", "Name", "Attraction", 1, 100, 200, "19/11/2017"); 
 			c.setTour(t);
 			
 			CustomerNo cn = new CustomerNo(1, 1, 1);
 			c.setCustomerNo(cn);
 			
-			c.calculateFee();
+			Booking bk = new Booking("ID", t, null, "Hotel", 100, 0, 0);
+			bk.setDateString(t.getDates());
+			
+			c.calculateFee(bk);
 			returns = c.pay(400);
 		} catch (Exception e) {
 			thrown = true;
@@ -405,7 +337,7 @@ public class CustomerTester {
 		assertThat(returns).isEqualTo(400);
 		assertThat(thrown).isFalse();
 	}
-	
+
 	@Test
 	public void CustomerStageTestZero() throws Exception {
 		boolean thrown = false;
@@ -495,7 +427,7 @@ public class CustomerTester {
 		assertThat(c.getNumInput()).isEqualTo(0);
 		assertThat(thrown).isFalse();
 	}
-	
+
 	@Test
 	public void CustomerInputFinishTestFail() throws Exception {
 		boolean thrown = false;
@@ -509,7 +441,7 @@ public class CustomerTester {
 		assertThat(flag).isFalse();
 		assertThat(thrown).isFalse();
 	}
-	
+
 	@Test
 	public void CustomerInputFinishTestFailwithID() throws Exception {
 		boolean thrown = false;
@@ -559,7 +491,7 @@ public class CustomerTester {
 	}
 	
 	@Test
-	public void CustomerInputFinishTestFailwithID_Name_Age_Tour() throws Exception {
+	public void CustomerInputFinishTestFailwithID_Name_Age_PhoneNum() throws Exception {
 		boolean thrown = false;
 		boolean flag = false;
 		try {
@@ -567,6 +499,25 @@ public class CustomerTester {
 			c.setId("abc123!");
 			c.setName("abc123!");
 			c.setAge(0);
+			c.setPhoneNum("abc123!");
+			flag = c.inputFinished();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(flag).isFalse();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void CustomerInputFinishTestFailwithID_Name_Age_PhoneNum_Tour() throws Exception {
+		boolean thrown = false;
+		boolean flag = false;
+		try {
+			c = new Customer(null, null, -1, null, -1);
+			c.setId("abc123!");
+			c.setName("abc123!");
+			c.setAge(0);
+			c.setPhoneNum("abc123!");
 			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
 			c.setTour(tour);
 			flag = c.inputFinished();
@@ -586,6 +537,7 @@ public class CustomerTester {
 			c.setId("abc123!");
 			c.setName("abc123!");
 			c.setAge(0);
+			c.setPhoneNum("abc123!");
 			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
 			c.setTour(tour);
 			CustomerNo customerNo = new CustomerNo(-1, -1, -1);
@@ -607,6 +559,7 @@ public class CustomerTester {
 			c.setId("abc123!");
 			c.setName("abc123!");
 			c.setAge(0);
+			c.setPhoneNum("abc123!");
 			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
 			c.setTour(tour);
 			CustomerNo customerNo = new CustomerNo(0, -1, -1);
@@ -628,6 +581,7 @@ public class CustomerTester {
 			c.setId("abc123!");
 			c.setName("abc123!");
 			c.setAge(0);
+			c.setPhoneNum("abc123!");
 			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
 			c.setTour(tour);
 			CustomerNo customerNo = new CustomerNo(0, 0, -1);
@@ -639,7 +593,7 @@ public class CustomerTester {
 		assertThat(flag).isFalse();
 		assertThat(thrown).isFalse();
 	}
-	
+
 	@Test
 	public void CustomerInputFinishTestSuccess() throws Exception {
 		boolean thrown = false;
@@ -649,6 +603,7 @@ public class CustomerTester {
 			c.setId("abc123!");
 			c.setName("abc123!");
 			c.setAge(0);
+			c.setPhoneNum("abc123!");
 			Tour tour = new Tour(null, null, null, 0, 0, 0, null);
 			c.setTour(tour);
 			CustomerNo customerNo = new CustomerNo(0, 0, 0);
@@ -660,5 +615,5 @@ public class CustomerTester {
 		assertThat(flag).isTrue();
 		assertThat(thrown).isFalse();
 	}
-	
+
 }
