@@ -393,7 +393,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     
     public void addPreferenceInput(String input) { this.preferenceInput.add(input);}
     public void resetPreferenceInput() { this.preferenceInput = new ArrayList<String>();}
-    
     public String filterPreference() {
         String result = null;
         StringBuilder str = new StringBuilder();
