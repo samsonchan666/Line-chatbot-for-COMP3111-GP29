@@ -419,7 +419,7 @@ public class KitchenSinkController {
 					//Attach customer to observe a booking
 					attachCustomerToBooking();
 					//Save the customer to the database
-					database.saveCustomerToDb(customer);
+//					database.saveCustomerToDb(customer);
 
 					this.reply(replyToken, new TextMessage(
 							"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
