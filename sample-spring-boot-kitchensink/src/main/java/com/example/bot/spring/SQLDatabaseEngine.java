@@ -29,6 +29,19 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     private List<String> bookingDateList = null;
     private List<String> preferenceInput = new ArrayList<String>();
     
+    /**
+     * Returns the return value of searchTour, searchTourByDate, 
+     * searchTourByAttraction, and searchFAQ if they returned anything. 
+     * (Details in their resprctive documentations)
+     * If all returned null, the method throws an exception.
+     * 
+     * This method returns immediately if searchTour, searchTourByDate, 
+     * searchTourByAttraction, or searchFAQ has a return value.
+     * 
+     * @param text	the text input by the user
+     * @return		the answer to the text input
+     * @throws Exception
+     */
     @Override
     String search(String text) throws Exception {
         //Write your code here
@@ -59,8 +72,18 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         connection.close();
         throw new Exception("NOT FOUND");
-    }       
-
+    }      
+    
+    /**
+	 * Returns a Connection to the SQL database.
+	 * 
+	 * This method throws an exception when the URI syntax 
+	 * is false or when the SQL database does not exist.
+	 * 
+	 * @return						Connection to the SQL database
+	 * @throws URISyntaxException	if URI syntax isn't as expected
+	 * @throws SQLException			if SQL database isn't as expected
+	 */
     private Connection getConnection() throws URISyntaxException, SQLException {
         Connection connection;
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
@@ -98,6 +121,16 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }    
     
+    /**
+     * Fetches all names and ids from table 'tour' from the database.
+     * Checks if the tour names or ids appeared in the text,
+     * if yes, 
+     * fetch the information of said tour and returns the tour information.
+     * Or return null if no tours match.
+     * 
+     * @return				the information of the tour in a string, or null
+     * @throws Exception		The error if there's any
+     */
     private String searchTour() throws Exception{
         String result = null;
         try {
@@ -130,7 +163,17 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return result;
     }
-
+    
+    /**
+	 * Fetches all dates from table 'tour' from the database.
+	 * Checks if the tour dates appeared in the text,
+	 * if yes,
+	 * add the tour into two arrays, one storing the name and one the id.
+	 * Returns the tour information of the tours added to the array.
+	 * 
+	 * @return				Tour information of tours with the appropiate date
+	 * @throws Exception		The error if there is any
+	 */
     private String searchTourByDate() throws Exception{
         String result = null;
         StringBuilder str = new StringBuilder();
@@ -196,6 +239,16 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
 
+    /**
+     * Fetches all attractions from table 'tour' from the database.
+	 * Checks if the tour attractions appeared in the text,
+	 * if yes,
+	 * add the tour into two arrays, one storing the name and one the id.
+	 * Returns the tour information of the tours added to the array.
+	 * 
+	 * @return				tour information of tours with the appropiate attraction
+     * @throws Exception		the error if there's any
+     */
     private String searchTourByAttraction() throws Exception{
         String result = null;
         StringBuilder str = new StringBuilder();
@@ -239,7 +292,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return result;
     }
-    
+
+    /**
+     * Returns a boolean indicating if attraction appread in text.
+     * 
+     * @param attraction		intended attraction of customer
+     * @return				a boolean indicating if attraction appeared in text
+     */
     private boolean matchByAttraction(String attraction){
         Pattern p = Pattern.compile("\\w{3,}");
         Matcher m = p.matcher(attraction);
@@ -249,17 +308,38 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return false;
     }
-
+    
+    /**
+	 * Returns a boolean indicating if the tour name appeared in the text or not.
+	 * Uses Regex.
+	 * 
+	 * @param name	name of tour
+	 * @return		if the tour name appeared in the text or not
+	 */
     private boolean matchByName(String name){
         if (text.toLowerCase().matches("(.)*" + name + "(.)*")) return true;
         return false;
     }
 
+    /**
+	 * Returns a boolean indicating if the tour id appeared in the text or not.
+	 * Uses Regex.
+	 * 
+	 * @param id		id of tour
+	 * @return		if the tour id appeared in the text or not.
+	 */
     private boolean matchByID(String id){
         if (text.toLowerCase().matches("(.)*" + id + "(.)*")) return true;
         return false;
     }
 
+    /**
+	 * Returns a boolean indicating if the tour date appeared in the text or not.
+	 * uses Regex.
+	 * 
+	 * @param dates	date of tour
+	 * @return		if the tour date appeared in the text or not.
+	 */
     private boolean matchByDate(String dates){
         Pattern p = Pattern.compile("\\w+");
         Matcher m = p.matcher(dates);
@@ -269,11 +349,25 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
     
+    /**
+     * Returns a boolean indicating if the tour meets the wanted duration.
+     * 
+     * @param duration	wanted duration
+     * @return			a boolean indicating if the tour meets the wanted duration
+     */
     private boolean matchByDuration(int duration) {
     	if (duration <= Integer.parseInt(preferenceInput.get(0))) return true;
     	return false;
     }
     
+    /**
+     * Returns a boolean indicating if the tour meets the wanted budget.
+     * 
+     * @param tourID			the ID of the tour testing for budget
+     * @param weekDayPrice	budget for weekday
+     * @param weekEndPrice	budget for weekend
+     * @return				a boolean indicating if the tour meets the wanted budget
+     */
     private boolean matchByBudget(String tourID, int weekDayPrice, int weekEndPrice) {
     	int budget = Integer.parseInt(preferenceInput.get(2));
     	if (weekEndPrice <= budget) 
@@ -284,7 +378,14 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     	}    		
     	return false;
     }
-    
+
+    /**
+     * Returns a boolean indicating if the tour is weekday only and if the day parameter is a weekday too.
+     * 
+     * @param tourID		the ID of the tour testing for day
+     * @param day		the day on a week of the date testing
+     * @return			a boolean indicating if the tour is weekday only and if the day parameter is a weekday too
+     */
     private boolean matchByWeekDayOnly(String tourID, int day) {
     	if (!weekDayOnlyTourIDList.isEmpty()) {
     		for (int i = 0; i < weekDayOnlyTourIDList.size(); i++)
@@ -311,38 +412,71 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return true;
     }
 
+    /**
+	 * Returns a boolean indicating if the String "sort" appeared in the text.
+	 * @return		if the String "sort" appeared in the text.
+	 */
     private boolean matchBySort(){
         if (text.toLowerCase().matches("(.)*sort(.)*")) return true;
         return false;
     }
 
+    /**
+	 * Returns a boolean indicating if the String "price" appeared in the text.
+	 * @return		if the String "price" appeared in the text.
+	 */
     private boolean matchByPrice(){
         if (text.toLowerCase().matches("(.)*price(.)*")) return true;
         return false;
     }
 
-
+    /**
+     * Sets this.selectedTour to be the parameter tour.
+     * @param tour	a tour wanting to be selected
+     */
     public void setSelectedTour(Tour tour){
         this.selectedTour = tour;
     }
 
+    /**
+     * Returns the selected tour of this object if not null.
+     * 
+     * @return		the selected tour of this object
+     */
     public Tour getSelectedTour() {
     	if (selectedTour == null) return null;
     	return selectedTour;
     }
     
+    /**
+     * Returns the list of tours inside the array 'tourList' if not null.
+     * 
+     * @return	the list of tours
+     */
     public List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
     }    
     public void resetTourList() { tourList = null;}
     
+    /**
+     * Returns the list of IDs of tours in 'tourIDList' if not null.
+     * 
+     * @return	the list of IDs of tours in 'tourIDList'
+     */
     public List<String> getTourIDList() {
     	if (tourIDList == null) return null;
     	return tourIDList;
     }    
+   
+    /** 
+     * Resets tourIDList by setting it to null.
+     */
     public void resetTourIDList() { tourIDList = null;}
     
+    /**
+     * Resets weekDayOnlyTourIDList by pointing it to a new array.
+     */
     public void resetWeekDayOnlyTourIDList() { this.weekDayOnlyTourIDList = new ArrayList<String>();}
     
     public void createBookingDateList() throws Exception{
@@ -384,12 +518,21 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }    
     
+    /**
+     * Returns the bookingDateList if not empty or null.
+     * @return	bookingDateList
+     */
     public List<String> getBookingDateList() {
         if (bookingDateList == null || bookingDateList.isEmpty()) return null;
         return bookingDateList;
     }
     
+    /**
+     * Sets the text input as the selectedBookingText
+     * @param text	text input
+     */
     public void setSelectedBookingText(String text) { this.selectedBookingText = text;}
+    
     public void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
     		if (selectedBookingText.toLowerCase().matches("(.)*pick " + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
