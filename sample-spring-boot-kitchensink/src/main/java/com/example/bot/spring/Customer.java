@@ -1,5 +1,12 @@
 package com.example.bot.spring;
 
+/**
+ * <h1>Customer details</h1>
+ * The Customer class store the information
+ * of Customers
+ *
+ */
+
 public class Customer implements Observer{
 	private String id;
 	private String name;
