@@ -240,7 +240,7 @@ public class KitchenSinkTester {
 		}
 		assert (result == null);
 	}
-
+	
 	@Test
 	public void filterPreferenceTestNoConnection() throws Exception {
 		boolean thrown = false;

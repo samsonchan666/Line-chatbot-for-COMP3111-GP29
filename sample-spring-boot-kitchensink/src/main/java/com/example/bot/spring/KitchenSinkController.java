@@ -870,7 +870,7 @@ public class KitchenSinkController {
 			Thread.currentThread().interrupt();
 		}
 	}
-
+/*
 	private static DownloadedContent saveContent(String ext, MessageContentResponse responseBody) {
 		log.info("Got content-type: {}", responseBody);
 
@@ -890,7 +890,7 @@ public class KitchenSinkController {
 		tempFile.toFile().deleteOnExit();
 		return new DownloadedContent(tempFile, createUri("/downloaded/" + tempFile.getFileName()));
 	}
-
+*/
 
 
 
@@ -908,20 +908,16 @@ public class KitchenSinkController {
 	public void setCustomer(Customer customer) {this.customer = customer; }
 	public Customer getCustomer() { return customer;}
 
-
+/*
 	//The annontation @Value is from the package lombok.Value
 	//Basically what it does is to generate constructor and getter for the class below
 	//See https://projectlombok.org/features/Value
-	/**
-	 * <h1>An inner class that gets the user profile and status message</h1>
-	 */
-
 	@Value
 	public static class DownloadedContent {
 		Path path;
 		String uri;
 	}
-
+*/
 
 	//an inner class that gets the user profile and status message
 	class ProfileGetter implements BiConsumer<UserProfileResponse, Throwable> {

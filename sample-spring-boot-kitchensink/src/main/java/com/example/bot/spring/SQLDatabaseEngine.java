@@ -101,7 +101,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 
         return connection;
     }  
-
+/*
     private String searchRes() throws Exception{
         String result = null;
         try {
@@ -122,6 +122,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return result;
     }    
+ */
     
     /**
      * Returns the information of the tour that matches the name or id specified in text.
