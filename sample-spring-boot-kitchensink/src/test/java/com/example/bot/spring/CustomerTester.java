@@ -252,6 +252,74 @@ public class CustomerTester {
 	}
 
 	@Test
+	public void calculateFeeTestInvalidDatewithDiscount() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			
+			Tour t = new Tour(null, null, null, 0, 100, 200, "dd/mm/yyyy"); 
+			c.setTour(t);
+			
+			CustomerNo cn = new CustomerNo(1, 1, 1);
+			c.setCustomerNo(cn);
+			
+			Booking bk = new Booking(null, t, null, null, 100, 0, 0);
+			bk.setDateString(t.getDates());
+			
+			c.calculateDiscountFee(bk);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isTrue();
+	}
+
+	@Test
+	public void calculateFeeTestSuccessWeekdaywithDiscount() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer("ID", "Name", 0, null, 0);
+			
+			Tour t = new Tour("ID", "Name", "Attraction", 1, 100, 200, "20/11/2017"); 
+			c.setTour(t);
+			
+			CustomerNo cn = new CustomerNo(1, 1, 1);
+			c.setCustomerNo(cn);
+			
+			Booking bk = new Booking("ID", t, null, "Hotel", 100, 0, 0);
+			bk.setDateString(t.getDates());
+			
+			c.calculateDiscountFee(bk);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getFee().getTotalFee()).isEqualTo(90);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void calculateFeeTestSuccessWeekendwithDiscount() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer("ID", "Name", 0, null, 0);
+			
+			Tour t = new Tour("ID", "Name", "Attraction", 1, 100, 200, "19/11/2017"); 
+			c.setTour(t);
+			
+			CustomerNo cn = new CustomerNo(1, 1, 1);
+			c.setCustomerNo(cn);
+			
+			Booking bk = new Booking("ID", t, null, "Hotel", 100, 0, 0);
+			bk.setDateString(t.getDates());
+			
+			c.calculateDiscountFee(bk);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getFee().getTotalFee()).isEqualTo(180);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
 	public void payAndPaidAmountTestSuccesswithNoReturns() throws Exception {
 		boolean thrown = false;
 		double returns = 0;
