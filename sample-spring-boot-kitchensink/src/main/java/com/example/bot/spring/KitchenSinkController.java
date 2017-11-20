@@ -185,10 +185,26 @@ public class KitchenSinkController {
 		log.info("Received message(Ignored): {}", event);
 	}
 */
+	/**
+	 * Guides the reply message to the correct reply function if the message is not in list form
+	 * 
+	 * Calls reply() in a correct format.
+	 * 
+	 * @param replyToken		like an ID for the reply message
+	 * @param message		the reply message
+	 */
 	private void reply(@NonNull String replyToken, @NonNull Message message) {
 		reply(replyToken, Collections.singletonList(message));
 	}
 
+	/**
+	 * Correct reply function, creates a reply for Line.
+	 * 
+	 * Calls Line functions to make the chatbot 'say' the messages.
+	 * 
+	 * @param replyToken		like an ID for the reply message
+	 * @param messages		the reply messages
+	 */
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
@@ -197,7 +213,18 @@ public class KitchenSinkController {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
+	/**
+	 * Converts a String into a TextMessage, which reply() can take in.
+	 * 
+	 * Throws if replyToken is empty.
+	 * Shorten the message if it is longer than 1000 characters using an ellipsis.
+	 * 
+	 * Converts the String into a TextMessage and pass it to reply().
+	 * 
+	 * @param replyToken		ID for the message
+	 * @param message		reply message
+	 */
 	private void replyText(@NonNull String replyToken, @NonNull String message) {
 		if (replyToken.isEmpty()) {
 			throw new IllegalArgumentException("replyToken must not be empty");
@@ -208,11 +235,27 @@ public class KitchenSinkController {
 		this.reply(replyToken, new TextMessage(message));
 	}
 
-
+	/**
+	 * A function to handle stickers.
+	 * 
+	 * Replies the same sticker to the client calling reply().
+	 * 
+	 * @param replyToken		ID of reply message.
+	 * @param content		content of sticker message
+	 */
 	private void handleSticker(String replyToken, StickerMessageContent content) {
 		reply(replyToken, new StickerMessage(content.getPackageId(), content.getStickerId()));
 	}
 
+	/**
+	 * Function handling text messages from client.
+	 * 
+	 * 
+	 * @param replyToken		ID for reply message
+	 * @param event			an event
+	 * @param content		content of text message from client
+	 * @throws Exception		
+	 */
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content)
 			throws Exception {
 		String text = content.getText();
