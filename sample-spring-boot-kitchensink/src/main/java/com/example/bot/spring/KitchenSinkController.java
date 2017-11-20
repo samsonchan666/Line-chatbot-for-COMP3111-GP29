@@ -283,7 +283,7 @@ public class KitchenSinkController {
         	case 1: {
         		if ((text.toLowerCase().matches("choose other tours"))) {
         			customer.stageRestore();
-        			customer.resetWeekDayOnlyTourIDList();
+        			database.resetWeekDayOnlyTourIDList();
         			this.replyText(replyToken, "Okay. You may continue searching for other tours.");
         		}        			
         		else this.reply(replyToken, stage1Messages(text));
