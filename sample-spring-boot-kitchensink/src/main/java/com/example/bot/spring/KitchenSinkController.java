@@ -219,7 +219,6 @@ public class KitchenSinkController {
 
 		log.info("Got text message from {}: {}", replyToken, text);
 
-
 		if (customer.getShowDiscount()) {
 			specialDiscountCase(replyToken,text);
 			return;
@@ -391,6 +390,12 @@ public class KitchenSinkController {
 				else if ((text.toLowerCase().matches("yes(.)*"))) {
 					customer.setTour(database.getSelectedTour());
 					customer.getTour().setID(database.getSelectedBooking().getID());
+					if (!(database.searchDiscountTour(dis_tour,dis_booking))){
+						customer.stageZero();//reset all except name, id, age, phoneNum
+						customer.setShowDiscount(false);
+						this.replyText(replyToken, "Sorry ticket sold out");
+						break;
+					}
 					this.reply(replyToken, createInputMenu());
 					customer.stageProceed();
 				}
@@ -412,7 +417,7 @@ public class KitchenSinkController {
 					customer.stageRestore();
 				}
 				else if ((text.toLowerCase().matches("yes(.)*"))) {
-					outputFee(multiMessages);
+					outputDisCountFee(multiMessages);
 					this.reply(replyToken, multiMessages);
 				}
 				else errorConfirm(replyToken);
@@ -431,7 +436,7 @@ public class KitchenSinkController {
 					attachCustomerToBooking();
 					//Save the customer to the database
 					database.saveCustomerToDb(customer);
-
+					database.updateDiscountTour(database.getSelectedBooking().getID());
 					this.reply(replyToken, new TextMessage(
 							"Thank you. Please pay the tour fee by ATM to 123-345-432-211 "
 									+ "of ABC Bank or by cash in our store. When you complete "
@@ -660,13 +665,13 @@ public class KitchenSinkController {
 	}
 
 	private boolean checkExcessReserve(int inputOption, String replyToken, String text){
-		int countNeg1 = 0; int adultNeg1 = 0; int childNeg1 = 0; int toodlerNeg1 = 0;
-		if (customer.getCustomerNo().getToodlerNo() == -1) countNeg1++; adultNeg1++;
-		if (customer.getCustomerNo().getChildrenNo() == -1) countNeg1++; childNeg1++;
-		if (customer.getCustomerNo().getAdultNo() == -1) countNeg1++;  toodlerNeg1++;
 		switch (inputOption) {
 			case 4:  {
-				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() + countNeg1 - (customer.getCustomerNo().getAdultNo() + adultNeg1 ) > 2) {
+				int childrenNo = customer.getCustomerNo().getChildrenNo();
+				int toodlerNo = customer.getCustomerNo().getToodlerNo();
+				if (childrenNo < 0) childrenNo = 0;
+				if (toodlerNo < 0) toodlerNo = 0;
+				if ((Integer.parseInt(text)) + childrenNo + toodlerNo  > 2) {
 					this.reply(replyToken,
 							new TextMessage("Each client can reserve 2 seats at most."));
 					return true;
@@ -674,7 +679,11 @@ public class KitchenSinkController {
 				break;
 			}
 			case 5: {
-				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() + countNeg1 - (customer.getCustomerNo().getChildrenNo() + childNeg1) > 2) {
+				int adultNo = customer.getCustomerNo().getAdultNo();
+				int toodlerNo = customer.getCustomerNo().getToodlerNo();
+				if (adultNo < 0) adultNo = 0;
+				if (toodlerNo < 0) toodlerNo = 0;
+				if ((Integer.parseInt(text)) + adultNo + toodlerNo  > 2) {
 					this.reply(replyToken,
 							new TextMessage("Each client can reserve 2 seats at most."));
 					return true;
@@ -682,7 +691,11 @@ public class KitchenSinkController {
 				break;
 			}
 			case 6: {
-				if ((Integer.parseInt(text)) + customer.getCustomerNo().getTotalNo() + countNeg1 - (customer.getCustomerNo().getToodlerNo() +toodlerNeg1) > 2) {
+				int adultNo = customer.getCustomerNo().getAdultNo();
+				int childrenNo = customer.getCustomerNo().getChildrenNo();
+				if (adultNo < 0) adultNo = 0;
+				if (childrenNo < 0) childrenNo = 0;
+				if ((Integer.parseInt(text)) + adultNo + childrenNo  > 2) {
 					this.reply(replyToken,
 							new TextMessage("Each client can reserve 2 seats at most."));
 					return true;
@@ -773,6 +786,17 @@ public class KitchenSinkController {
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		multiMessages.add(new TextMessage(feeInfo.toString()));
 		createConfirm("Confirm?", multiMessages);		
+	}
+
+	private void outputDisCountFee(List<Message> multiMessages) {
+		customer.calculateDiscountFee(database.getSelectedBooking());
+		StringBuilder feeInfo = new StringBuilder();
+		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
+		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
+		feeInfo.append("No fee charged for toodlers\n");
+		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
+		multiMessages.add(new TextMessage(feeInfo.toString()));
+		createConfirm("Confirm?", multiMessages);
 	}
 
 	private void attachCustomerToBooking(){

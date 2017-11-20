@@ -623,6 +623,17 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }
 
+    public void updateDiscountTour(String bookingId) throws Exception{
+        this.connection = this.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(
+                "update discount set number = number - 1 where bookingId = (?) "
+        );
+        stmt.setString(1,bookingId);
+        stmt.executeUpdate();
+        stmt.close();
+        connection.close();
+    }
+
     public boolean searchDiscountTour(Tour tour, Booking booking) throws Exception{
 
         Calendar current = Calendar.getInstance();

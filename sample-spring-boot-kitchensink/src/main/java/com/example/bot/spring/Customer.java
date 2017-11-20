@@ -83,6 +83,27 @@ public class Customer implements Observer{
 		
 		this.fee.setTotalFee();
 	}
+
+	public void calculateDiscountFee(Booking selectedBooking) {
+		String dates = this.tour.getDates();
+		int price = 0;
+		int adult_num = this.customerNo.getAdultNo();
+		int children_num = this.customerNo.getChildrenNo();
+
+		int day = selectedBooking.dateToDay();
+		switch (day) {
+			case 2: case 3: case 4: case 5: case 6: { price = this.tour.getweekDayPrice(); break;}
+			case 1: case 7: { price = this.tour.getweekEndPrice(); break;}
+		}
+
+		double adultPrice = adult_num * price /2;
+		this.fee.setAdultFee(adultPrice);
+
+		double childrenPrice = children_num * price * 0.8 /2;
+		this.fee.setChildrenFee(childrenPrice);
+
+		this.fee.setTotalFee();
+	}
 	
 	public double pay(double amount) { 
 		if (haveRemainPayment()) {
