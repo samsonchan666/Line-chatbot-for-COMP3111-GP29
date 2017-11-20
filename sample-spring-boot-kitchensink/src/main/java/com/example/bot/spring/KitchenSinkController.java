@@ -16,6 +16,10 @@
 
 package com.example.bot.spring;
 
+/**
+ * <h1>KitchenSinkController</h1>
+ */
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;

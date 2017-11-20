@@ -55,7 +55,7 @@ public class Booking implements Subject {
 	}
 	
 	/**
-	 * This method set the ID of the Booking to the input String
+	 * This method sets the ID of the Booking to the input String
 	 * @param ID Booking's ID
 	 */
 	public void setID(String ID) {
@@ -63,7 +63,7 @@ public class Booking implements Subject {
 	}
 	
 	/**
-	 * This method return the ID of the Booking, which is a String
+	 * This method returns the ID of the Booking, which is a String
 	 * @return ID of the Booking
 	 */
 	public String getID() {
@@ -71,7 +71,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the Tour of the Booking to the input Tour
+	 * This method sets the Tour of the Booking to the input Tour
 	 * @param tour Booking's tour
 	 */
 	public void setTour(Tour tour) {
@@ -79,7 +79,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method return the Tour of the Booking, which is a Tour class
+	 * This method returns the Tour of the Booking, which is a Tour class
 	 * @return Tour of the Booking
 	 */
 	public Tour getTour() {
@@ -87,7 +87,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the date of the Booking to the input Calendar class
+	 * This method sets the date of the Booking to the input Calendar class
 	 * @param date Booking's date
 	 */
 	public void setDate(Calendar date) {
@@ -95,7 +95,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the date of the Booking to the 
+	 * This method sets the date of the Booking to the 
 	 * date specified in the input String
 	 * @param dateString date of booking
 	 */
@@ -104,7 +104,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method return the date of teh Booking, which is a Calendar class
+	 * This method returns the date of teh Booking, which is a Calendar class
 	 * @return Booking date
 	 */
 	public Calendar getDate() {
@@ -112,7 +112,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method convert the date stored in the object into a day of week
+	 * This method converts the date stored in the object into a day of week
 	 * @return day of week
 	 */
 	public int dateToDay() {
@@ -121,7 +121,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method convert a date specified in a String 
+	 * This method converts a date specified in a String 
 	 * into an actual date stored in a object, 
 	 * which is a Calandar class
 	 * @param dateString date String
@@ -135,7 +135,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method convert a date which is 
+	 * This method converts a date which is 
 	 * of Calander class into a String
 	 * @return dataString
 	 */
@@ -146,7 +146,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the tourGuide stored in the 
+	 * This method sets the tourGuide stored in the 
 	 * Booking object to the input TourGuide object
 	 * @param tourGuide tour guide
 	 */
@@ -155,7 +155,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method return the Tourguide object 
+	 * This method returns the Tourguide object 
 	 * stored in the Booking object
 	 * @return tourGuide
 	 */
@@ -164,7 +164,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the hotel in the 
+	 * This method sets the hotel in the 
 	 * Booking object to the input String
 	 * @param hotel Booking's hotel
 	 */
@@ -173,7 +173,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method return the hotel object as a String 
+	 * This method returns the hotel object as a String 
 	 * @return hotel
 	 */
 	public String getHotel() {
@@ -181,7 +181,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the maximum capacity of
+	 * This method sets the maximum capacity of
 	 * the Booking to the input integer
 	 * @param capacity Booking's capacity
 	 */
@@ -190,7 +190,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method return the the maximum capacity
+	 * This method returns the the maximum capacity
 	 * of the Booking as a integer
 	 * @return Booking's capacity
 	 */
@@ -199,7 +199,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the minimum number
+	 * This method sets the minimum number
 	 * of customer required for the tour
 	 * to the input integer 
 	 * @param miniCustomer Booking's minimum customer
@@ -209,7 +209,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method return the minimun number
+	 * This method returns the minimun number
 	 * of customer required for the tour 
 	 * as a integer
 	 * @return Booking's minimum customer
@@ -219,7 +219,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the number of 
+	 * This method sets the number of 
 	 * current customer to the input integer
 	 * @param currentCustomer  Booking's current customer
 	 */
@@ -228,7 +228,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method return the number of
+	 * This method returns the number of
 	 * current customer as a integer
 	 * @return  Booking's current customer
 	 */
@@ -237,15 +237,15 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method increment the current number
+	 * This method increments the current number
 	 * of customer stored in the Booking object by 
 	 * the value of the input integer
-	 * @param number the number want to increase
+	 * @param number the amount of increment
 	 */
 	public void addCurrentCustomer(int number) { this.currentCustomer+=number;}
 
 	/**
-	 * This method return the state of the
+	 * This method returns the state of the
 	 * Booking, which is indicated by a integer
 	 * @return state of booking
 	 */
@@ -254,7 +254,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method set the state of the Booking,
+	 * This method sets the state of the Booking,
 	 * which is indicated by a integer value,
 	 * to the input integer. After that, 
 	 * notify the observers who have subscribed
@@ -267,7 +267,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method attach the input observer
+	 * This method attaches the input observer
 	 * to the Booking object
 	 * @param observer a customer observer
 	 */
@@ -276,7 +276,7 @@ public class Booking implements Subject {
 	}
 
 	/**
-	 * This method notify the observers
+	 * This method notifies the observers
 	 * which are attached to the Booking object
 	 * of the changes (of state)
 	 */
@@ -289,7 +289,7 @@ public class Booking implements Subject {
 
 /**
  * This is the TourGuide class which can be 
- * found in the Booking class. It store the information 
+ * found in the Booking class. It stores the information 
  * of the tour guides, including their name and
  * their Line Account.
  *
@@ -313,14 +313,14 @@ class TourGuide {
 	}
 	
 	/**
-	 * This method set the name of the
+	 * This method sets the name of the
 	 * tour guide to the input String
-	 * @param name name of tour guide
+	 * @param name name of the tour guide
 	 */
 	public void setName(String name) { this.name = name;}
 	
 	/**
-	 * This method return the name of the 
+	 * This method returns the name of the 
 	 * tour guide as a String
 	 * @return name of a TourGuide object
 	 */
@@ -329,7 +329,7 @@ class TourGuide {
 	/**
 	 * This method set the Line Account
 	 * of the tour guide to the input String
-	 * @param lineAcc line account of tour guide
+	 * @param lineAcc line account of the tour guide
 	 */
 	public void setLineAcc(String lineAcc) { this.lineAcc = lineAcc;}
 }
