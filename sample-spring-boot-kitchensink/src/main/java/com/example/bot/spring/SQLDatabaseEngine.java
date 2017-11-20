@@ -766,11 +766,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * Returns the Tour with the specified tourID
      * 
      * Fetch all ids from table 'tour' in database.
-     * If 
+     * If id matches with input id, 
+     * fetch all other information and make a new Tour object to return.
      * 
      * @param tourId			intended tourID of returned tour
-     * @return
-     * @throws Exception
+     * @return				tour of matching tourID with tourId
+     * @throws Exception		any error
      */
     public Tour searchTourByID(String tourId) throws Exception{
         Connection con = this.getConnection();
@@ -800,6 +801,16 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return discount_tour;
     }
 
+    /**
+     * Returns the tour among all bookings that have the input id.
+     * 
+     * Fetches all entries in booking with id bookingID.
+     * Creates a new Booking object to be returned using information from the database.
+     * 
+     * @param bookingID		intended bookingID
+     * @return				tour in booking with id bookingID
+     * @throws Exception		any error
+     */
     public Booking searchBookingByID(String bookingID) throws Exception{
         Connection connection = this.getConnection();
         Booking booking = null;
