@@ -53,7 +53,7 @@ import com.example.bot.spring.DatabaseEngine;
 public class KitchenSinkTester {
 
 	@Autowired
-	private DatabaseEngine databaseEngine;
+	private SQLDatabaseEngine databaseEngine;
 
 	@Test
 	public void testNotFound() throws Exception {
@@ -200,6 +200,61 @@ public class KitchenSinkTester {
 		assert (result!= null);
 		assert (result.equals("Each customer need to pay an additional service charge at the rate $60/day/person on top of the tour fee. It is collected by the tour guide at the end of the tour."));
 	}
+	
+	@Test
+	public void getSelectedTourTestNonNull() throws Exception {
+		boolean thrown = false;
+		Tour tour = new Tour(null, null, null, 0, 0, 0, null);
+		Tour result = null;
+		try {
+			this.databaseEngine.setSelectedTour(tour);
+			result = this.databaseEngine.getSelectedTour();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert (result != null);
+	}
+	
+	@Test
+	public void getTourListTestResetNull() throws Exception {
+		boolean thrown = false;
+		List<Tour> result = null;  
+		try {
+			this.databaseEngine.resetTourList();
+			result = this.databaseEngine.getTourList();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert (result == null);
+	}
+	
+	@Test
+	public void getTourIdListTestResetNull() throws Exception {
+		boolean thrown = false;
+		List<String> result = null;
+		try {
+			this.databaseEngine.resetTourIDList();
+			result = this.databaseEngine.getTourIDList();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert (result == null);
+	}
 
-
+	@Test
+	public void filterPreferenceTestNoConnection() throws Exception {
+		boolean thrown = false;
+		try {
+			this.databaseEngine.resetPreferenceInput();
+			this.databaseEngine.addPreferenceInput("3");
+			this.databaseEngine.addPreferenceInput("spring");
+			this.databaseEngine.addPreferenceInput("10000");
+			this.databaseEngine.filterPreference();
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assert (thrown == false);
+	} 
+	
+	
 }
