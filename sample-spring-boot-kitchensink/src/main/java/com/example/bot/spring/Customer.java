@@ -173,10 +173,10 @@ public class Customer implements Observer{
 			case 1: case 7: { price = this.tour.getweekEndPrice(); break;}
 		}
 		
-		double adultPrice = Math.round(adult_num * price * 10) / 10;
+		double adultPrice = Math.round(adult_num * price * 10.0) / 10.0;
 		this.fee.setAdultFee(adultPrice);
 		
-		double childrenPrice = Math.round(children_num * price * 0.8 * 10) / 10;
+		double childrenPrice = Math.round(children_num * price * 0.8 * 10.0) / 10.0;
 		this.fee.setChildrenFee(childrenPrice);
 		
 		this.fee.setTotalFee();
