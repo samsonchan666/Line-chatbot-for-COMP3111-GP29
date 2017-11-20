@@ -480,7 +480,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     public List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
-    }    
+    }
+
     public void resetTourList() { tourList = null;}
     
     /**
