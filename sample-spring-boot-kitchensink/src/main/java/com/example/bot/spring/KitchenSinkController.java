@@ -267,7 +267,7 @@ public class KitchenSinkController {
 
 		if (customer.getShowDiscount()) {
 			specialDiscountCase(replyToken,text);
-			return;
+			if (customer.getShowDiscount()) return;
 		}
 		//-1 for preference, 0 for searching, 1 for confirm tour, 2 for ask input
 		//3 for receive input, 4 for confirm input, 5 for confirm fee
@@ -425,6 +425,9 @@ public class KitchenSinkController {
 					createConfirm("Do you want to book this one?", multiMessages);
 					customer.setStage(2);
 					this.reply(replyToken, multiMessages);
+				}
+				else {
+					customer.setShowDiscount(false);
 				}
 				break;
 			}
