@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DatabaseEngine {
 	String search(String text) throws Exception {
+		/*
 		String result = null;
 		BufferedReader br = null;
 		InputStreamReader isr = null;
@@ -56,6 +57,8 @@ public class DatabaseEngine {
 		if (result != null)
 			return result;
 		throw new Exception("NOT FOUND");
+		*/
+		return null;
     }
 	
 	private final String FILENAME = "/static/database.txt";
