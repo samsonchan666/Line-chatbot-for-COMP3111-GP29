@@ -333,7 +333,7 @@ public class KitchenSinkController {
         		if ((text.toLowerCase().matches("no(.)*"))) {        			
         			reinputInfo(replyToken, multiMessages);
     				customer.stageRestore();
-    				customer.stageRestore();   //back to stage 3 for receiving input
+    				customer.stageRestore();    //back to stage 3 for receiving input
         		}
         		else if ((text.toLowerCase().matches("yes(.)*"))) {
         			//Attach customer to observe a booking
