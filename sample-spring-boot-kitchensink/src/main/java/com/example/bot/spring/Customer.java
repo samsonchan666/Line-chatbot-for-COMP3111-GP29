@@ -270,24 +270,149 @@ public class Customer implements Observer{
 		this.preferenceFinished = false;
 	}
 	
+	/**
+	 * This method return the input option,
+	 * which is a integer indicating which 
+	 * kind of input the chatbot is receiving 
+	 * from the client. When the input option
+	 * returned is zero, the chatbot is not
+	 * asking the user to input any information
+	 * for tour booking
+	 * @return inputOption
+	 */
 	public int getInputOption() { return this.inputOption;}
+	
+	/**
+	 * This method set the input option,
+	 * which is a integer indicating which 
+	 * kind of input the chatbot is receiving 
+	 * from the client. When the input option
+	 * returned is zero, the chatbot is not
+	 * asking the user to input any information
+	 * for tour booking
+	 * @param inputOption
+	 */
 	public void setInputOption(int inputOption) { this.inputOption = inputOption; numInput++;}
+	
+	/**
+	 * This method reset integer value of input
+	 * option, which is a integer indicating which 
+	 * kind of input the chatbot is receiving 
+	 * from the client. When the input option
+	 * returned is zero, the chatbot is not
+	 * asking the user to input any information
+	 * for tour booking
+	 */
 	public void resetInputOption() { this.inputOption = -1;}
 	
+	
+	/**
+	 * This method return the number of input
+	 * the user has provided during the
+	 * information entry state
+	 * @return number of input
+	 */
 	public int getNumInput() { return this.numInput;}
+	
+	/**
+	 * This method reset the value of number
+	 * of input the user has provided during 
+	 * the information entry state
+	 */
 	public void resetNumInput() { this.numInput = 0;}
 
+	
+	/**
+	 * This method set a boolean value
+	 * which indicate whether the customer 
+	 * is getting any discount
+	 * True: have discount
+	 * False: no discount
+	 * @param showDiscount
+	 */
 	public void setShowDiscount(boolean showDiscount) {this.showDiscount = showDiscount;}
+	
+	/**
+	 * This method return a boolean value
+	 * which indicate whether the customer 
+	 * is getting any discount
+	 * True: have discount
+	 * False: no discount
+	 * @param showDiscount
+	 * @return showDiscount
+	 */
 	public boolean getShowDiscount(){ return this.showDiscount;}
 	
+	/**
+	 * This method return a preference number
+	 * which is a integer to indicate which kind 
+	 * of prefernce the user is looking for 
+	 * during the searching of tour 
+	 * @return preference Number
+	 * @see handleTextContent in KitchenSinkController.java
+	 */
 	public int getPreferenceNum() { return this.preferenceNum;}
+	
+	/**
+	 * This method increment the preference number,
+	 * which is a integer to indicate which kind 
+	 * of prefernce the user is looking for 
+	 * during the searching of tour, by 1
+	 */
 	public void preferenceNumIncre() { this.preferenceNum++;}
+	
+	/**
+	 * This method reset the preference number,
+	 * which is a integer to indicate which kind 
+	 * of prefernce the user is looking for 
+	 * during the searching of tour, to -1.
+	 * This means there is no preference taken 
+	 * in at the moment
+	 */
 	public void resetPreferenceNum() { this.preferenceNum = -1;}
 	
+	/**
+	 * This method return a boolean value 
+	 * which indicate whether the preference 
+	 * intaking state is finished
+	 * True: preference intake finished
+	 * False: preference intake still processing / preference intake not started
+	 * @return preferenceFinished
+	 */
 	public boolean isPreferenceFinished() { return this.preferenceFinished;}
+	
+	/**
+	 * This method set the value of 
+	 * preferenceFinished,a boolean value 
+	 * which indicate whether the preference 
+	 * intaking state is finished, according 
+	 * the state value taken in
+	 * True: preference intake finished
+	 * False: preference intake still processing / preference intake not started
+	 * @param state
+	 */
 	public void setPreferenceFinished(boolean state) { this.preferenceFinished = state;}
+	
+	/**
+	 * This method reset the value of 
+	 * preferenceFinished,a boolean value 
+	 * which indicate whether the preference 
+	 * intaking state is finished, to false
+	 * 
+	 * True: preference intake finished
+	 * False: preference intake still processing / preference intake not started
+	 */
 	public void resetPreferenceFinished() { this.preferenceFinished = false;}
 
+	/**
+	 * This method return a boolean value which indicate
+	 * whether the inputting of customer information
+	 * (id, name, age, phone number, tour booked, customer number)
+	 * are all finished 
+	 * True: inputtin all finished
+	 * False: inputting not finished
+	 * @return boolean value of whether input finished
+	 */
 	public boolean inputFinished() {
 		if (id != null && name != null && age >= 0 && phoneNum != null && tour != null && 
 				customerNo.inputDone())
