@@ -5,6 +5,12 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * <h1>Booking details</h1>
+ * The Booking class stores the details of the booking made 
+ * during the conversation of the client and the bot
+ */
 public class Booking implements Subject {
 	private String ID;
 	private Tour tour;
@@ -17,6 +23,19 @@ public class Booking implements Subject {
 	private List<Observer> observers = new ArrayList<Observer>();
 	private int state = 0;
 
+	/**
+	 * This is the constructor of the Booking class
+	 * with all the information needed for a booking 
+	 * stored when constructed
+	 * 
+		 * @param ID Booking's ID
+		 * @param tour Booking's tour
+		 * @param date Booking's date
+		 * @param hotel Booking's hotel
+		 * @param capacity Booking's capcaity
+		 * @param miniCustomer Booking's minimum customer
+		 * @param currentCustomer Booking's current customer
+	 */
 	public Booking(
 			String ID,
 			Tour tour,
@@ -34,40 +53,80 @@ public class Booking implements Subject {
 		this.miniCustomer = miniCustomer;
 		this.currentCustomer = currentCustomer;
 	}
-
+	
+	/**
+	 * This method set the ID of the Booking to the input String
+	 * @param ID Booking's ID
+	 */
 	public void setID(String ID) {
 		this.ID = ID;
 	}
-
+	
+	/**
+	 * This method return the ID of the Booking, which is a String
+	 * @return ID of the Booking
+	 */
 	public String getID() {
 		return this.ID;
 	}
 
+	/**
+	 * This method set the Tour of the Booking to the input Tour
+	 * @param tour Booking's tour
+	 */
 	public void setTour(Tour tour) {
 		this.tour = tour;
 	}
 
+	/**
+	 * This method return the Tour of the Booking, which is a Tour class
+	 * @return Tour of the Booking
+	 */
 	public Tour getTour() {
 		return this.tour;
 	}
 
+	/**
+	 * This method set the date of the Booking to the input Calendar class
+	 * @param date Booking's date
+	 */
 	public void setDate(Calendar date) {
 		this.date = date;
 	}
 
+	/**
+	 * This method set the date of the Booking to the 
+	 * date specified in the input String
+	 * @param dateString date of booking
+	 */
 	public void setDateString(String dateString) {
 		this.date = StringToDate(dateString);
 	}
 
+	/**
+	 * This method return the date of teh Booking, which is a Calendar class
+	 * @return Booking date
+	 */
 	public Calendar getDate() {
 		return this.date;
 	}
 
+	/**
+	 * This method convert the date stored in the object into a day of week
+	 * @return day of week
+	 */
 	public int dateToDay() {
 		//Calendar date = StringToDate(dateString);
 		return date.get(Calendar.DAY_OF_WEEK);
 	}
 
+	/**
+	 * This method convert a date specified in a String 
+	 * into an actual date stored in a object, 
+	 * which is a Calandar class
+	 * @param dateString date String
+	 * @return date as a Calander class
+	 */
 	public Calendar StringToDate(String dateString) {
 		String[] dateArr = dateString.split("/");
 		Calendar date = Calendar.getInstance();
@@ -75,67 +134,152 @@ public class Booking implements Subject {
 		return date;
 	}
 
+	/**
+	 * This method convert a date which is 
+	 * of Calander class into a String
+	 * @return dataString
+	 */
 	public String dateToString() {
 		SimpleDateFormat format1 = new SimpleDateFormat("d/MM/yyyy");
 		String dateString = format1.format(date.getTime());
 		return dateString;
 	}
 
+	/**
+	 * This method set the tourGuide stored in the 
+	 * Booking object to the input TourGuide object
+	 * @param tourGuide tour guide
+	 */
 	public void setTourGuide(TourGuide tourGuide) {
 		this.tourGuide = tourGuide;
 	}
 
+	/**
+	 * This method return the Tourguide object 
+	 * stored in the Booking object
+	 * @return tourGuide
+	 */
 	public TourGuide getTourGuide() {
 		return this.tourGuide;
 	}
 
+	/**
+	 * This method set the hotel in the 
+	 * Booking object to the input String
+	 * @param hotel Booking's hotel
+	 */
 	public void setHotel(String hotel) {
 		this.hotel = hotel;
 	}
 
+	/**
+	 * This method return the hotel object as a String 
+	 * @return hotel
+	 */
 	public String getHotel() {
 		return this.hotel;
 	}
 
+	/**
+	 * This method set the maximum capacity of
+	 * the Booking to the input integer
+	 * @param capacity Booking's capacity
+	 */
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
 
+	/**
+	 * This method return the the maximum capacity
+	 * of the Booking as a integer
+	 * @return Booking's capacity
+	 */
 	public int getCapacity() {
 		return this.capacity;
 	}
 
+	/**
+	 * This method set the minimum number
+	 * of customer required for the tour
+	 * to the input integer 
+	 * @param miniCustomer Booking's minimum customer
+	 */
 	public void setMiniCustomer(int miniCustomer) {
 		this.miniCustomer = miniCustomer;
 	}
 
+	/**
+	 * This method return the minimun number
+	 * of customer required for the tour 
+	 * as a integer
+	 * @return Booking's minimum customer
+	 */
 	public int getMiniCustomer() {
 		return this.miniCustomer;
 	}
 
+	/**
+	 * This method set the number of 
+	 * current customer to the input integer
+	 * @param currentCustomer  Booking's current customer
+	 */
 	public void setCurrentCustomer(int currentCustomer) {
 		this.currentCustomer = currentCustomer;
 	}
 
+	/**
+	 * This method return the number of
+	 * current customer as a integer
+	 * @return  Booking's current customer
+	 */
 	public int getCurrentCustomer() {
 		return this.currentCustomer;
 	}
 
+	/**
+	 * This method increment the current number
+	 * of customer stored in the Booking object by 
+	 * the value of the input integer
+	 * @param number the number want to increase
+	 */
 	public void addCurrentCustomer(int number) { this.currentCustomer+=number;}
 
+	/**
+	 * This method return the state of the
+	 * Booking, which is indicated by a integer
+	 * @return state of booking
+	 */
 	public int getState() {
 		return this.state;
 	}
 
+	/**
+	 * This method set the state of the Booking,
+	 * which is indicated by a integer value,
+	 * to the input integer. After that, 
+	 * notify the observers who have subscribed
+	 * the Booking
+	 * @param state state of booking
+	 */
 	public void setState(int state) {
 		this.state = state;
 		notifyAllObservers();
 	}
 
+	/**
+	 * This method attach the input observer
+	 * to the Booking object
+	 * @param observer a customer observer
+	 */
 	public void attach(Observer observer) {
 		observers.add(observer);
 	}
 
+	/**
+	 * This method notify the observers
+	 * which are attached to the Booking object
+	 * of the changes (of state)
+	 */
 	public void notifyAllObservers() {
 		for (Observer observer : observers) {
 			observer.update();
@@ -143,11 +287,24 @@ public class Booking implements Subject {
 	}
 }
 
-
+/**
+ * This is the TourGuide class which can be 
+ * found in the Booking class. It store the information 
+ * of the tour guides, including their name and
+ * their Line Account.
+ *
+ */
 class TourGuide {
 	private String name;
 	private String lineAcc;
 	
+	/**
+	 * This is the constructor of the TourGuide
+	 * with both the name and Line Account stored
+	 * when constructed
+	 * @param name name of tour guide
+	 * @param lineAcc line account of tour guide
+	 */
 	public TourGuide(
 			String name,
 			String lineAcc) {
@@ -155,8 +312,24 @@ class TourGuide {
 		this.lineAcc = lineAcc;
 	}
 	
+	/**
+	 * This method set the name of the
+	 * tour guide to the input String
+	 * @param name name of tour guide
+	 */
 	public void setName(String name) { this.name = name;}
+	
+	/**
+	 * This method return the name of the 
+	 * tour guide as a String
+	 * @return name of a TourGuide object
+	 */
 	public String getName() { return this.name;}
 	
+	/**
+	 * This method set the Line Account
+	 * of the tour guide to the input String
+	 * @param lineAcc line account of tour guide
+	 */
 	public void setLineAcc(String lineAcc) { this.lineAcc = lineAcc;}
 }
