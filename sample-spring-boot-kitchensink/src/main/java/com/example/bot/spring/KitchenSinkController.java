@@ -588,7 +588,7 @@ public class KitchenSinkController {
 								new MessageAction("No. of Children", "No. of Children")
 						)),
 						new CarouselColumn(null, null, "Please select the info you want to input", Arrays.asList(
-								new MessageAction("No. of Toodlers", "No. of Toodlers"),
+								new MessageAction("No. of Toddlers", "No. of Toddlers"),
 								new MessageAction(" ", " "),
 								new MessageAction(" ", " ")
 						))
@@ -629,8 +629,8 @@ public class KitchenSinkController {
 				customer.setInputOption(5);
 				break;
 			}
-			case "No. of Toodlers": {
-				this.replyText(replyToken, askInput("No. of Toodlers"));
+			case "No. of Toddlers": {
+				this.replyText(replyToken, askInput("No. of Toddlers"));
 				customer.setInputOption(6);
 				break;
 			}
@@ -771,7 +771,7 @@ public class KitchenSinkController {
 		currentInfo.append("Phone: " + customer.getPhoneNum() + "\n");
 		currentInfo.append("No. of Adults: " + Integer.toString(customer.getCustomerNo().getAdultNo()) + "\n");
 		currentInfo.append("No. of Children: " + Integer.toString(customer.getCustomerNo().getChildrenNo()) + "\n");
-		currentInfo.append("No. of Toodler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));
+		currentInfo.append("No. of Toddler: " + Integer.toString(customer.getCustomerNo().getToodlerNo()));
 		multiMessages.add(new TextMessage(currentInfo.toString()));
 		createConfirm("Is the info correct?", multiMessages);
 		return multiMessages;
@@ -782,7 +782,7 @@ public class KitchenSinkController {
 		StringBuilder feeInfo = new StringBuilder();
 		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
 		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
-		feeInfo.append("No fee charged for toodlers\n");
+		feeInfo.append("No fee charged for toddlers\n");
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		multiMessages.add(new TextMessage(feeInfo.toString()));
 		createConfirm("Confirm?", multiMessages);		
@@ -793,7 +793,7 @@ public class KitchenSinkController {
 		StringBuilder feeInfo = new StringBuilder();
 		feeInfo.append("The adult fee is $" + Double.toString(customer.getFee().getAdultFee()) + "\n");
 		feeInfo.append("The children fee is $" + Double.toString(customer.getFee().getChildrenFee()) + "\n");
-		feeInfo.append("No fee charged for toodlers\n");
+		feeInfo.append("No fee charged for toddlers\n");
 		feeInfo.append("The total fee is $" + Double.toString(customer.getFee().getTotalFee()));
 		multiMessages.add(new TextMessage(feeInfo.toString()));
 		createConfirm("Confirm?", multiMessages);
