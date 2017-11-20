@@ -122,6 +122,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }    
     
     /**
+     * Returns the information of the tour that matches the name or id specified in text.
+     * 
      * Fetches all names and ids from table 'tour' from the database.
      * Checks if the tour names or ids appeared in the text,
      * if yes, 
@@ -165,6 +167,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
     
     /**
+     * Returns the information of the tours that matches the date specified in text.
+     * 
 	 * Fetches all dates from table 'tour' from the database.
 	 * Checks if the tour dates appeared in the text,
 	 * if yes,
@@ -218,6 +222,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return result;
     }
 
+    /**
+     * Returns the answer to the question asked by client via keywords.
+     * 
+     * Fetches all keywords from table 'faq'.
+     * If the keyword matches text, returns the answer.
+     * 
+     * @return				Answer to the question specified via keywords.
+     * @throws Exception		The error if there's any.
+     */
     private String searchFAQ() throws Exception{
         String result = null;
         try {
@@ -240,6 +253,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     }
 
     /**
+     * Returns the information of the tour that matches the attractions specified in text.
+     * 
      * Fetches all attractions from table 'tour' from the database.
 	 * Checks if the tour attractions appeared in the text,
 	 * if yes,
@@ -396,6 +411,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     	return true;
     }
     
+    /**
+     * Returns a boolean checking if the keyword input by client is in the keyword list in the database.
+     * @param keywords	input keywords by client
+     * @return			a boolean checking if the keyword input by client is in the keyword list in the database
+     */
     public boolean matchByKeywords(String keywords){
         Pattern p = Pattern.compile("\\w+");
         Matcher m_keywords = p.matcher(keywords.toLowerCase());
@@ -479,6 +499,17 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      */
     public void resetWeekDayOnlyTourIDList() { this.weekDayOnlyTourIDList = new ArrayList<String>();}
     
+    /**
+     * Creates two lists, one containing the booked tours, 
+     * another containing the dates of the bookings.
+     * 
+     * Fetch all tourIDs from the table 'booking' in the datebase.
+     * If text input is exactly the same as the tourID, 
+     * create a now booking object with the information store in the database.
+     * Add the booking object into bookingList, and the date to bookingDateList.
+     * 
+     * @throws Exception 	the error is there's any
+     */
     public void createBookingDateList() throws Exception{
     	if (selectedTour == null) return;
     	String text = selectedTour.getID().toLowerCase();
@@ -533,24 +564,63 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      */
     public void setSelectedBookingText(String text) { this.selectedBookingText = text;}
     
+    /**
+     * Initializes selectedBooking by checking with the text input.
+     * 
+     * If selectedBookingText matches "pick 'certain date'", 
+     * set the object selectedBooking from objects from bookingList which satisfies the certain date.
+     */
     public void setSelectedBooking() {
     	for (int i = 0; i < bookingList.size(); i++)
     		if (selectedBookingText.toLowerCase().matches("(.)*pick " + bookingList.get(i).dateToString().toLowerCase() + "(.)*"))
     			selectedBooking = bookingList.get(i);
     }
 
-
+    /**
+     * Initializes selectedBooking according to the booking parameter.
+     * 
+     * Sets selectedBooking to be the booking parameter.
+     * 
+     * @param booking		intended item to be set as selectedBooking
+     */
     public void setSelectedBooking(Booking booking){
         this.selectedBooking = booking;
     }
 
+    /**
+     * Returns object 'selectedBooking'.
+     * @return	selectedBooking
+     */
     public Booking getSelectedBooking() { return this.selectedBooking;}
 
-    
+    /**
+     * Sets preferenceInput according to input parameter.
+     * @param input		item intended to be set as preferenceInput
+     */
     public void addPreferenceInput(String input) { this.preferenceInput.add(input);}
+    /**
+     * Returns object 'preferenceInput'
+     * @return	preperenceInput
+     */
     public List<String> getPreferenceInput() { return this.preferenceInput;}
+    /**
+     * Resets the object 'preferenceInput' by making it a new empty array.
+     */
     public void resetPreferenceInput() { this.preferenceInput = new ArrayList<String>();}
     
+    /**
+     * Returns a tour that matches the input duration, attraction, and budget.
+     * 
+     * Fetches all items in the columns 'duration', 'attraction', 'id', 'weekDayPrice', and 'weekEndPrice'
+     * from table 'tour' of the database.
+     * If there is a tour that matches the input duration, attraction and budget, 
+     * add it into tourList and its ID into tourIDList
+     * and return it.
+     * Else return 'not found'
+     * 
+     * @return				the tour that matches all criteria input
+     * @throws Exception		the error if there's any
+     */
     public String filterPreference() throws Exception{
         String result = null;
         this.connection = this.getConnection();
@@ -601,6 +671,25 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         throw new Exception("NOT FOUND");
     }
 
+    /**
+     * Adds a new customer to the database.
+     * 
+     * Sets the columns of a new entry in the database according to the customer's
+     * Name
+     * ID
+     * Phone number
+     * Age
+     * ID of booked tours
+     * Number of adult-revservations 
+     * Number of adult-revservations 
+     * Number of toddler-reservations
+     * Total fee the customer needs to pay.
+     * 
+     * Also set the tenth column to be 0.
+     * 
+     * @param customer		intended customer to be added into database.
+     * @throws Exception
+     */
     public void saveCustomerToDb(Customer customer) throws Exception{
         this.connection = this.getConnection();
         String sqlInsert = "insert into customer values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -623,6 +712,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }
 
+    /**
+     * 
+     * @param bookingId
+     * @throws Exception
+     */
     public void updateDiscountTour(String bookingId) throws Exception{
         this.connection = this.getConnection();
         PreparedStatement stmt = connection.prepareStatement(
@@ -668,6 +762,16 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         return false;
     }
 
+    /**
+     * Returns the Tour with the specified tourID
+     * 
+     * Fetch all ids from table 'tour' in database.
+     * If 
+     * 
+     * @param tourId			intended tourID of returned tour
+     * @return
+     * @throws Exception
+     */
     public Tour searchTourByID(String tourId) throws Exception{
         Connection con = this.getConnection();
         Tour discount_tour = null;
