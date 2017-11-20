@@ -21,11 +21,11 @@ public class Customer implements Observer{
 	/**
 	 * This is a Customer class which store
 	 * the information of the booking customer
-	 * @param id
-	 * @param name
-	 * @param age
-	 * @param tour
-	 * @param paid_amount
+	 * @param id Customer's id
+	 * @param name Customer's name
+	 * @param age Customer's age
+	 * @param tour Customer's tour
+	 * @param paid_amount Customer's paid amount
 	 */
 	public Customer(
 			String id,
@@ -53,13 +53,13 @@ public class Customer implements Observer{
 	/**
 	 * This methode set the id of 
 	 * the customer to the input String
-	 * @param id
+	 * @param id Customer's id
 	 */
 	public void setId(String id) { this.id = id;}
 	/**
 	 * This method return the id of
 	 * the customer, which is a String
-	 * @return id
+	 * @return Customer's id
 	 */
 	public String getId() { return this.id;}
 	
@@ -67,13 +67,13 @@ public class Customer implements Observer{
 	/**
 	 * This methode set the name of 
 	 * the customer to the input String
-	 * @param name
+	 * @param name Customer's name
 	 */
 	public void setName(String name) { this.name = name;}
 	/**
 	 * This method return the name of
 	 * the customer, which is a String
-	 * @return name
+	 * @return Customer's name
 	 */
 	public String getName() { return this.name;}
 	
@@ -81,13 +81,13 @@ public class Customer implements Observer{
 	/**
 	 * This methode set the age of 
 	 * the customer to the input integer
-	 * @param age
+	 * @param age Customer's age
 	 */
 	public void setAge(int age) { this.age = age;}
 	/**
 	 * This method return the age of
 	 * the customer, which is a integer
-	 * @return age
+	 * @return Customer's age
 	 */
 	public int getAge() { return this.age;}
 	
@@ -95,13 +95,13 @@ public class Customer implements Observer{
 	/**
 	 * This methode set the phone number of 
 	 * the customer to the input String
-	 * @param phoneNum
+	 * @param phoneNum Customer's phone number
 	 */
 	public void setPhoneNum(String phoneNum) { this.phoneNum = phoneNum;}
 	/**
 	 * This method return the phone number 
 	 * of the customer, which is a String
-	 * @return phoneNum
+	 * @return Customer's phone number
 	 */
 	public String getPhoneNum() { return this.phoneNum;}
 	
@@ -109,13 +109,13 @@ public class Customer implements Observer{
 	/**
 	 * This methode set the joined tour of 
 	 * the customer to the input tour objects
-	 * @param tour
+	 * @param tour tour joined
 	 */
 	public void setTour(Tour tour) { this.tour = tour;}
 	/**
 	 * This method return the tour the
 	 * customer joined, which is a tour class
-	 * @return tour
+	 * @return  tour joined
 	 */
 	public Tour getTour() { return this.tour;}
 	
@@ -124,7 +124,7 @@ public class Customer implements Observer{
 	 * This methode set the total number of 
 	 * the customers joined to the input 
 	 * CustomerNo object 
-	 * @param customerNo
+	 * @param customerNo no of customer joined
 	 */
 	public void setCustomerNo(CustomerNo customerNo) { this.customerNo = customerNo;}
 	/**
@@ -139,13 +139,13 @@ public class Customer implements Observer{
 	/**
 	 * This methode set the fee needed for 
 	 * the customer to the input Fee object
-	 * @param fee
+	 * @param fee Fee that need to pad
 	 */
 	public void setFee(Fee fee) { this.fee = fee;}
 	/**
 	 * This method return the fee needed for
 	 * the customer, which is a Fee object
-	 * @return fee
+	 * @return Fee that need to pad
 	 */
 	public Fee getFee() { return this.fee;}
 	
@@ -154,8 +154,7 @@ public class Customer implements Observer{
 	 * the customer have to pay according
 	 * to the booking they made and
 	 * the number of children and adult
-	 * @param selectedBooking
-	 * @return Nothing
+	 * @param selectedBooking the booking selected
 	 */
 	public void calculateFee(Booking selectedBooking) {
 		String dates = this.tour.getDates();
@@ -204,7 +203,7 @@ public class Customer implements Observer{
 	 * return the exceeding amount 
 	 * in double value. If the booking
 	 * are all paid, return 0
-	 * @param amount
+	 * @param amount amount paying
 	 * @return exceeding amount
 	 */
 	public double pay(double amount) { 
@@ -243,7 +242,7 @@ public class Customer implements Observer{
 	/**
 	 * This methode set the stage the
 	 * customer proceeded to to the input integer
-	 * @param stage
+	 * @param stage stage of customer in booking process
 	 */
 	public void setStage(int stage) { this.stage = stage;}
 	
@@ -258,21 +257,18 @@ public class Customer implements Observer{
 	/**
 	 * This method proceed the stage of
 	 * the customer to the next stage
-	 * @return Nothing
 	 */
 	public void stageProceed() { this.stage++;}
 	
 	/**
 	 * This method restore the stage of
 	 *  the customer to the previous stage
-	 *  @return Nothing
 	 */
 	public void stageRestore() { this.stage--;}
 	
 	/**
 	 * This method reset the stage of 
 	 * the customer to stage 0
-	 * @return Nothing
 	 */
 	public void stageZero() {this.stage = 0; resetAll();}
 	
@@ -337,9 +333,9 @@ class CustomerNo{
 	 * This is the constructor of the 
 	 * CustomerNo class with all the 
 	 * numbers initialised when constructed
-	 * @param adultNo
-	 * @param childrenNo
-	 * @param toodlerNo
+	 * @param adultNo no of adult
+	 * @param childrenNo no of children
+	 * @param toodlerNo no of toodler
 	 */
 	public CustomerNo(
 			int adultNo,
@@ -353,7 +349,7 @@ class CustomerNo{
 	/**
 	 * This methode set the number of
 	 * adults to the input integer
-	 * @param adultNo
+	 * @param adultNo no of adult
 	 */
 	public void setAdultNo(int adultNo) { this.adultNo = adultNo;}
 	
@@ -368,7 +364,7 @@ class CustomerNo{
 	/**
 	 * This methode set the number of
 	 * children to the input integer
-	 * @param childrenNo
+	 * @param childrenNo number of children
 	 */
 	public void setChildrenNo(int childrenNo) { this.childrenNo = childrenNo;}
 	
@@ -383,7 +379,7 @@ class CustomerNo{
 	/**
 	 * This methode set the number of
 	 * toodler to the input integer
-	 * @param toodlerNo
+	 * @param toodlerNo number of toodler
 	 */
 	public void setToodlerNo(int toodlerNo) { this.toodlerNo = toodlerNo;}
 	
@@ -432,9 +428,9 @@ class Fee{
 	 * This is constructor of the Fee
 	 * class with all the value initialised
 	 * when constructed
-	 * @param total_fee
-	 * @param adult_fee
-	 * @param children_fee
+	 * @param total_fee total fee
+	 * @param adult_fee adult fee
+	 * @param children_fee children fee
 	 */
 	public Fee(
 			double total_fee,
@@ -453,15 +449,15 @@ class Fee{
 	
 	/**
 	 * This is the method that return the 
-	 * total fee a customerhas to pay
-	 * @return
+	 * total fee a customer has to pay
+	 * @return total fee a customer has to pay
 	 */
 	public double getTotalFee()  {return total_fee;}
 	
 	/**
 	 * This methode set the fee of 
 	 * the adults to the input double value
-	 * @param fee
+	 * @param fee adult fee
 	 */
 	public void setAdultFee(double fee) { this.adult_fee = fee;} // adult has no discount
 	
@@ -475,9 +471,9 @@ class Fee{
 	
 	
 	/**
-	 * This methode set the fee of 
+	 * This method set the fee of
 	 * the children to the input double value
-	 * @param fee
+	 * @param fee  fee of  the children
 	 */
 	public void setChildrenFee(double fee) { this.children_fee = fee;} // children has 20% discount, toodler is free
 	
@@ -485,7 +481,7 @@ class Fee{
 	 * This method return the fee
 	 * of the children, which is a 
 	 * double value
-	 * @return
+	 * @return  the fee of the children
 	 */
 	public double getChildrenFee() { return children_fee;}
 } 

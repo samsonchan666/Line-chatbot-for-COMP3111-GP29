@@ -4,7 +4,7 @@ import java.lang.*;
 import java.util.List;
 
 /**
- * <h>Tour details<h>
+ * <h1>Tour details</h1>
  * The Tour class store the information
  * of Tours 
  *
@@ -116,7 +116,7 @@ public class Tour {
 	/**
 	 * This method set the week day price
 	 * of the tour to the input integer
-	 * @param weekDayPrice Tour's weekday price
+	 * @param price Tour's weekday price
 	 */
 	public void setweekDayPrice(int price) { this.weekDayPrice = price;}
 	
@@ -130,7 +130,7 @@ public class Tour {
 	/**
 	 * This method set the week end price
 	 * of the tour to the inout integer
-	 * @param weekEndPrice Tour's weekend price
+	 * @param price Tour's weekend price
 	 */
 	public void setweekEndPrice(int price) { this.weekEndPrice = price;}
 	
@@ -174,8 +174,8 @@ public class Tour {
 	/**
 	 * This method  return a StringBuilder
 	 * which consist of the formatted message of the 
-	 * basic informations (id & name) of the tour
-	 * @return basic informations (id & name) of the tour
+	 * basic informations (id and name) of the tour
+	 * @return basic informations (id and name) of the tour
 	 */
 	public StringBuilder getBasicTourInfo(){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -201,9 +201,9 @@ public class Tour {
 	/**
 	 * This method  return a StringBuilder
 	 * which consist of the formatted message of the 
-	 * basic informations (id & name) and 
+	 * basic informations (id and name) and
 	 * the week day price of the tour
-	 * @return basic informations (id & name) and  the week day price of the tour
+	 * @return basic informations (id and name) and  the week day price of the tour
 	 */
 	public StringBuilder getBasicTourInfoWithPrice(){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -225,10 +225,10 @@ public class Tour {
 	/**
 	 * This method  return a StringBuilder
 	 * which consist of the formatted message of the 
-	 * basic informations (id & name) and 
+	 * basic informations (id and name) and
 	 * the week day price of a list of tours
-	 * @param tourList
-	 * @return tourBuilder
+	 * @param tourList List of tour
+	 * @return  basic informations (id and name) and  the week day price of a list of tours
 	 */
 	public static StringBuilder getBasicTourListInfoWithPrice(List<Tour> tourList){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -240,10 +240,10 @@ public class Tour {
 
 	/**
 	 * This method return a message reporting the
-	 * number of related tours regarding the keywork,
+	 * number of related tours regarding the keyword,
 	 * which act as a filter of the tour search
-	 * @param tourList
-	 * @param keyword
+	 * @param tourList A list of tour
+	 * @param keyword Attribute keyword
 	 * @return Nothing
 	 */
 	public static String getTopicSentence(List<Tour> tourList, Keyword keyword){
@@ -262,11 +262,11 @@ public class Tour {
 	/**
 	 * This method  return a StringBuilder
 	 * which consist of the formatted message of the 
-	 * basic informations (id & name) of
+	 * basic informations (id and name) of
 	 * a list of tour filtered by the input keyword
-	 * @param tourList
-	 * @param keyword
-	 * @return tourBuilder
+	 * @param tourList List of tour
+	 * @param keyword Attribute keyword
+	 * @return basic informations (id and name) of a list of tour filtered by the input keyword
 	 */
 	public static StringBuilder getBasicTourInfoByKeyword(List<Tour> tourList, Keyword keyword){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -277,12 +277,12 @@ public class Tour {
 	/**
 	 * This method  return a StringBuilder
 	 * which consist of the formatted message of the 
-	 * basic informations (id & name) and week day price
+	 * basic informations (id and name) and week day price
 	 * of a list of tour filtered by the input keyword
 	 * and sorted by the tour price
-	 * @param tourList
-	 * @param keyword
-	 * @return tourBuilder
+	 * @param tourList A list of tour
+	 * @param keyword Attribute keyword
+	 * @return tourBuilder basic informations (id and name) and week day price of a list of tour filtered by the input keyword
 	 */
 	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, Keyword keyword){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -297,7 +297,7 @@ public class Tour {
 	 * This method sort a list of tours
 	 * accroding to the tours' week day prices
 	 * in ascending order
-	 * @param tourList
+	 * @param tourList A list of tour
 	 */
 	public static void sortTourListByPrice(List<Tour> tourList){
 		Tour temp;
@@ -329,7 +329,7 @@ public class Tour {
 	
 	/**
 	 * This is the constructor the 
-	 * Date class with defaul initial values
+	 * Date class with default initial values
 	 */
 	public Date() {
 		isWeekend = false;
@@ -340,14 +340,14 @@ public class Tour {
 	/**
 	 * This method change isWeekend of the date 
 	 * to the input boolean value
-	 * @param isWeekend
+	 * @param isWeekend is weekend or not
 	 */
 	public void setIsWeekend(boolean isWeekend) { this.isWeekend = isWeekend;}
 	
 	/**
 	 * This method return the boolean value
 	 * of whether the date is at weekend
-	 * @return isWeekEnd
+	 * @return is weekend or not
 	 */
 	public boolean getIsWeekend() { return this.isWeekend;}
 	
@@ -355,21 +355,21 @@ public class Tour {
 	 * This method set the day of a week
 	 * the date belongs to according to
 	 * the inout integer
-	 * @param day
+	 * @param day day of a week
 	 */
 	public void setDay(int day) { this.day = day;}
 	
 	/**
 	 * This method return the day of a
-	 * week the date belongsto as a integer
-	 * @return day
+	 * week the date belongs to as a integer
+	 * @return day of a week
 	 */
 	public int getDay() { return this.day;}
 	
 	/**
 	 * This method set the date in the
 	 * Date class to the input integer
-	 * @param date
+	 * @param date date
 	 */
 	public void setDate(int date) { this.date = date;}
 	
