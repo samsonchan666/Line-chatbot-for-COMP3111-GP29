@@ -598,43 +598,34 @@ public class KitchenSinkController {
 	}
 	
 	private void askInputReply(String replyToken, String text) {
-		switch (text) {
-			case "ID": {
-				this.replyText(replyToken, askInput("ID"));
-				customer.setInputOption(0);
-				break;
-			}
-			case "Name": {
-				this.replyText(replyToken, askInput("Name"));
-				customer.setInputOption(1);
-				break;
-			}
-			case "Age": {
-				this.replyText(replyToken, askInput("Age"));
-				customer.setInputOption(2);
-				break;
-			}
-			case "Phone Number": {
-				this.replyText(replyToken, askInput("Phone Number"));
-				customer.setInputOption(3);
-				break;
-			}
-			case "No. of Adults": {
-				this.replyText(replyToken, askInput("No. of Adults"));
-				customer.setInputOption(4);
-				break;
-			}
-			case "No. of Children": {
-				this.replyText(replyToken, askInput("No. of Children"));
-				customer.setInputOption(5);
-				break;
-			}
-			case "No. of Toodlers": {
-				this.replyText(replyToken, askInput("No. of Toodlers"));
-				customer.setInputOption(6);
-				break;
-			}
+		if (text.matches("ID")) {
+			this.replyText(replyToken, askInput("ID"));
+			customer.setInputOption(0);
 		}
+		else if (text.matches("Name")) {
+			this.replyText(replyToken, askInput("Name"));
+			customer.setInputOption(1);
+		}
+		else if (text.matches("Age")) {
+			this.replyText(replyToken, askInput("Age"));
+			customer.setInputOption(2);
+		}
+		else if (text.matches("Phone Number")) {
+			this.replyText(replyToken, askInput("Phone Number"));
+			customer.setInputOption(3);
+		}
+		else if (text.matches("No. of Adults")) {
+			this.replyText(replyToken, askInput("No. of Adults"));
+			customer.setInputOption(4);
+		}
+		else if (text.matches("No. of Children")) {
+			this.replyText(replyToken, askInput("No. of Children"));
+			customer.setInputOption(5);
+		}
+		else if (text.matches("No. of Toodlers")) {
+			this.replyText(replyToken, askInput("No. of Toodlers"));
+			customer.setInputOption(6);
+		}	
 	}
 	
 	private String askInput(String option) {
