@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * <h1>Tour details</h1>
- * The Tour class store the information
+ * The Tour class stores the information
  * of Tours 
  *
  */
@@ -18,6 +18,10 @@ public class Tour {
 	private int weekDayPrice;
 	private int weekEndPrice;
 	private String dates;
+
+	/**
+	 * <h1>Tour search Keyword for building a topic sentence for a searching result</h1>
+	 */
 	public enum Keyword{ DATE, ATTRACTION, PREFERENCE}
 	
 	/**
@@ -50,36 +54,36 @@ public class Tour {
 	}
 	
 	/**
-	 * This method set the id of the tour
+	 * This method sets the id of the tour
 	 * to the input String
 	 * @param id Tour's ID
 	 */
 	public void setID(String id) { this.id = id;}
 	
 	/**
-	 * This method return the id of the tour
+	 * This method returns the id of the tour
 	 * as String
 	 * @return id Tour's ID
 	 */
 	public String getID() { return this.id;}
 	
 	/**
-	 * This method set the name of the tour
+	 * This method sets the name of the tour
 	 * to the input String 
 	 * @param name Tour's name
 	 */
 	public void setName(String name) { this.name = name;}
 	
 	/**
-	 * This method return the name of the
+	 * This method returns the name of the
 	 * tour as String
 	 * @return name Tour's name
 	 */
 	public String getName() { return this.name;}
 	
 	/**
-	 * This method set the attraction of the 
-	 * tour as the input String
+	 * This method sets the attraction of the 
+	 * tour to the input String
 	 * @param attraction Tour's attraction
 	 */
 	public void setAttraction(String attraction) {
@@ -87,7 +91,7 @@ public class Tour {
 		}
 	
 	/**
-	 * This method return the attraction of the
+	 * This method returns the attraction of the
 	 * tour as String
 	 * @return attraction Tour's attraction
 	 */
@@ -95,71 +99,66 @@ public class Tour {
 	
 	
 	/**
-	 * This method set the duration of the
-	 * tour as the input integer
+	 * This method sets the duration of the
+	 * tour to the input integer
 	 * @param duration Tour's duration
 	 */
 	public void setDuration(int duration) { this.duration = duration;}
 	
 	/**
-	 * This method return the duration of
+	 * This method returns the duration of
 	 * the tour as integer
 	 * @return duration Tour's duration
 	 */
 	public int getDuration() { return this.duration;}
 	
-//	public int getPrice(Date date) {
-//		if (date.getIsWeekend()) return weekEndPrice;
-//		else return weekDayPrice;
-//	}
-	
 	/**
-	 * This method set the week day price
+	 * This method sets the weekday price
 	 * of the tour to the input integer
 	 * @param price Tour's weekday price
 	 */
 	public void setweekDayPrice(int price) { this.weekDayPrice = price;}
 	
 	/**
-	 * This method return the week day
-	 * price of the tour as a integer
+	 * This method returns the weekday
+	 * price of the tour as integer
 	 * @return  weekDayPrice Tour's weekday price
 	 */
 	public int getweekDayPrice() { return this.weekDayPrice;}
 	
 	/**
-	 * This method set the week end price
-	 * of the tour to the inout integer
+	 * This method sets the weekend price
+	 * of the tour to the input integer
 	 * @param price Tour's weekend price
 	 */
 	public void setweekEndPrice(int price) { this.weekEndPrice = price;}
 	
 	/**
-	 * This method return the week end
-	 * price of the tour as a integer
+	 * This method returns the weekend
+	 * price of the tour as integer
 	 * @return weekEndPrice Tour's weekend price
 	 */
 	public int getweekEndPrice() { return this.weekEndPrice;}
 	
 	/**
-	 * This method set the date of the tour 
+	 * This method sets the date of the tour 
 	 * to the input String
 	 * @param dates Tour's date
 	 */
 	public void setDates(String dates) { this.dates = dates;}
 	
 	/**
-	 * This method return the dates
+	 * This method returns the dates
 	 * of the tour as String
 	 * @return Tour's date
 	 */
 	public String getDates() { return this.dates;}
 
 	/**
-	 * This method  return a StringBuilder
-	 * which consist of the formatted message of the 
-	 * detail informations of the tour
-	 * @return detail informations of the tour
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * detailed information of the tour
+	 * @return detailed information of the tour
 	 */
 	public StringBuilder getDetailTourInfo(){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -172,10 +171,10 @@ public class Tour {
 	}
 
 	/**
-	 * This method  return a StringBuilder
-	 * which consist of the formatted message of the 
-	 * basic informations (id and name) of the tour
-	 * @return basic informations (id and name) of the tour
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * basic information (id and name) of the tour
+	 * @return basic information (id and name) of the tour
 	 */
 	public StringBuilder getBasicTourInfo(){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -184,10 +183,10 @@ public class Tour {
 	}
 
 	/**
-	 * This method  return a StringBuilder
-	 * which consist of the formatted message of the 
-	 * detail informations of a list of tours
-	 * @param tourList List of tour
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * detailed information of a list of tours
+	 * @param tourList List of tours
 	 * @return tourBuilder a list of tours
 	 */
 	public static StringBuilder getBasicTourListInfo(List<Tour> tourList){
@@ -199,19 +198,28 @@ public class Tour {
 	}
 
 	/**
-	 * This method  return a StringBuilder
-	 * which consist of the formatted message of the 
-	 * basic informations (id and name) and
-	 * the week day price of the tour
-	 * @return basic informations (id and name) and  the week day price of the tour
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * basic information (id and name) and
+	 * the weekday price of the tour
+	 * @return basic information (id and name) and the weekday price of the tour
 	 */
 	public StringBuilder getBasicTourInfoWithPrice(){
 		StringBuilder tourBuilder = new StringBuilder();
 		tourBuilder.append(this.id + "\t" + this.name + "\t$" + this.weekDayPrice + "\n");
 		return tourBuilder;
 	}
-
-	public StringBuilder getDiscountTourInfo(Boolean dayFlag, String date){	//flag is true for weekday, false weekend
+	
+	/**
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * basic information (id, name, date) and
+	 * the normal and discounted prices (weekday) of the tour
+	 * @param dayFlag True for weekday, False for weekend
+	 * @param date The date of the tour
+	 * @return basic information, and the normal and discounted prices of the tour
+	 */
+	public StringBuilder getDiscountTourInfo(Boolean dayFlag, String date){
 		StringBuilder tourBuilder = new StringBuilder();
 		tourBuilder.append("There is a special tour offering at a discount of 50%\n");
 		tourBuilder.append(this.getBasicTourInfo() + "on " + date + "\n");
@@ -223,12 +231,12 @@ public class Tour {
 	}
 
 	/**
-	 * This method  return a StringBuilder
-	 * which consist of the formatted message of the 
-	 * basic informations (id and name) and
-	 * the week day price of a list of tours
-	 * @param tourList List of tour
-	 * @return  basic informations (id and name) and  the week day price of a list of tours
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * basic information (id and name) and
+	 * the weekday price of a list of tours
+	 * @param tourList List of tours
+	 * @return basic information (id and name) and the weekday price of a list of tours
 	 */
 	public static StringBuilder getBasicTourListInfoWithPrice(List<Tour> tourList){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -239,12 +247,12 @@ public class Tour {
 	}
 
 	/**
-	 * This method return a message reporting the
+	 * This method returns a message reporting the
 	 * number of related tours regarding the keyword,
-	 * which act as a filter of the tour search
+	 * which acts as a filter of the tour search
 	 * @param tourList A list of tour
 	 * @param keyword Attribute keyword
-	 * @return Nothing
+	 * @return a topic sentence
 	 */
 	public static String getTopicSentence(List<Tour> tourList, Keyword keyword){
 		switch (keyword){
@@ -260,13 +268,13 @@ public class Tour {
 	}
 
 	/**
-	 * This method  return a StringBuilder
-	 * which consist of the formatted message of the 
-	 * basic informations (id and name) of
-	 * a list of tour filtered by the input keyword
-	 * @param tourList List of tour
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * basic information (id and name) of
+	 * a list of tours filtered by the input keyword
+	 * @param tourList List of tours
 	 * @param keyword Attribute keyword
-	 * @return basic informations (id and name) of a list of tour filtered by the input keyword
+	 * @return basic information (id and name) of a list of tours filtered by the input keyword
 	 */
 	public static StringBuilder getBasicTourInfoByKeyword(List<Tour> tourList, Keyword keyword){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -275,14 +283,14 @@ public class Tour {
 	}
 
 	/**
-	 * This method  return a StringBuilder
-	 * which consist of the formatted message of the 
-	 * basic informations (id and name) and week day price
-	 * of a list of tour filtered by the input keyword
+	 * This method returns a StringBuilder
+	 * which consists of the formatted message of the 
+	 * basic information (id and name) and weekday price
+	 * of a list of tours filtered by the input keyword
 	 * and sorted by the tour price
-	 * @param tourList A list of tour
+	 * @param tourList A list of tours
 	 * @param keyword Attribute keyword
-	 * @return tourBuilder basic informations (id and name) and week day price of a list of tour filtered by the input keyword
+	 * @return tourBuilder basic information and weekday price of a list of tours filtered by the input keyword
 	 */
 	public static StringBuilder getBasicTourInfoSortByPrice(List<Tour> tourList, Keyword keyword){
 		StringBuilder tourBuilder = new StringBuilder();
@@ -295,9 +303,9 @@ public class Tour {
 
 	/**
 	 * This method sort a list of tours
-	 * accroding to the tours' week day prices
+	 * accroding to the tours' weekday prices
 	 * in ascending order
-	 * @param tourList A list of tour
+	 * @param tourList A list of tours
 	 */
 	public static void sortTourListByPrice(List<Tour> tourList){
 		Tour temp;
@@ -316,20 +324,20 @@ public class Tour {
 	}
 }
 
-/**
- * This is a Date class which store information
- * about a date, the day of week the date is,
- * and a boolean value deciding whether the
- * date is at weekend or not
- */
+	/**
+ 	 * This is a Date class which stores the information
+ 	 * about a date, the day of the week it is,
+ 	 * and a boolean value deciding whether the
+ 	 * date is at weekend or not
+ 	 */
 	class Date{
 	private boolean isWeekend;
 	private int date;
 	private int day;
 	
 	/**
-	 * This is the constructor the 
-	 * Date class with default initial values
+	 * This is the constructor of the 
+	 * Date class with initial values
 	 */
 	public Date() {
 		isWeekend = false;
@@ -338,44 +346,44 @@ public class Tour {
 	}
 
 	/**
-	 * This method change isWeekend of the date 
+	 * This method sets isWeekend of this Date 
 	 * to the input boolean value
 	 * @param isWeekend is weekend or not
 	 */
 	public void setIsWeekend(boolean isWeekend) { this.isWeekend = isWeekend;}
 	
 	/**
-	 * This method return the boolean value
+	 * This method returns the boolean value
 	 * of whether the date is at weekend
 	 * @return is weekend or not
 	 */
 	public boolean getIsWeekend() { return this.isWeekend;}
 	
 	/**
-	 * This method set the day of a week
-	 * the date belongs to according to
-	 * the inout integer
+	 * This method sets the day of a week
+	 * this Date belongs to according to
+	 * the input integer
 	 * @param day day of a week
 	 */
 	public void setDay(int day) { this.day = day;}
 	
 	/**
-	 * This method return the day of a
-	 * week the date belongs to as a integer
+	 * This method returns the day of a
+	 * week this Date belongs to as an integer
 	 * @return day of a week
 	 */
 	public int getDay() { return this.day;}
 	
 	/**
-	 * This method set the date in the
-	 * Date class to the input integer
+	 * This method sets the date in this
+	 * Date object to the input integer
 	 * @param date date
 	 */
 	public void setDate(int date) { this.date = date;}
 	
 	/**
-	 * This method return the date
-	 * in the Date class as a integer
+	 * This method returns the date
+	 * in this Date object as an integer
 	 * @return date
 	 */
 	public int getDate() { return this.date;}

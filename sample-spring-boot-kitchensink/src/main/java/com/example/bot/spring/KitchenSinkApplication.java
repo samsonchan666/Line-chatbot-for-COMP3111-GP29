@@ -16,6 +16,7 @@
 
 package com.example.bot.spring;
 
+
 import java.io.IOException;
 
 import java.nio.file.Files;
@@ -28,6 +29,9 @@ import org.springframework.context.annotation.Bean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * <h1>KitchenSinkApplication</h1>
+ */
 
 @SpringBootApplication
 public class KitchenSinkApplication {

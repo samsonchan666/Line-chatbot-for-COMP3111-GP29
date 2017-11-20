@@ -151,7 +151,7 @@ subprojects {
     project(projectName) { project ->
         apply plugin: 'signing'
         apply plugin: 'maven'
-
+			
         signing {
             required { isReleaseBuild }
             sign configurations.archives
@@ -210,3 +210,5 @@ repositories {
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'
 }
+
+

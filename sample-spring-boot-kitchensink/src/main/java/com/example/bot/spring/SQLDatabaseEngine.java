@@ -13,7 +13,9 @@ import java.lang.*;
 import java.util.regex.*;
 import java.util.Calendar;
 
-
+/**
+ * <h1>SQLDatabaseEngine</h1>
+ */
 @Slf4j
 public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;
@@ -476,7 +478,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     public List<Tour> getTourList() {
     	if (tourList == null) return null;
     	return tourList;
-    }    
+    }
+
     public void resetTourList() { tourList = null;}
     
     /**
