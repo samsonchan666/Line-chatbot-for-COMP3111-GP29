@@ -76,7 +76,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 
         return connection;
     }  
-
+/*
     private String searchRes() throws Exception{
         String result = null;
         try {
@@ -97,7 +97,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         }
         return result;
     }    
-    
+*/
     private String searchTour() throws Exception{
         String result = null;
         try {
