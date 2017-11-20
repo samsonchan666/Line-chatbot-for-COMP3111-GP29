@@ -82,6 +82,19 @@ public class CustomerTester {
 	}
 	
 	@Test
+	public void setAndgetIDTestNull() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setId(null);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getId()==null).isTrue();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
 	public void setAndgetNameTest() throws Exception {
 		boolean thrown = false;
 		try {
@@ -91,6 +104,32 @@ public class CustomerTester {
 			thrown = true;
 		}
 		assertThat(c.getName()=="abc123!").isTrue();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void setAndgetNameTestNull() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setName(null);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getName()==null).isTrue();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void setAndgetAgeTestNeg() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setAge(-10);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getAge()).isEqualTo(-10);
 		assertThat(thrown).isFalse();
 	}
 	
@@ -121,9 +160,37 @@ public class CustomerTester {
 	}
 	
 	@Test
+	public void setAndgetPhoneNumTestNull() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setPhoneNum(null);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getPhoneNum()==null).isTrue();
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
 	public void setAndgetTourTest() throws Exception {
 		boolean thrown = false;
 		Tour t = new Tour("T0000", "Random Tour", "Random Attraction", 3, 100, 100, "19/11/2017");
+		
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setTour(t);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getTour()).isEqualTo(t);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
+	public void setAndgetTourTestNull() throws Exception {
+		boolean thrown = false;
+		Tour t = null;
 		
 		try {
 			c = new Customer(null, null, 0, null, 0);
@@ -160,6 +227,21 @@ public class CustomerTester {
 	}
 	
 	@Test
+	public void setAndgetCustomerNoTestNull() throws Exception {
+		boolean thrown = false;
+		CustomerNo cn = null;
+		
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setCustomerNo(cn);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getCustomerNo()).isEqualTo(cn);
+		assertThat(thrown).isFalse();
+	}
+	
+	@Test
 	public void setAndgetFeeTest() throws Exception {
 		boolean thrown = false;
 		Fee f = new Fee(0, 0, 0);
@@ -182,7 +264,43 @@ public class CustomerTester {
 		assertThat(c.getFee().getTotalFee()).isEqualTo(f_totalFee);
 		assertThat(thrown).isFalse();
 	}
+	
+	@Test
+	public void setAndgetFeeTestNull() throws Exception {
+		boolean thrown = false;
+		Fee f = null;
+		
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			c.setFee(f);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(c.getFee()).isEqualTo(f);
+		assertThat(thrown).isFalse();
+	}
 
+	@Test
+	public void calculateFeeTestNull() throws Exception {
+		boolean thrown = false;
+		try {
+			c = new Customer(null, null, 0, null, 0);
+			
+			Tour t = null; 
+			c.setTour(t);
+			
+			CustomerNo cn = new CustomerNo(1, 1, 1);
+			c.setCustomerNo(cn);
+			
+			Booking bk = null;
+			
+			c.calculateFee(bk);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(thrown).isTrue();
+	}
+		
 	@Test
 	public void calculateFeeTestInvalidDate() throws Exception {
 		boolean thrown = false;
