@@ -16,6 +16,10 @@
 
 package com.example.bot.spring;
 
+/**
+ * <h1>KitchenSinkApplication</h1>
+ */
+
 import java.io.IOException;
 
 import java.nio.file.Files;
