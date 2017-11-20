@@ -14,7 +14,7 @@ import java.util.regex.*;
 import java.util.Calendar;
 
 /**
- * <h1>SQLDatabaseEngine</h1>
+ * <h1>A SQLDatabaseEngine search for any booking and tour by their properties</h1>
  */
 @Slf4j
 public class SQLDatabaseEngine extends DatabaseEngine {
@@ -42,7 +42,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * 
      * @param text	the text input by the user
      * @return		the answer to the text input
-     * @throws Exception
+     * @throws Exception throw for postgresql exception
      */
     @Override
     String search(String text) throws Exception {
@@ -133,7 +133,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * Or return null if no tours match.
      * 
      * @return				the information of the tour in a string, or null
-     * @throws Exception		The error if there's any
+     * @throws Exception		throw for postgresql exception
      */
     private String searchTour() throws Exception{
         String result = null;
@@ -178,7 +178,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	 * Returns the tour information of the tours added to the array.
 	 * 
 	 * @return				Tour information of tours with the appropiate date
-	 * @throws Exception		The error if there is any
+	 * @throws Exception		throw for postgresql exception
 	 */
     private String searchTourByDate() throws Exception{
         String result = null;
@@ -231,7 +231,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * If the keyword matches text, returns the answer.
      * 
      * @return				Answer to the question specified via keywords.
-     * @throws Exception		The error if there's any.
+     * @throws Exception		throw for postgresql exception.
      */
     private String searchFAQ() throws Exception{
         String result = null;
@@ -263,8 +263,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	 * add the tour into two arrays, one storing the name and one the id.
 	 * Returns the tour information of the tours added to the array.
 	 * 
-	 * @return				tour information of tours with the appropiate attraction
-     * @throws Exception		the error if there's any
+	 * @return				tour information of tours with the appropiate attraction.
+     * @throws Exception		throw for postgresql exception.
      */
     private String searchTourByAttraction() throws Exception{
         String result = null;
@@ -511,7 +511,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * create a now booking object with the information store in the database.
      * Add the booking object into bookingList, and the date to bookingDateList.
      * 
-     * @throws Exception 	the error is there's any
+     * @throws Exception 	throw for postgresql exception
      */
     public void createBookingDateList() throws Exception{
     	if (selectedTour == null) return;
@@ -622,7 +622,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * Else return 'not found'
      * 
      * @return				the tour that matches all criteria input
-     * @throws Exception		the error if there's any
+     * @throws Exception		throw for postgresql exception
      */
     public String filterPreference() throws Exception{
         String result = null;
@@ -691,7 +691,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * Also set the tenth column to be 0.
      * 
      * @param customer		intended customer to be added into database.
-     * @throws Exception
+     * @throws Exception throw for postgresql exception
      */
     public void saveCustomerToDb(Customer customer) throws Exception{
         this.connection = this.getConnection();
@@ -717,8 +717,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 
     /**
      * 
-     * @param bookingId
-     * @throws Exception
+     * @param bookingId id for the booking
+     * @throws Exception throw for postgresql exception
      */
     public void updateDiscountTour(String bookingId) throws Exception{
         this.connection = this.getConnection();
@@ -731,6 +731,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
         connection.close();
     }
 
+    /**
+     * Search for a discount tour if any and available to customer
+     * @param tour a dummy Tour object to save the tour id.
+     * @param  booking a dummy Booking object to save the booking id.
+     * @return true if a discount tour a available to customer
+     * @throws Exception throw for postgresql exception
+     */
     public boolean searchDiscountTour(Tour tour, Booking booking) throws Exception{
 
         Calendar current = Calendar.getInstance();
@@ -774,7 +781,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
      * 
      * @param tourId			intended tourID of returned tour
      * @return				tour of matching tourID with tourId
-     * @throws Exception		any error
+     * @throws Exception		throw for postgresql exception
      */
     public Tour searchTourByID(String tourId) throws Exception{
         Connection con = this.getConnection();

@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 ////
 
 /**
- * <h1>DatabaseEngine</h1>
+ * <h1>A DatabaseEngine template to perform searching</h1>
  */
 @Slf4j
 public class DatabaseEngine {

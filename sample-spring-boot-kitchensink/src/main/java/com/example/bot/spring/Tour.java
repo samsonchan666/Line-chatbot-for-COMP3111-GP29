@@ -4,7 +4,7 @@ import java.lang.*;
 import java.util.List;
 
 /**
- * <h1>Tour details</h1>
+ * <h1>Tour details for a specific tour</h1>
  * The Tour class stores the information
  * of Tours 
  *
@@ -20,7 +20,7 @@ public class Tour {
 	private String dates;
 
 	/**
-	 * <h1>Tour search Keyword for building a topic sentence for a searching result</h1>
+	 * <h1>Tour search's Keyword for building a topic sentence for a searching result</h1>
 	 */
 	public enum Keyword{ DATE, ATTRACTION, PREFERENCE}
 	

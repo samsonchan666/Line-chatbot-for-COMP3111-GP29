@@ -23,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * <h1>KitchenSinkWebMvcConfigurer</h1>
+ * <h1>Line controller Configurer</h1>
  */
 @Configuration
 @Slf4j

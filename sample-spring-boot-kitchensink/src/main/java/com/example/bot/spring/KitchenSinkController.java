@@ -91,7 +91,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.URI;
 
 /**
- * <h1>KitchenSinkController</h1>
+ * <h1>Main Controller of receiving and sending line messages</h1>
  */
 @Slf4j
 @LineMessageHandler
@@ -913,7 +913,7 @@ public class KitchenSinkController {
 	//Basically what it does is to generate constructor and getter for the class below
 	//See https://projectlombok.org/features/Value
 	/**
-	 * <h1>DownloadedContent</h1>
+	 * <h1>An inner class that gets the user profile and status message</h1>
 	 */
 
 	@Value

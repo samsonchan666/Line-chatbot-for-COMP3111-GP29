@@ -7,7 +7,7 @@ import java.util.List;
 
 
 /**
- * <h1>Booking details</h1>
+ * <h1>Booking details, mainly depend on a Tour object, Date object and other related information</h1>
  * The Booking class stores the details of the booking made 
  * during the conversation of the client and the bot
  */
