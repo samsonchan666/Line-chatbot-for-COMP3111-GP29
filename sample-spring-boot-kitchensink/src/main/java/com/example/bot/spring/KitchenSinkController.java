@@ -253,11 +253,43 @@ public class KitchenSinkController {
 	/**
 	 * Function handling text messages from client.
 	 * 
+	 * Uses a swtich to handle text input.
+	 * -1: Preference
+	 * Reads client's preference 
+	 * and checks if there is a suitable tour using filterPreference.
+	 * 
+	 * 
+	 * 0: Initial State
+	 * Gives default response if client:
+	 * is looking for Tour on discount
+	 * is stating preference
+	 * is saying Hi
+	 * 
+	 * If none of the above is true, 
+	 * search in database the input.
+	 * 
+	 * If there is no result after searching database, 
+	 * give default "don't understand" response
+	 * 
+	 * 
+	 * 1: Confirms client's booking of a tour
+	 * If client chooses to book another tour, reset to stage 0.
+	 * Else confirm client's choice.
+	 * 
+	 * 2: Asks for input and passes to stage 3.
+	 * 
+	 * 3: Receives input.
+	 * 
+	 * 4: Confirms input.
+	 * 
+	 * 5: Confirms fee for booked tours.
+	 * Also provides information of the paying method.
+	 * 
 	 * 
 	 * @param replyToken		ID for reply message
 	 * @param event			an event
 	 * @param content		content of text message from client
-	 * @throws Exception		
+	 * @throws Exception		calls errorConfirm()
 	 */
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content)
 			throws Exception {
@@ -402,6 +434,13 @@ public class KitchenSinkController {
 		}
 	}
 
+	/**
+	 * Similar to handleTextContext, but with a discounted tour available (read the documentation of that)
+	 * 
+	 * @param replyToken		ID of reply
+	 * @param text			text input by client
+	 * @throws Exception
+	 */
 	private void specialDiscountCase(String replyToken, String text) throws Exception{
 		Booking dis_booking = new Booking(null,null,null,null,0,0,0);
 		Tour dis_tour = new Tour(null,null,null,0,0,0,null);
@@ -501,6 +540,16 @@ public class KitchenSinkController {
 
 	}
 	
+	/**
+	 * Function that asks for preference specifications.
+	 * 
+	 * Looks at preferenceNum of client and asks for preference specifications accordingly.
+	 * 0: Duration
+	 * 1: Attractions
+	 * 2: Budget
+	 * 
+	 * @param replyToken
+	 */
 	private void askPreference(String replyToken) {
 		int preferenceNum = customer.getPreferenceNum();
 		switch (preferenceNum) {
@@ -510,6 +559,18 @@ public class KitchenSinkController {
 		}
 	}
 	
+	/**
+	 * Function that adds preference input to the database.
+	 * 
+	 * If preferenceNum is 2, which means duration, interest and budget are all asked, 
+	 * Finish the preference asking process
+	 * If not, 
+	 * askPreference again.
+	 * 
+	 * @param replyToken		ID of reply message
+	 * @param text			text input of client
+	 * @param preferenceNum	how many times have preference been asked
+	 */
 	private void receivePreference(String replyToken, String text, int preferenceNum) {
 		if (!numOnlyPreference(preferenceNum, replyToken, text))
 			return;
@@ -523,16 +584,33 @@ public class KitchenSinkController {
 		}		
 	}
 	
+	/**
+	 * Function that supports client info reinput.
+	 * 
+	 * @param replyToken 	ID of reply message
+	 * @param multiMessages 	a list of messages
+	 */
 	private void reinputInfo (String replyToken, List<Message> multiMessages) {
 		multiMessages.add(new TextMessage("Okay. You may input your info again."));
 		multiMessages.add(createInputMenu());
 		this.reply(replyToken, multiMessages);
 	}
 	
+	/**
+	 * Function that give the reply asking for only yes or no from client.
+	 * @param replyToken
+	 */
 	private void errorConfirm(String replyToken) {
 		this.reply(replyToken, new TextMessage("Please only answer yes or no."));
 	}
 	
+	/**
+	 * Possible replies for stage 0
+	 * 
+	 * @param reply		reply message
+	 * @param text		text input from client
+	 * @return			a list of messages consisting of replies considering the input
+	 */
 	private List<Message> stage0Messages(String reply, String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		multiMessages.add(new TextMessage(reply));
@@ -549,6 +627,13 @@ public class KitchenSinkController {
 		return multiMessages;
 	}
 	
+	/**
+	 * Possible replies for stage 1
+	 * 
+	 * @param reply		reply message
+	 * @param text		text input from client
+	 * @return			a list of messages consisting of replies considering the input
+	 */
 	private List<Message> stage1Messages(String text){
 		List<Message> multiMessages = new ArrayList<Message>();
 		if (text.matches("I pick (.)*")) {
@@ -558,6 +643,12 @@ public class KitchenSinkController {
 		return multiMessages;
 	}
 
+	/**
+	 * Function that asks for Yes/No input.
+	 * 
+	 * @param question			question requiring yes/no answer to
+	 * @param multiMessages		a list of replies
+	 */
 	private void createConfirm(String question, List<Message> multiMessages) {
 		customer.stageProceed();
     	ConfirmTemplate confirmTemplate = new ConfirmTemplate(
@@ -568,6 +659,12 @@ public class KitchenSinkController {
     	multiMessages.add(new TemplateMessage("Confirm alt text", confirmTemplate));		
 	}
 	
+	/**
+	 * Function that creates a menu asking which tour the client would like to enroll in.
+	 * 
+	 * @param title			title of menu
+	 * @param multiMessages	a list of replies
+	 */
 	private void createFilterMenu(String title, List<Message> multiMessages) {
 		List<String> tourIDList = database.getTourIDList();    
 		if (tourIDList != null)
@@ -575,6 +672,13 @@ public class KitchenSinkController {
 		database.resetTourIDList();
 	}
 	
+	/**
+	 * Creates a selection menu for dates for the client to choose from.
+	 * 
+	 * Gets a list of dates and then create a selection menu based on that.
+	 * @param title			title of menu
+	 * @param multiMessages	a list of replies
+	 */
 	private void createDaySelectMenu(String title, List<Message> multiMessages) {
 		List<String> bookingDateList = null;
 		customer.stageProceed();
@@ -590,6 +694,14 @@ public class KitchenSinkController {
 		}
 	}
 	
+	/**
+	 * Actual implementation of menu creation.
+	 * 
+	 * @param list				list that the menu is based on
+	 * @param title				title of menu
+	 * @param message			message that appears on the menu
+	 * @param multiMessages		a list of replies
+	 */
 	private void createMenu(List<String> list, String title, String message, List<Message> multiMessages) {
 		List<CarouselTemplate> carouselTemplate = new ArrayList<CarouselTemplate>();
 		List<CarouselColumn> carouselColumn;
@@ -621,6 +733,12 @@ public class KitchenSinkController {
 		}
 	}
 	
+	/** 
+	 * Creates a menu guiding information input from client.
+	 * 
+	 * 
+	 * @return	a template message
+	 */
 	private TemplateMessage createInputMenu() {
 		CarouselTemplate carouselTemplate = new CarouselTemplate(
 				Arrays.asList(
@@ -644,6 +762,12 @@ public class KitchenSinkController {
 		
 	}
 	
+	/**
+	 * Follow-up function of TemplateMessage()
+	 * 
+	 * @param replyToken	ID of reply message
+	 * @param text		text input from client (option chosen from TemplateMessage)
+	 */
 	private void askInputReply(String replyToken, String text) {
 		switch (text) {
 			case "ID": {
@@ -683,11 +807,25 @@ public class KitchenSinkController {
 			}
 		}
 	}
-	
+
+	/**
+	 * Actually asking input of option chosen in TemplateMessage.
+	 * Follow-up function of askInputReply()
+	 * @param option		option to input chosen by client
+	 * @return			a String asking for input of said option
+	 */
 	private String askInput(String option) {
 		return "Please input " + option + ".";
 	}
 
+	/**
+	 * Input receive function for discount tour.
+	 * 
+	 * If input is not number when number is wanted, return.
+	 * If reserve is full, return.
+	 * @param replyToken		ID of reply message
+	 * @param text			user input
+	 */
 	private void discountInputReceive(String replyToken, String text) {
 		int inputOption = customer.getInputOption();
 		if (!numOnlyInfo(inputOption, replyToken, text))
@@ -711,6 +849,17 @@ public class KitchenSinkController {
 		}
 	}
 
+	/**
+	 * Checks if client reserves more than 2 seats in a tour. (Discount tour related)
+	 * 
+	 * Checks info of client to see if they have children.
+	 * Adds up all people and if the number is greater than 2, warn them.
+	 * 
+	 * @param inputOption	input option
+	 * @param replyToken		ID of reply message
+	 * @param text			user input
+	 * @return				a boolean if the reservation intended is greater than 2
+	 */
 	private boolean checkExcessReserve(int inputOption, String replyToken, String text){
 		switch (inputOption) {
 			case 4:  {
@@ -753,6 +902,15 @@ public class KitchenSinkController {
 		return false;
 	}
 
+	/**
+	 * Input receive function for regular tour.
+	 * 
+	 * If input is not number when number is wanted, return.
+	 * Handles input options
+	 * 
+	 * @param replyToken		ID of reply message
+	 * @param text			user input
+	 */
 	private void inputReceive(String replyToken, String text) {
 		int inputOption = customer.getInputOption();
 		if (!numOnlyInfo(inputOption, replyToken, text))
@@ -775,6 +933,16 @@ public class KitchenSinkController {
 		}
 	}
 	
+	/**
+	 * Returns a boolean indicating if input message is number when in cases where only numbers are legal.
+	 * 
+	 * If illegal, ask the customer to input numbers only
+	 * 
+	 * @param inputOption		input option
+	 * @param replyToken			ID for reply message
+	 * @param text				user input
+	 * @return					a boolean indicating if input message is number when in cases where only numbers are legal.
+	 */
 	private boolean numOnlyInfo(int inputOption, String replyToken, String text) {
 		boolean numOnlyInfo = true;
 		switch (inputOption) {
@@ -789,7 +957,16 @@ public class KitchenSinkController {
 		}
 		return numOnlyInfo;
 	}
-	
+
+	/**
+	 * Returns a boolean indicating if input message is number when in cases where only numbers are legal. (in preference)
+	 * 
+	 * If illegal, ask the customer to input numbers only for the preference
+	 * @param inputOption	input option
+	 * @param replyToken		ID for reply message
+	 * @param text			user input
+	 * @return				a boolean indicating if input message is number when in cases where only numbers are legal. (in preference)
+	 */
 	private boolean numOnlyPreference(int inputOption, String replyToken, String text) {
 		boolean numOnlyPreference = true;
 		switch (inputOption) {
@@ -805,6 +982,11 @@ public class KitchenSinkController {
 		return numOnlyPreference;
 	}
 	
+	/**
+	 * Function double checking information input with client.
+	 * 
+	 * @return	a list of reply messages
+	 */
 	private List<Message> confirmInfo() {
 		List<Message> multiMessages = new ArrayList<Message>();
 		StringBuilder currentInfo = new StringBuilder();
@@ -824,6 +1006,18 @@ public class KitchenSinkController {
 		return multiMessages;
 	}
 	
+	/**
+	 * Function informing client of total fee of tour.
+	 * 
+	 * Informs adult fee,
+	 * informs children fee,
+	 * kindly inform no charge for toddlers,
+	 * informs total fee.
+	 * 
+	 * Confirm with client if they decide to make booking.
+	 * 
+	 * @param multiMessages		a list of reply messages
+	 */
 	private void outputFee(List<Message> multiMessages) {
 		customer.calculateFee(database.getSelectedBooking());
 		StringBuilder feeInfo = new StringBuilder();
@@ -835,6 +1029,18 @@ public class KitchenSinkController {
 		createConfirm("Confirm?", multiMessages);		
 	}
 
+	/**
+	 * Function informing client of total fee of discount tour.
+	 * 
+	 * Informs adult fee,
+	 * informs children fee,
+	 * kindly inform no charge for toddlers,
+	 * informs total fee.
+	 * 
+	 * Confirm with client if they decide to make booking.
+	 * 
+	 * @param multiMessages		a list of reply messages
+	 */
 	private void outputDisCountFee(List<Message> multiMessages) {
 		customer.calculateDiscountFee(database.getSelectedBooking());
 		StringBuilder feeInfo = new StringBuilder();
@@ -846,6 +1052,13 @@ public class KitchenSinkController {
 		createConfirm("Confirm?", multiMessages);
 	}
 
+	/**
+	 * Function attatching customer to a booking.
+	 * 
+	 * Indicating that they have booked the tour.
+	 * increases number of people joining booked tour accordingly
+	 * 
+	 */
 	private void attachCustomerToBooking(){
 		Booking booking = database.getSelectedBooking();
 		booking.attach(customer);
@@ -853,6 +1066,11 @@ public class KitchenSinkController {
 		booking.addCurrentCustomer(customer.getCustomerNo().getTotalNo());
 	}
 
+	/**
+	 * Creates a Uri
+	 * @param path	path to the Uri
+	 * @return		a string of characted identifying the resource
+	 */
 	static String createUri(String path) {
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path(path).build().toUriString();
 	}

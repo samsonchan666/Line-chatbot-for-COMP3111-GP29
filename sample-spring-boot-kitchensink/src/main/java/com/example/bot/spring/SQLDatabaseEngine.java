@@ -597,7 +597,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
     public Booking getSelectedBooking() { return this.selectedBooking;}
 
     /**
-     * Sets preferenceInput according to input parameter.
+     * Adds preferenceInput according to input parameter.
      * @param input		item intended to be set as preferenceInput
      */
     public void addPreferenceInput(String input) { this.preferenceInput.add(input);}

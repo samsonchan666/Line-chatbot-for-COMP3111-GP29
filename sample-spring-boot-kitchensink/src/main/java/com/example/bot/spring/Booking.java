@@ -28,13 +28,13 @@ public class Booking implements Subject {
 	 * with all the information needed for a booking 
 	 * stored when constructed
 	 * 
-		 * @param ID Booking's ID
-		 * @param tour Booking's tour
-		 * @param date Booking's date
-		 * @param hotel Booking's hotel
-		 * @param capacity Booking's capcaity
-		 * @param miniCustomer Booking's minimum customer
-		 * @param currentCustomer Booking's current customer
+		 * @param ID 				Booking's ID
+		 * @param tour 				Booking's tour
+		 * @param date 				Booking's date
+		 * @param hotel 				Booking's hotel
+		 * @param capacity 			Booking's capcaity
+		 * @param miniCustomer 		Booking's minimum customer
+		 * @param currentCustomer 	Booking's current customer
 	 */
 	public Booking(
 			String ID,
