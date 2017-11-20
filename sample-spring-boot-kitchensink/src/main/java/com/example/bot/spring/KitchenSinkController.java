@@ -456,11 +456,22 @@ public class KitchenSinkController {
 	
 	private void askPreference(String replyToken) {
 		int preferenceNum = customer.getPreferenceNum();
+		if (preferenceNum == 0) {
+			this.replyText(replyToken, "Please input your desired duration.");
+		}
+		else if (preferenceNum == 1) {
+			this.replyText(replyToken, "Please input your interest.");
+		}
+		else if (preferenceNum == 2) {
+			this.replyText(replyToken, "Please input your budget.");
+		}
+		/*
 		switch (preferenceNum) {
 			case 0: { this.replyText(replyToken, "Please input your desired duration."); break;}		
 			case 1: { this.replyText(replyToken, "Please input your interest."); break;}
 			case 2: { this.replyText(replyToken, "Please input your budget."); break;}		
 		}
+		*/
 	}
 	
 	private void receivePreference(String replyToken, String text, int preferenceNum) {
