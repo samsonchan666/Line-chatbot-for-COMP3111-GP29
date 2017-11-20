@@ -12,6 +12,12 @@ public class Customer implements Observer{
 	private int stage;
 	private int inputOption;
 	private int numInput;
+
+	private boolean showDiscount;
+
+	private int preferenceNum;
+	private boolean preferenceFinished;
+
 	
 	public Customer(
 			String id,
@@ -30,6 +36,10 @@ public class Customer implements Observer{
 		this.stage = 0;
 		this.inputOption = -1;
 		this.numInput = 0;
+		this.showDiscount = true;
+		this.preferenceNum = -1;
+		this.preferenceFinished = false;
+
 	}
 	public void setId(String id) { this.id = id;}
 	public String getId() { return this.id;}
@@ -73,6 +83,27 @@ public class Customer implements Observer{
 		
 		this.fee.setTotalFee();
 	}
+
+	public void calculateDiscountFee(Booking selectedBooking) {
+		String dates = this.tour.getDates();
+		int price = 0;
+		int adult_num = this.customerNo.getAdultNo();
+		int children_num = this.customerNo.getChildrenNo();
+
+		int day = selectedBooking.dateToDay();
+		switch (day) {
+			case 2: case 3: case 4: case 5: case 6: { price = this.tour.getweekDayPrice(); break;}
+			case 1: case 7: { price = this.tour.getweekEndPrice(); break;}
+		}
+
+		double adultPrice = adult_num * price /2;
+		this.fee.setAdultFee(adultPrice);
+
+		double childrenPrice = children_num * price * 0.8 /2;
+		this.fee.setChildrenFee(childrenPrice);
+
+		this.fee.setTotalFee();
+	}
 	
 	public double pay(double amount) { 
 		if (haveRemainPayment()) {
@@ -90,7 +121,8 @@ public class Customer implements Observer{
 	public double getPayAmount() { return paid_amount;}
 	public boolean haveRemainPayment()  { return (paid_amount < fee.getTotalFee());}
 	// here (by Ryan Tang)
-	
+
+	public void setStage(int stage) { this.stage = stage;}
 	public int getStage() { return this.stage;}
 	public void stageProceed() { this.stage++;}
 	public void stageRestore() { this.stage--;}
@@ -103,6 +135,8 @@ public class Customer implements Observer{
 		this.stage = 0;
 		this.inputOption = -1;
 		this.numInput = 0;
+		this.preferenceNum = -1;
+		this.preferenceFinished = false;
 	}
 	
 	public int getInputOption() { return this.inputOption;}
@@ -111,7 +145,18 @@ public class Customer implements Observer{
 	
 	public int getNumInput() { return this.numInput;}
 	public void resetNumInput() { this.numInput = 0;}
+
+	public void setShowDiscount(boolean showDiscount) {this.showDiscount = showDiscount;}
+	public boolean getShowDiscount(){ return this.showDiscount;}
 	
+	public int getPreferenceNum() { return this.preferenceNum;}
+	public void preferenceNumIncre() { this.preferenceNum++;}
+	public void resetPreferenceNum() { this.preferenceNum = -1;}
+	
+	public boolean isPreferenceFinished() { return this.preferenceFinished;}
+	public void setPreferenceFinished(boolean state) { this.preferenceFinished = state;}
+	public void resetPreferenceFinished() { this.preferenceFinished = false;}
+
 	public boolean inputFinished() {
 		if (id != null && name != null && age >= 0 && phoneNum != null && tour != null && 
 				customerNo.inputDone())
