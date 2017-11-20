@@ -77,7 +77,7 @@ public class ControllerTester {
 		} catch (Exception e) {
 			thrown = true;
 		}
-		//assertThat(thrown).isTrue();
+		assertThat(thrown).isTrue();
     }
 	
 	@Test
@@ -96,13 +96,29 @@ public class ControllerTester {
 		} catch (Exception e) {
 			thrown = true;
 		}
-		//assertThat(thrown).isTrue();
+		assertThat(thrown).isTrue();
     }
     
 	@Test
-	public void handleTextMessageEventTestSuccesswithDiscountStage_0() throws Exception {
-		
-	}
+    public void handleTextMessageEventTestSuccesswithDiscountStage_0_Greeting() throws Exception {
+		boolean thrown = false;
+		ksc = new KitchenSinkController();
+		ksc.getCustomer().setShowDiscount(true);
+		ksc.getCustomer().setStage(0);
+		UserSource us;
+		TextMessageContent tmc1;
+		MessageEvent<TextMessageContent> message1;
+		try {
+			us = new UserSource("userId");
+			
+			tmc1 = new TextMessageContent("id", "Hi"); 
+			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
+			ksc.handleTextMessageEvent(message1);			
+		} catch (Exception e) {
+			thrown = true;
+		}
+		//assertThat(thrown).isFalse();
+    }
 	
 	@Test
 	public void handleTextMessageEventTestSuccesswithDiscountStage_2_Yes() throws Exception {
@@ -168,25 +184,49 @@ public class ControllerTester {
 	}
 	
 	@Test
-	public void handleTextMessageEventTestSuccesswithDiscountStage_3() throws Exception {
+    public void handleTextMessageEventTestSuccesswithDiscountStage_3_InputOption1() throws Exception {
 		boolean thrown = false;
 		ksc = new KitchenSinkController();
 		ksc.getCustomer().setShowDiscount(true);
 		ksc.getCustomer().setStage(3);
+		ksc.getCustomer().resetInputOption();
 		UserSource us;
 		TextMessageContent tmc1;
 		MessageEvent<TextMessageContent> message1;
 		try {
 			us = new UserSource("userId");
 			
-			tmc1 = new TextMessageContent("id", "123"); 
+			tmc1 = new TextMessageContent("id", "Id"); 
 			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
 			ksc.handleTextMessageEvent(message1);			
 		} catch (Exception e) {
 			thrown = true;
 		}
 		//assertThat(thrown).isFalse();
-	}
+    }
+	
+	@Test
+    public void handleTextMessageEventTestSuccesswithDiscountStage_3_InputOption2() throws Exception {
+		boolean thrown = false;
+		ksc = new KitchenSinkController();
+		ksc.getCustomer().setShowDiscount(true);
+		ksc.getCustomer().setStage(3);
+		ksc.getCustomer().resetInputOption();
+		ksc.getCustomer().setInputOption(0);
+		UserSource us;
+		TextMessageContent tmc1;
+		MessageEvent<TextMessageContent> message1;
+		try {
+			us = new UserSource("userId");
+			
+			tmc1 = new TextMessageContent("id", "Id"); 
+			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
+			ksc.handleTextMessageEvent(message1);			
+		} catch (Exception e) {
+			thrown = true;
+		}
+		//assertThat(thrown).isFalse();
+    }
 	
 	@Test
 	public void handleTextMessageEventTestSuccesswithDiscountStage_4_Yes() throws Exception {
@@ -335,7 +375,29 @@ public class ControllerTester {
     }
 	
 	@Test
-    public void handleTextMessageEventTestSuccesswithNoDiscountStage_0_Greet() throws Exception {
+    public void handleTextMessageEventTestSuccesswithNoDiscountStage_neg1_Finish() throws Exception {
+		boolean thrown = false;
+		ksc = new KitchenSinkController();
+		ksc.getCustomer().setShowDiscount(false);
+		ksc.getCustomer().setStage(-1);
+		ksc.getCustomer().setPreferenceFinished(true);
+		UserSource us;
+		TextMessageContent tmc1;
+		MessageEvent<TextMessageContent> message1;
+		try {
+			us = new UserSource("userId");
+			
+			tmc1 = new TextMessageContent("id", "123"); 
+			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
+			ksc.handleTextMessageEvent(message1);
+		} catch (Exception e) {
+			thrown = true;
+		}
+		//assertThat(thrown).isFalse();
+    }
+	
+	@Test
+    public void handleTextMessageEventTestSuccesswithNoDiscountStage_0_Greeting() throws Exception {
 		boolean thrown = false;
 		ksc = new KitchenSinkController();
 		ksc.getCustomer().setShowDiscount(false);
@@ -503,18 +565,42 @@ public class ControllerTester {
     }
 	
 	@Test
-    public void handleTextMessageEventTestSuccesswithNoDiscountStage_3() throws Exception {
+    public void handleTextMessageEventTestSuccesswithNoDiscountStage_3_InputOption1() throws Exception {
 		boolean thrown = false;
 		ksc = new KitchenSinkController();
 		ksc.getCustomer().setShowDiscount(false);
 		ksc.getCustomer().setStage(3);
+		ksc.getCustomer().resetInputOption();
 		UserSource us;
 		TextMessageContent tmc1;
 		MessageEvent<TextMessageContent> message1;
 		try {
 			us = new UserSource("userId");
 			
-			tmc1 = new TextMessageContent("id", "123"); 
+			tmc1 = new TextMessageContent("id", "Id"); 
+			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
+			ksc.handleTextMessageEvent(message1);			
+		} catch (Exception e) {
+			thrown = true;
+		}
+		//assertThat(thrown).isFalse();
+    }
+	
+	@Test
+    public void handleTextMessageEventTestSuccesswithNoDiscountStage_3_InputOption2() throws Exception {
+		boolean thrown = false;
+		ksc = new KitchenSinkController();
+		ksc.getCustomer().setShowDiscount(false);
+		ksc.getCustomer().setStage(3);
+		ksc.getCustomer().resetInputOption();
+		ksc.getCustomer().setInputOption(0);
+		UserSource us;
+		TextMessageContent tmc1;
+		MessageEvent<TextMessageContent> message1;
+		try {
+			us = new UserSource("userId");
+			
+			tmc1 = new TextMessageContent("id", "Id"); 
 			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
 			ksc.handleTextMessageEvent(message1);			
 		} catch (Exception e) {
@@ -599,6 +685,27 @@ public class ControllerTester {
 			us = new UserSource("userId");
 			
 			tmc1 = new TextMessageContent("id", "No"); 
+			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
+			ksc.handleTextMessageEvent(message1);			
+		} catch (Exception e) {
+			thrown = true;
+		}
+		//assertThat(thrown).isFalse();
+    }
+	
+	@Test
+    public void handleTextMessageEventTestSuccesswithNoDiscountStage_5_random() throws Exception {
+		boolean thrown = false;
+		ksc = new KitchenSinkController();
+		ksc.getCustomer().setShowDiscount(false);
+		ksc.getCustomer().setStage(5);
+		UserSource us;
+		TextMessageContent tmc1;
+		MessageEvent<TextMessageContent> message1;
+		try {
+			us = new UserSource("userId");
+			
+			tmc1 = new TextMessageContent("id", "random"); 
 			message1 = new MessageEvent<TextMessageContent>("replyToken", us, tmc1, Instant.now()); 
 			ksc.handleTextMessageEvent(message1);			
 		} catch (Exception e) {
