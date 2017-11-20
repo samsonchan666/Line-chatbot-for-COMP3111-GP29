@@ -155,7 +155,7 @@ public class Customer implements Observer{
 	public Fee getFee() { return this.fee;}
 	
 	/**
-	 * This method calculates the fee 
+	 * This method calculates the fee (cor. to 1 d.p.)
 	 * the customer has to pay according
 	 * to the booking they made and
 	 * the number of children and adult
