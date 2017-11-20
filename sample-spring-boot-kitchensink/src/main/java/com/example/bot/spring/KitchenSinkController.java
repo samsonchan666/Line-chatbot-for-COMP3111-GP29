@@ -267,7 +267,7 @@ public class KitchenSinkController {
 
 		if (customer.getShowDiscount()) {
 			specialDiscountCase(replyToken,text);
-			if (!(customer.getShowDiscount())) return;
+			if (customer.getShowDiscount()) return;
 		}
 		//-1 for preference, 0 for searching, 1 for confirm tour, 2 for ask input
 		//3 for receive input, 4 for confirm input, 5 for confirm fee
