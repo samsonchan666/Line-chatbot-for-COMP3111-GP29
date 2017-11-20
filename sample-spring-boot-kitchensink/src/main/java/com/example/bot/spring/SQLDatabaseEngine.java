@@ -1,9 +1,5 @@
 package com.example.bot.spring;
 
-/**
- * <h1>SQLDatabaseEngine</h1>
- */
-
 import lombok.extern.slf4j.Slf4j;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -17,7 +13,9 @@ import java.lang.*;
 import java.util.regex.*;
 import java.util.Calendar;
 
-
+/**
+ * <h1>SQLDatabaseEngine</h1>
+ */
 @Slf4j
 public class SQLDatabaseEngine extends DatabaseEngine {
     private Connection connection;

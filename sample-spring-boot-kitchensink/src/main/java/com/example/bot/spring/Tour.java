@@ -18,6 +18,10 @@ public class Tour {
 	private int weekDayPrice;
 	private int weekEndPrice;
 	private String dates;
+
+	/**
+	 * <h1>Tour search Keyword for building a topic sentence for a searching result</h1>
+	 */
 	public enum Keyword{ DATE, ATTRACTION, PREFERENCE}
 	
 	/**

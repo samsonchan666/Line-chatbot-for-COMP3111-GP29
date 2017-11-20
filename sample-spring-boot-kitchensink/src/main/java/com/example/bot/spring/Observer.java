@@ -1,7 +1,7 @@
 package com.example.bot.spring;
 
 /**
- * Created by Samson on 18/11/2017.
+ * Observer interface
  */
 public interface Observer {
     void update();

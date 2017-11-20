@@ -1,7 +1,7 @@
 package com.example.bot.spring;
 
 /**
- * Created by Samson on 18/11/2017.
+ * Subject interface
  */
 public interface Subject {
     int getState();

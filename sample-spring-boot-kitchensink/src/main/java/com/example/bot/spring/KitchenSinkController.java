@@ -16,10 +16,6 @@
 
 package com.example.bot.spring;
 
-/**
- * <h1>KitchenSinkController</h1>
- */
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
@@ -94,6 +90,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 
+/**
+ * <h1>KitchenSinkController</h1>
+ */
 @Slf4j
 @LineMessageHandler
 public class KitchenSinkController {
@@ -870,6 +869,10 @@ public class KitchenSinkController {
 	//The annontation @Value is from the package lombok.Value
 	//Basically what it does is to generate constructor and getter for the class below
 	//See https://projectlombok.org/features/Value
+	/**
+	 * <h1>DownloadedContent</h1>
+	 */
+
 	@Value
 	public static class DownloadedContent {
 		Path path;

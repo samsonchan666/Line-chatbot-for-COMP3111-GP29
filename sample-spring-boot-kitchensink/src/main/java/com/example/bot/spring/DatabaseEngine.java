@@ -1,9 +1,5 @@
 package com.example.bot.spring;
 
-/**
- * <h1>DatabaseEngine</h1>
- */
-
 import java.util.Arrays;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -26,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 // If you registered your ITSC login as kevinw.
 ////
 
+/**
+ * <h1>DatabaseEngine</h1>
+ */
 @Slf4j
 public class DatabaseEngine {
 	String search(String text) throws Exception {
