@@ -858,6 +858,9 @@ public class KitchenSinkController {
 	private Customer customer;	
 	private String itscLOGIN;
 
+	public void setCustomer(Customer customer) {this.customer = customer; }
+	public Customer getCustomer() { return customer;}
+
 
 	//The annontation @Value is from the package lombok.Value
 	//Basically what it does is to generate constructor and getter for the class below
