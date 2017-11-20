@@ -155,7 +155,7 @@ public class Customer implements Observer{
 	public Fee getFee() { return this.fee;}
 	
 	/**
-	 * This method calculates the fee 
+	 * This method calculates the fee (cor. to 1 d.p.)
 	 * the customer has to pay according
 	 * to the booking they made and
 	 * the number of children and adult
@@ -173,10 +173,10 @@ public class Customer implements Observer{
 			case 1: case 7: { price = this.tour.getweekEndPrice(); break;}
 		}
 		
-		double adultPrice = adult_num * price;
+		double adultPrice = Math.round(adult_num * price * 10.0) / 10.0;
 		this.fee.setAdultFee(adultPrice);
 		
-		double childrenPrice = children_num * price * 0.8;
+		double childrenPrice = Math.round(children_num * price * 0.8 * 10.0) / 10.0;
 		this.fee.setChildrenFee(childrenPrice);
 		
 		this.fee.setTotalFee();
